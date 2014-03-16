@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.social_media_url = "http://twitter.com/NSElvis"
   s.platform = :ios, '6.0'
   s.source = {
-    :git => 'https://github.com/NSElvis/ANDYDatabaseManager',
+    :git => 'https://github.com/NSElvis/ANDYDatabaseManager.git',
     :tag => s.version.to_s
   }
   s.source_files = 'ANDYDatabaseManager/'
