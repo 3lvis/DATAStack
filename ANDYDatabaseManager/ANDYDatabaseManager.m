@@ -14,9 +14,15 @@
 @property (strong, nonatomic) NSManagedObjectContext *writerContext;
 @property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic) BOOL inMemoryStore;
 @end
 
 @implementation ANDYDatabaseManager
+
++ (void)setUpStackWithInMemoryStore
+{
+    [[self sharedManager] setInMemoryStore:YES];
+}
 
 + (ANDYDatabaseManager *)sharedManager
 {
@@ -24,23 +30,26 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         __sharedInstance = [[ANDYDatabaseManager alloc] init];
-        [__sharedInstance setUpSaveNotification];
     });
     
     return __sharedInstance;
 }
 
-- (void)setUpSaveNotification
+- (void)setUpSaveNotificationForContext:(NSManagedObjectContext *)context
 {
     [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification
-                                                      object:nil
+                                                      object:context
                                                        queue:nil
-                                                  usingBlock:^(NSNotification* note) {
-                                                      NSManagedObjectContext *moc = self.mainContext;
-                                                      if (note.object != moc) {
-                                                          [moc performBlock:^(){
-                                                              [moc mergeChangesFromContextDidSaveNotification:note];
-                                                          }];
+                                                  usingBlock:^(NSNotification *notification) {
+                                                      if (![NSThread isMainThread]) {
+                                                          [NSException raise:@"ANDY_MAIN_THREAD_CREATION_EXCEPTION"
+                                                                      format:@"Main context saved in background thread. Use context's `performBlock`"];
+                                                      } else {
+                                                          if (![notification.object isEqual:context]) {
+                                                              [context performBlock:^(){
+                                                                  [context mergeChangesFromContextDidSaveNotification:notification];
+                                                              }];
+                                                          }
                                                       }
                                                   }];
 }
@@ -82,6 +91,19 @@
     }];
 }
 
+- (void)resetContext
+{
+    NSManagedObjectContext *writerManagedObjectContext = self.writerContext;
+    NSManagedObjectContext *managedObjectContext = self.mainContext;
+    
+    [managedObjectContext performBlock:^{
+        [managedObjectContext reset];
+        [writerManagedObjectContext performBlock:^{
+            [writerManagedObjectContext reset];
+        }];
+    }];
+}
+
 #if !TARGET_IPHONE_SIMULATOR
 - (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
 {
@@ -100,6 +122,7 @@
     _mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     _mainContext.undoManager = nil;
     _mainContext.parentContext = self.writerContext;
+    [self setUpSaveNotificationForContext:_mainContext];
     return _mainContext;
 }
 
@@ -139,17 +162,31 @@
     
     NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES, NSInferMappingModelAutomaticallyOption: @YES};
     
+    NSString *storeType = (self.inMemoryStore) ? NSInMemoryStoreType : NSSQLiteStoreType;
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error]) {
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:storeType
+                                                   configuration:nil
+                                                             URL:storeURL
+                                                         options:options
+                                                           error:&error]) {
         
         [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:nil];
-        if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error]) {
+        if (![_persistentStoreCoordinator addPersistentStoreWithType:storeType
+                                                       configuration:nil
+                                                                 URL:storeURL
+                                                             options:options
+                                                               error:&error]) {
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
-        
-        [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error encountered while reading the database. Please allow all the data to download again.", @"[Error] Message to show when the database is corrupted") message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+
+        NSString *alertTitle = NSLocalizedString(@"Error encountered while reading the database. Please allow all the data to download again.", @"[Error] Message to show when the database is corrupted");
+        [[[UIAlertView alloc] initWithTitle:alertTitle
+                                    message:nil
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil] show];
     }
     
 #if !TARGET_IPHONE_SIMULATOR
@@ -163,14 +200,14 @@
 
 - (NSURL *)applicationDocumentsDirectory
 {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                   inDomains:NSUserDomainMask] lastObject];
 }
 
 - (NSString *)appName
 {
     NSString *string = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
-    NSString *trimmedString = [string stringByTrimmingCharactersInSet:
-                               [NSCharacterSet whitespaceCharacterSet]];
+    NSString *trimmedString = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     return trimmedString;
 }
 
@@ -181,7 +218,35 @@
     NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     context.persistentStoreCoordinator = [[self sharedManager] persistentStoreCoordinator];
     context.undoManager = nil;
+    [[NSNotificationCenter defaultCenter] addObserver:[self sharedManager]
+                                             selector:@selector(backgroundThreadDidSave:)
+                                                 name:NSManagedObjectContextDidSaveNotification
+                                               object:context];
     return context;
+}
+
+- (void)backgroundThreadDidSave:(NSNotification *)notification
+{
+    if ([NSThread isMainThread]) {
+        [NSException raise:@"ANDY_BACKGROUND_THREAD_CREATION_EXCEPTION"
+                    format:@"Background context saved in the main thread. Use context's `performBlock`"];
+    } else {
+        // sync changes made on the background thread's context to the main thread's context
+        [self.mainContext performBlock:^(){
+            [self.mainContext mergeChangesFromContextDidSaveNotification:notification];
+        }];
+    }
+}
+
+#pragma mark - Test
+
+- (void)reset
+{
+    self.mainContext = nil;
+    self.writerContext = nil;
+    self.managedObjectModel = nil;
+    self.persistentStoreCoordinator = nil;
+    self.inMemoryStore = NO;
 }
 
 @end

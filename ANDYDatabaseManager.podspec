@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name = "ANDYDatabaseManager"
-  s.version = "0.1.0"
+  s.version = "0.2.0"
   s.summary = "CoreData stack set up boilerplate."
   s.description = <<-DESC
                    * Feeling tired of having CoreData boilerplate in your AppDelegate?
-		   * No more.
+                   * No more.
                    DESC
   s.homepage = "https://github.com/NSElvis/ANDYDatabaseManager"
   s.license = {
