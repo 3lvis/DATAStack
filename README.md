@@ -10,24 +10,33 @@ This is class that helps you aliviate that dirty Core Data boilerplate. Now you 
 }
 ```
 
+Then in your NSFetchedResultsController backed app (attached to your main context). You can do this:
+
 ``` objc
-// ANDYDatabaseManager.h
+#pragma mark - Actions
 
-@property (strong, nonatomic, readonly) NSManagedObjectContext *mainContext;
-
-+ (ANDYDatabaseManager *)sharedManager;
-
-// Creates a new private context.
-+ (NSManagedObjectContext *)privateContext;
-
-// Save mainContext.
-- (void)saveContext;
-
-// Called in - (void)applicationWillTerminate:(UIApplication *)application
-- (void)persistContext;
+- (void)createTask
+{
+    NSManagedObjectContext *context = [ANDYDatabaseManager privateContext];
+    [context performBlock:^{
+        Task *task = [Task insertInManagedObjectContext:context];
+        task.title = @"Hello!";
+        task.date = [NSDate date];
+        [context save:nil];
+    }];
+}
 ```
+
+**BOOM, it just works.**
+
+(Hint: Maybe you haven't found the best way to use NSFetchedResultsController, well [here it is](https://github.com/NSElvis/ANDYFetchedResultsTableDataSource).)
+
+Demo
+====
+
+You can find a very descriptive demo in the [ANDYFetchedResultsTableDataSource](https://github.com/NSElvis/ANDYFetchedResultsTableDataSource) repository.
 
 Be Awesome
 ==========
 
-If something looks stupid, please create a friendly and constructive issue, I'm still learning and  getting your feedback would be awesome. Have a great day.
+If something looks stupid, please create a friendly and constructive issue, getting your feedback would be awesome. Have a great day.
