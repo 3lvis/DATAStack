@@ -1,0 +1,10 @@
+PODS:
+  - ANDYFetchedResultsTableDataSource (0.1.0)
+
+DEPENDENCIES:
+  - ANDYFetchedResultsTableDataSource
+
+SPEC CHECKSUMS:
+  ANDYFetchedResultsTableDataSource: 368d36fd6136f2d285b29d79da766f578d955c18
+
+COCOAPODS: 0.29.0
