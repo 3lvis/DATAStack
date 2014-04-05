@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Andy. All rights reserved.
 //
 
-@import Foundation;
-@import CoreData;
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
 @interface ANDYDatabaseManager : NSObject
 
