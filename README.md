@@ -31,11 +31,6 @@ Then in your NSFetchedResultsController backed app (attached to your main contex
 
 (Hint: Maybe you haven't found the best way to use NSFetchedResultsController, well [here it is](https://github.com/NSElvis/ANDYFetchedResultsTableDataSource).)
 
-Demo
-====
-
-You can find a very descriptive demo in the [ANDYFetchedResultsTableDataSource](https://github.com/NSElvis/ANDYFetchedResultsTableDataSource) repository.
-
 Be Awesome
 ==========
 
