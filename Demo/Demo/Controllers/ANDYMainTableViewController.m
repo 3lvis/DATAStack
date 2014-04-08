@@ -57,13 +57,26 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
     UIBarButtonItem *addTaskButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createTask)];
     self.navigationItem.rightBarButtonItem = addTaskButton;
+
+    UIBarButtonItem *alternativeAddTaskButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createAlternativeTask)];
+    self.navigationItem.leftBarButtonItem = alternativeAddTaskButton;
 }
 
 #pragma mark - Actions
 
 - (void)createTask
 {
-    NSManagedObjectContext *context = [ANDYDatabaseManager privateContext];
+    [ANDYDatabaseManager performInBackgroundContext:^(NSManagedObjectContext *context) {
+        Task *task = [Task insertInManagedObjectContext:context];
+        task.title = @"Hello!";
+        task.date = [NSDate date];
+        [context save:nil];
+    }];
+}
+
+- (void)createAlternativeTask
+{
+    NSManagedObjectContext *context = [ANDYDatabaseManager backgroundContext];
     [context performBlock:^{
         Task *task = [Task insertInManagedObjectContext:context];
         task.title = @"Hello!";

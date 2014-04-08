@@ -213,7 +213,17 @@
 
 #pragma mark - Class methods
 
-+ (NSManagedObjectContext *)privateContext
++ (void)performInBackgroundContext:(void (^)(NSManagedObjectContext *context))operation
+{
+    NSManagedObjectContext *context = [self backgroundContext];
+    [context performBlock:^{
+        if (operation) {
+            operation(context);
+        }
+    }];
+}
+
++ (NSManagedObjectContext *)backgroundContext
 {
     NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     context.persistentStoreCoordinator = [[self sharedManager] persistentStoreCoordinator];

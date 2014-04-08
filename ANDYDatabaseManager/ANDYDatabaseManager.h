@@ -28,7 +28,13 @@
  * performant background operation.
  * \returns A background NSManagedObjectContext.
  */
-+ (NSManagedObjectContext *)privateContext;
++ (NSManagedObjectContext *)backgroundContext;
+
+/*!
+ * Provides a safe way to perform an operation in a background
+ * operation by using a context.
+ */
++ (void)performInBackgroundContext:(void (^)(NSManagedObjectContext *context))operation;
 
 /*!
  * Configures a stack with InMemoryStore for testing purposes.
