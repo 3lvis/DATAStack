@@ -8,7 +8,7 @@
 
 #import "ANDYMainTableViewController.h"
 #import "ANDYFetchedResultsTableDataSource.h"
-#import "ANDYDatabaseManager.h"
+#import "ANDYDataManager.h"
 #import "Task.h"
 
 static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
@@ -30,7 +30,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Task"];
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]];
-    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[[ANDYDatabaseManager sharedManager] mainContext] sectionNameKeyPath:nil cacheName:nil];
+    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[[ANDYDataManager sharedManager] mainContext] sectionNameKeyPath:nil cacheName:nil];
     return _fetchedResultsController;
 }
 
@@ -66,7 +66,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (void)createTask
 {
-    [ANDYDatabaseManager performInBackgroundContext:^(NSManagedObjectContext *context) {
+    [ANDYDataManager performInBackgroundContext:^(NSManagedObjectContext *context) {
         Task *task = [Task insertInManagedObjectContext:context];
         task.title = @"Hello!";
         task.date = [NSDate date];
@@ -76,7 +76,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (void)createAlternativeTask
 {
-    NSManagedObjectContext *context = [ANDYDatabaseManager backgroundContext];
+    NSManagedObjectContext *context = [ANDYDataManager backgroundContext];
     [context performBlock:^{
         Task *task = [Task insertInManagedObjectContext:context];
         task.title = @"Hello!";

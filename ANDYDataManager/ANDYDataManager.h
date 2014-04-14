@@ -1,15 +1,15 @@
 //
-//  ANDYDatabaseManager.h
+//  ANDYDataManager.h
 //  Andy
 //
 //  Created by Elvis Nunez on 10/29/13.
 //  Copyright (c) 2013 Andy. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+@import Foundation;
+@import CoreData;
 
-@interface ANDYDatabaseManager : NSObject
+@interface ANDYDataManager : NSObject
 
 /*!
  * Provides a NSManagedObjectContext appropriate for use on the main
@@ -19,9 +19,9 @@
 
 /*!
  * Provides a singleton that handles CoreData related operations.
- * \returns The a shared ANDYDatabaseManager for the application.
+ * \returns The a shared ANDYDataManager for the application.
  */
-+ (ANDYDatabaseManager *)sharedManager;
++ (ANDYDataManager *)sharedManager;
 
 /*!
  * Provides a new privateContext bound to the mainContext for a
@@ -47,7 +47,7 @@
 - (void)persistContext;
 
 /*!
- * Resets state of ANDYDatabaseManager.
+ * Resets state of ANDYDataManager.
  */
 - (void)reset;
 

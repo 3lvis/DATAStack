@@ -8,7 +8,7 @@
 
 #import "ANDYAppDelegate.h"
 #import "ANDYMainTableViewController.h"
-#import "ANDYDatabaseManager.h"
+#import "ANDYDataManager.h"
 
 @implementation ANDYAppDelegate
 
@@ -26,7 +26,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [[ANDYDatabaseManager sharedManager] persistContext];
+    [[ANDYDataManager sharedManager] persistContext];
 }
 
 
