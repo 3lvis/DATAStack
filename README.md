@@ -1,4 +1,4 @@
-ANDYDatabaseManager
+ANDYDataManager
 ===================
 
 This is class that helps you aliviate that dirty Core Data boilerplate. Now you can go to your AppDelegate remove all the Core Data related code and replace it with:
@@ -6,7 +6,7 @@ This is class that helps you aliviate that dirty Core Data boilerplate. Now you 
 ``` objc
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [[ANDYDatabaseManager sharedManager] persistContext];
+    [[ANDYDataManager sharedManager] persistContext];
 }
 ```
 
@@ -17,7 +17,7 @@ Then in your NSFetchedResultsController backed app (attached to your main contex
 
 - (void)createTask
 {
-    [ANDYDatabaseManager performInBackgroundContext:^(NSManagedObjectContext *context) {
+    [ANDYDataManager performInBackgroundContext:^(NSManagedObjectContext *context) {
         Task *task = [Task insertInManagedObjectContext:context];
         task.title = @"Hello!";
         task.date = [NSDate date];
