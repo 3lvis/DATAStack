@@ -10,10 +10,15 @@
 #import "ANDYMainTableViewController.h"
 #import "ANDYDataManager.h"
 
+@interface ANDYAppDelegate () <ANDYDataManagerDataSource>
+@end
+
 @implementation ANDYAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[ANDYDataManager sharedManager] setDataSource:self];
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     ANDYMainTableViewController *mainController = [[ANDYMainTableViewController alloc] initWithStyle:UITableViewStylePlain];
@@ -29,5 +34,11 @@
     [[ANDYDataManager sharedManager] persistContext];
 }
 
+#pragma mark - ANDYDataManagerDataSource
+
+- (NSString *)managedObjectModelName
+{
+    return @"Demo";
+}
 
 @end
