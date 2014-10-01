@@ -205,6 +205,10 @@
 
 - (NSString *)appName
 {
+    if ([self.dataSource respondsToSelector:@selector(managedObjectModelName)]) {
+        return [self.dataSource managedObjectModelName];
+    }
+
     NSString *string = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
     NSString *trimmedString = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     return trimmedString;
