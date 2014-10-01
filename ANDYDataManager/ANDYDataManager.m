@@ -7,14 +7,17 @@
 //
 
 #import "ANDYDataManager.h"
+
 @import UIKit;
 
 @interface ANDYDataManager ()
+
 @property (strong, nonatomic, readwrite) NSManagedObjectContext *mainContext;
 @property (strong, nonatomic) NSManagedObjectContext *writerContext;
 @property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic) BOOL inMemoryStore;
+
 @end
 
 @implementation ANDYDataManager
