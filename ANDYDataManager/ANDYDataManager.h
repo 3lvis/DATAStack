@@ -9,7 +9,11 @@
 @import Foundation;
 @import CoreData;
 
+@protocol ANDYDataManagerDataSource;
+
 @interface ANDYDataManager : NSObject
+
+@property (nonatomic, weak) id <ANDYDataManagerDataSource> dataSource;
 
 /*!
  * Provides a NSManagedObjectContext appropriate for use on the main
@@ -50,5 +54,17 @@
  * Destroys state of ANDYDataManager.
  */
 - (void)destroy;
+
+@end
+
+@protocol ANDYDataManagerDataSource <NSObject>
+
+@optional
+
+/*!
+ * Optional protocol to use a custom managed object model.
+ * Default value uses the app name.
+ */
+- (NSString *)managedObjectModelName;
 
 @end
