@@ -234,6 +234,8 @@
     NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     context.persistentStoreCoordinator = [[self sharedManager] persistentStoreCoordinator];
     context.undoManager = nil;
+    context.mergePolicy = NSOverwriteMergePolicy;
+    
     [[NSNotificationCenter defaultCenter] addObserver:[self sharedManager]
                                              selector:@selector(backgroundThreadDidSave:)
                                                  name:NSManagedObjectContextDidSaveNotification
