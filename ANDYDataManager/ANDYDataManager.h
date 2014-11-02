@@ -9,11 +9,7 @@
 @import Foundation;
 @import CoreData;
 
-@protocol ANDYDataManagerDataSource;
-
 @interface ANDYDataManager : NSObject
-
-@property (nonatomic, weak) id <ANDYDataManagerDataSource> dataSource;
 
 /*!
  * Provides a NSManagedObjectContext appropriate for use on the main
@@ -46,6 +42,16 @@
 + (void)setUpStackWithInMemoryStore;
 
 /*!
+ * Sets the model name in case it's different from the bundle name
+ */
++ (void)setModelName:(NSString *)modelName;
+
+/*!
+ * Sets the model bundle in case it's different from the main bundle
+ */
++ (void)setModelBundle:(NSBundle *)modelBundle;
+
+/*!
  * Saves current state of mainContext into the database.
  */
 - (void)persistContext;
@@ -54,17 +60,5 @@
  * Destroys state of ANDYDataManager.
  */
 - (void)destroy;
-
-@end
-
-@protocol ANDYDataManagerDataSource <NSObject>
-
-@optional
-
-/*!
- * Optional protocol to use a custom managed object model.
- * Default value uses the app name.
- */
-- (NSString *)managedObjectModelName;
 
 @end

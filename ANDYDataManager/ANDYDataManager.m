@@ -16,7 +16,10 @@
 @property (strong, nonatomic) NSManagedObjectContext *writerContext;
 @property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
 @property (nonatomic) BOOL inMemoryStore;
+@property (nonatomic, copy) NSString *modelName;
+@property (nonatomic, strong) NSBundle *modelBundle;
 
 @end
 
@@ -25,6 +28,16 @@
 + (void)setUpStackWithInMemoryStore
 {
     [[self sharedManager] setInMemoryStore:YES];
+}
+
++ (void)setModelName:(NSString *)modelName
+{
+    [[self sharedManager] setModelName:modelName];
+}
+
++ (void)setModelBundle:(NSBundle *)modelBundle
+{
+    [[self sharedManager] setModelBundle:modelBundle];
 }
 
 + (ANDYDataManager *)sharedManager
@@ -36,6 +49,18 @@
     });
 
     return __sharedInstance;
+}
+
+- (NSString *)modelName
+{
+    if (_modelName) return _modelName;
+
+    NSBundle *bundle = (self.modelBundle) ?: [NSBundle mainBundle];
+
+    NSString *string = [[bundle infoDictionary] objectForKey:@"CFBundleName"];
+    _modelName = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
+    return _modelName;
 }
 
 - (void)setUpSaveNotificationForContext:(NSManagedObjectContext *)context
@@ -145,8 +170,11 @@
 {
     if (_managedObjectModel) return _managedObjectModel;
 
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:[self appName] withExtension:@"momd"];
+    NSBundle *bundle = (self.modelBundle) ?: [NSBundle mainBundle];
+    NSURL *modelURL = [bundle URLForResource:self.modelName withExtension:@"momd"];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+
+    _managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:[NSBundle allBundles]];
 
     return _managedObjectModel;
 }
@@ -157,7 +185,7 @@
 
     NSURL *storeURL = nil;
 
-    NSString *filePath = [NSString stringWithFormat:@"%@.sqlite", [self appName]];
+    NSString *filePath = [NSString stringWithFormat:@"%@.sqlite", self.modelName];
     storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:filePath];
 
     NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES, NSInferMappingModelAutomaticallyOption: @YES};
@@ -206,17 +234,6 @@
                                                    inDomains:NSUserDomainMask] lastObject];
 }
 
-- (NSString *)appName
-{
-    if ([self.dataSource respondsToSelector:@selector(managedObjectModelName)]) {
-        return [self.dataSource managedObjectModelName];
-    }
-
-    NSString *string = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
-    NSString *trimmedString = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    return trimmedString;
-}
-
 #pragma mark - Class methods
 
 + (void)performInBackgroundContext:(void (^)(NSManagedObjectContext *context))operation
@@ -235,7 +252,7 @@
     context.persistentStoreCoordinator = [[self sharedManager] persistentStoreCoordinator];
     context.undoManager = nil;
     context.mergePolicy = NSOverwriteMergePolicy;
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:[self sharedManager]
                                              selector:@selector(backgroundThreadDidSave:)
                                                  name:NSManagedObjectContextDidSaveNotification
