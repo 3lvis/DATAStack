@@ -76,13 +76,11 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (void)createAlternativeTask
 {
-    NSManagedObjectContext *context = [ANDYDataManager backgroundContext];
-    [context performBlock:^{
-        Task *task = [Task insertInManagedObjectContext:context];
-        task.title = @"Hello!";
-        task.date = [NSDate date];
-        [context save:nil];
-    }];
+    NSManagedObjectContext *context = [[ANDYDataManager sharedManager] mainContext];
+    Task *task = [Task insertInManagedObjectContext:context];
+    task.title = @"Hello MAIN!";
+    task.date = [NSDate date];
+    [context save:nil];
 }
 
 @end
