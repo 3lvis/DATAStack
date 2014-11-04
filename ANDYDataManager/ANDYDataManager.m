@@ -147,7 +147,7 @@
     _mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     _mainContext.undoManager = nil;
     _mainContext.parentContext = self.writerContext;
-    _mainContext.mergePolicy = NSOverwriteMergePolicy;
+    _mainContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicyType;
 
     [self setUpSaveNotificationForContext:_mainContext];
 
@@ -160,7 +160,7 @@
 
     _writerContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     _writerContext.undoManager = nil;
-    _writerContext.mergePolicy = NSOverwriteMergePolicy;
+    _writerContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicyType;
     _writerContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
 
     return _writerContext;
@@ -249,7 +249,7 @@
     NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     context.persistentStoreCoordinator = [[self sharedManager] persistentStoreCoordinator];
     context.undoManager = nil;
-    context.mergePolicy = NSOverwriteMergePolicy;
+    context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicyType;
 
     [[NSNotificationCenter defaultCenter] addObserver:[self sharedManager]
                                              selector:@selector(backgroundThreadDidSave:)
