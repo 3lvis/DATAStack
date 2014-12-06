@@ -1,11 +1,3 @@
-//
-//  ANDYDataManager.h
-//  Andy
-//
-//  Created by Elvis Nunez on 10/29/13.
-//  Copyright (c) 2013 Andy. All rights reserved.
-//
-
 @import Foundation;
 @import CoreData;
 
