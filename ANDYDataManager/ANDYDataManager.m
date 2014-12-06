@@ -1,11 +1,3 @@
-//
-//  ANDYDataManager.m
-//  Andy
-//
-//  Created by Elvis Nunez on 10/29/13.
-//  Copyright (c) 2014 Andy. All rights reserved.
-//
-
 #import "ANDYDataManager.h"
 
 @import UIKit;
