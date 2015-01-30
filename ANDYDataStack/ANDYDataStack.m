@@ -1,8 +1,8 @@
-#import "ANDYDataManager.h"
+#import "ANDYDataStack.h"
 
 @import UIKit;
 
-@interface ANDYDataManager ()
+@interface ANDYDataStack ()
 
 @property (strong, nonatomic, readwrite) NSManagedObjectContext *mainThreadContext;
 @property (strong, nonatomic) NSManagedObjectContext *writerContext;
@@ -15,7 +15,7 @@
 
 @end
 
-@implementation ANDYDataManager
+@implementation ANDYDataStack
 
 - (instancetype)init
 {

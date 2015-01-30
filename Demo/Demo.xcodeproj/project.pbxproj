@@ -25,7 +25,7 @@
 		145DEBA818DB869500830181 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 145DEBA618DB869500830181 /* InfoPlist.strings */; };
 		145DEBAA18DB869500830181 /* DemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 145DEBA918DB869500830181 /* DemoTests.m */; };
 		145DEBBE18DB86CD00830181 /* ANDYAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 145DEBBB18DB86CD00830181 /* ANDYAppDelegate.m */; };
-		14999E2918FBB28C007D3406 /* ANDYDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 14999E2818FBB28C007D3406 /* ANDYDataManager.m */; };
+		14999E2918FBB28C007D3406 /* ANDYDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 14999E2818FBB28C007D3406 /* ANDYDataStack.m */; };
 		4AAF092227104539808448D7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF32EF5382804A76BD0E9E65 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -64,8 +64,8 @@
 		145DEBA918DB869500830181 /* DemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoTests.m; sourceTree = "<group>"; };
 		145DEBBA18DB86CD00830181 /* ANDYAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANDYAppDelegate.h; sourceTree = "<group>"; };
 		145DEBBB18DB86CD00830181 /* ANDYAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANDYAppDelegate.m; sourceTree = "<group>"; };
-		14999E2718FBB28C007D3406 /* ANDYDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANDYDataManager.h; sourceTree = "<group>"; };
-		14999E2818FBB28C007D3406 /* ANDYDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANDYDataManager.m; sourceTree = "<group>"; };
+		14999E2718FBB28C007D3406 /* ANDYDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANDYDataStack.h; sourceTree = "<group>"; };
+		14999E2818FBB28C007D3406 /* ANDYDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANDYDataStack.m; sourceTree = "<group>"; };
 		9CFF3B5873A741119D668A74 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		CF32EF5382804A76BD0E9E65 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -109,7 +109,7 @@
 		145DEB7218DB869500830181 = {
 			isa = PBXGroup;
 			children = (
-				14999E2618FBB28C007D3406 /* ANDYDataManager */,
+				14999E2618FBB28C007D3406 /* ANDYDataStack */,
 				145DEB8618DB869500830181 /* Demo */,
 				145DEBA318DB869500830181 /* DemoTests */,
 				145DEB7D18DB869500830181 /* Frameworks */,
@@ -210,14 +210,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		14999E2618FBB28C007D3406 /* ANDYDataManager */ = {
+		14999E2618FBB28C007D3406 /* ANDYDataStack */ = {
 			isa = PBXGroup;
 			children = (
-				14999E2718FBB28C007D3406 /* ANDYDataManager.h */,
-				14999E2818FBB28C007D3406 /* ANDYDataManager.m */,
+				14999E2718FBB28C007D3406 /* ANDYDataStack.h */,
+				14999E2818FBB28C007D3406 /* ANDYDataStack.m */,
 			);
-			name = ANDYDataManager;
-			path = ../ANDYDataManager;
+			name = ANDYDataStack;
+			path = ../ANDYDataStack;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -355,7 +355,7 @@
 				145DEB9418DB869500830181 /* Demo.xcdatamodeld in Sources */,
 				144906BD18DB9ACD00963063 /* _Task.m in Sources */,
 				145DEBBE18DB86CD00830181 /* ANDYAppDelegate.m in Sources */,
-				14999E2918FBB28C007D3406 /* ANDYDataManager.m in Sources */,
+				14999E2918FBB28C007D3406 /* ANDYDataStack.m in Sources */,
 				144906BE18DB9ACD00963063 /* Task.m in Sources */,
 				145DEB8D18DB869500830181 /* main.m in Sources */,
 			);

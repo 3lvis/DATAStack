@@ -1,4 +1,4 @@
-ANDYDataManager
+ANDYDataStack
 ===================
 
 This is class that helps you to aliviate the Core Data boilerplate. Now you can go to your AppDelegate remove all the Core Data related code and replace it with:

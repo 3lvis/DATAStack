@@ -1,12 +1,12 @@
 #import "ANDYAppDelegate.h"
 #import "ANDYMainTableViewController.h"
-#import "ANDYDataManager.h"
+#import "ANDYDataStack.h"
 
 ANDYAppDelegate *appDelegate;
 
 @interface ANDYAppDelegate ()
 
-@property (nonatomic, strong, readwrite) ANDYDataManager *dataManager;
+@property (nonatomic, strong, readwrite) ANDYDataStack *dataStack;
 
 @end
 
@@ -24,13 +24,13 @@ ANDYAppDelegate *appDelegate;
 
 #pragma mark - Getters
 
-- (ANDYDataManager *)dataManager
+- (ANDYDataStack *)dataStack
 {
-    if (_dataManager) return _dataManager;
+    if (_dataStack) return _dataStack;
 
-    _dataManager = [[ANDYDataManager alloc] initWithModelName:@"Demo"];
+    _dataStack = [[ANDYDataStack alloc] initWithModelName:@"Demo"];
 
-    return _dataManager;
+    return _dataStack;
 }
 
 #pragma mark - UIApplicationDelegate
@@ -49,7 +49,7 @@ ANDYAppDelegate *appDelegate;
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [self.dataManager persistContext];
+    [self.dataStack persistContext];
 }
 
 @end

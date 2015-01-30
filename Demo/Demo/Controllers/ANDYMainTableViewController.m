@@ -1,6 +1,6 @@
 #import "ANDYMainTableViewController.h"
 #import "ANDYFetchedResultsTableDataSource.h"
-#import "ANDYDataManager.h"
+#import "ANDYDataStack.h"
 #import "Task.h"
 #import "ANDYAppDelegate.h"
 
@@ -24,7 +24,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Task"];
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]];
     _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                    managedObjectContext:[appDelegate.dataManager mainThreadContext]
+                                                                    managedObjectContext:[appDelegate.dataStack mainThreadContext]
                                                                       sectionNameKeyPath:nil
                                                                                cacheName:nil];
 
@@ -50,7 +50,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     [self.tableView registerClass:[UITableViewCell class]
            forCellReuseIdentifier:ANDYCellIdentifier];
     self.tableView.dataSource = self.dataSource;
@@ -70,7 +70,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (void)createTask
 {
-    [appDelegate.dataManager performInBackgroundContext:^(NSManagedObjectContext *context) {
+    [appDelegate.dataStack performInBackgroundContext:^(NSManagedObjectContext *context) {
         Task *task = [Task insertInManagedObjectContext:context];
         task.title = @"Hello!";
         task.date = [NSDate date];
@@ -80,7 +80,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (void)createAlternativeTask
 {
-    NSManagedObjectContext *context = [appDelegate.dataManager mainThreadContext];
+    NSManagedObjectContext *context = [appDelegate.dataStack mainThreadContext];
     Task *task = [Task insertInManagedObjectContext:context];
     task.title = @"Hello MAIN!";
     task.date = [NSDate date];

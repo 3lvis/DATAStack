@@ -7,27 +7,27 @@ typedef NS_ENUM(NSInteger, ANDYDataStoreType) {
     ANDYDataSQLiteStoreType
 };
 
-@interface ANDYDataManager : NSObject
+@interface ANDYDataStack : NSObject
 
 /*!
- * @discussion Creates an instance of ANDYDataManager with SQLiteStoreType using the app's name as a Core Data model name.
- * @return An instance of @c ANDYDataManager or @c nil if the model is not found.
+ * @discussion Creates an instance of ANDYDataStack with SQLiteStoreType using the app's name as a Core Data model name.
+ * @return An instance of @c ANDYDataStack or @c nil if the model is not found.
  */
 - (instancetype)init;
 
 /*!
- * @discussion Creates an instance of ANDYDataManager with SQLiteStoreType.
+ * @discussion Creates an instance of ANDYDataStack with SQLiteStoreType.
  * @param modelName The name of the Core Data model.
- * @return An instance of @c ANDYDataManager or @c nil if the model is not found.
+ * @return An instance of @c ANDYDataStack or @c nil if the model is not found.
  */
 - (instancetype)initWithModelName:(NSString *)modelName;
 
 /*!
- * @discussion Creates an instance of ANDYDataManager with SQLiteStoreType.
+ * @discussion Creates an instance of ANDYDataStack with SQLiteStoreType.
  * @param modelName The name of the Core Data model.
  * @param bundle The bundle where the Core Data model is located.
  * @param storeType The store type, either @c SQLite or @c InMemory.
- * @return An instance of @c ANDYDataManager or @c nil if the model is not found.
+ * @return An instance of @c ANDYDataStack or @c nil if the model is not found.
  */
 - (instancetype)initWithModelName:(NSString *)modelName
                            bundle:(NSBundle *)bundle
@@ -51,7 +51,7 @@ typedef NS_ENUM(NSInteger, ANDYDataStoreType) {
 - (void)persistContext;
 
 /*!
- * Destroys state of ANDYDataManager.
+ * Destroys state of ANDYDataStack.
  */
 - (void)destroy;
 
