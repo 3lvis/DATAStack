@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, ANDYDataStoreType) {
  */
 - (instancetype)initWithModelName:(NSString *)modelName
                            bundle:(NSBundle *)bundle
-                        storyType:(ANDYDataStoreType)storeType NS_DESIGNATED_INITIALIZER;
+                        storeType:(ANDYDataStoreType)storeType NS_DESIGNATED_INITIALIZER;
 
 /*!
  * Provides a NSManagedObjectContext appropriate for use on the main

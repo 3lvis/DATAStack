@@ -31,12 +31,12 @@
 
     return [self initWithModelName:modelName
                             bundle:bundle
-                         storyType:ANDYDataSQLiteStoreType];
+                         storeType:ANDYDataSQLiteStoreType];
 }
 
 - (instancetype)initWithModelName:(NSString *)modelName
                            bundle:(NSBundle *)bundle
-                        storyType:(ANDYDataStoreType)storeType
+                        storeType:(ANDYDataStoreType)storeType
 {
     self = [super init];
     if (!self) return nil;
