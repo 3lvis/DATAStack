@@ -6,7 +6,7 @@ This is class that helps you to aliviate the Core Data boilerplate. Now you can 
 ``` objc
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [self.dataManager persistContext];
+    [self.dataStack persistContext];
 }
 ```
 
