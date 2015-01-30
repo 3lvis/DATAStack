@@ -1,34 +1,43 @@
 @import Foundation;
 @import CoreData;
 
+
+typedef NS_ENUM(NSInteger, ANDYDataStoreType) {
+    ANDYDataInMemoryStoreType = 0,
+    ANDYDataSQLiteStoreType
+};
+
 @interface ANDYDataManager : NSObject
 
 /*!
- * Provides a singleton that handles CoreData related operations.
- * \returns The a shared ANDYDataManager for the application.
+ * @discussion Creates an instance of ANDYDataManager with SQLiteStoreType using the app's name as a Core Data model name.
+ * @return An instance of @c ANDYDataManager or @c nil if the model is not found.
  */
-+ (ANDYDataManager *)sharedManager;
+- (instancetype)init;
 
 /*!
- * Configures a stack with InMemoryStore for testing purposes.
+ * @discussion Creates an instance of ANDYDataManager with SQLiteStoreType.
+ * @param modelName The name of the Core Data model.
+ * @return An instance of @c ANDYDataManager or @c nil if the model is not found.
  */
-+ (void)setUpStackWithInMemoryStore;
+- (instancetype)initWithModelName:(NSString *)modelName;
 
 /*!
- * Sets the model name in case it's different from the bundle name
+ * @discussion Creates an instance of ANDYDataManager with SQLiteStoreType.
+ * @param modelName The name of the Core Data model.
+ * @param bundle The bundle where the Core Data model is located.
+ * @param storeType The store type, either @c SQLite or @c InMemory.
+ * @return An instance of @c ANDYDataManager or @c nil if the model is not found.
  */
-+ (void)setModelName:(NSString *)modelName;
-
-/*!
- * Sets the model bundle in case it's different from the main bundle
- */
-+ (void)setModelBundle:(NSBundle *)modelBundle;
+- (instancetype)initWithModelName:(NSString *)modelName
+                           bundle:(NSBundle *)bundle
+                        storyType:(ANDYDataStoreType)storeType NS_DESIGNATED_INITIALIZER;
 
 /*!
  * Provides a NSManagedObjectContext appropriate for use on the main
  * thread.
  */
-- (NSManagedObjectContext *)mainThreadContext;
+@property (strong, nonatomic, readonly) NSManagedObjectContext *mainThreadContext;
 
 /*!
  * Provides a safe way to perform an operation in a background

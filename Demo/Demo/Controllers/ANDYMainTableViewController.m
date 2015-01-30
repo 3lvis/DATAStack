@@ -2,12 +2,15 @@
 #import "ANDYFetchedResultsTableDataSource.h"
 #import "ANDYDataManager.h"
 #import "Task.h"
+#import "ANDYAppDelegate.h"
 
 static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 @interface ANDYMainTableViewController ()
+
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) ANDYFetchedResultsTableDataSource *dataSource;
+
 @end
 
 @implementation ANDYMainTableViewController
@@ -20,10 +23,11 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
         return _fetchedResultsController;
     }
 
+    ANDYAppDelegate *appDelegate = SharedAppDelegate;
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Task"];
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]];
     _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                    managedObjectContext:[[ANDYDataManager sharedManager] mainThreadContext]
+                                                                    managedObjectContext:[appDelegate.dataManager mainThreadContext]
                                                                       sectionNameKeyPath:nil
                                                                                cacheName:nil];
 
@@ -70,7 +74,8 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (void)createTask
 {
-    [[ANDYDataManager sharedManager] performInBackgroundContext:^(NSManagedObjectContext *context) {
+    ANDYAppDelegate *appDelegate = SharedAppDelegate;
+    [appDelegate.dataManager performInBackgroundContext:^(NSManagedObjectContext *context) {
         Task *task = [Task insertInManagedObjectContext:context];
         task.title = @"Hello!";
         task.date = [NSDate date];
@@ -80,7 +85,8 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (void)createAlternativeTask
 {
-    NSManagedObjectContext *context = [[ANDYDataManager sharedManager] mainThreadContext];
+    ANDYAppDelegate *appDelegate = SharedAppDelegate;
+    NSManagedObjectContext *context = [appDelegate.dataManager mainThreadContext];
     Task *task = [Task insertInManagedObjectContext:context];
     task.title = @"Hello MAIN!";
     task.date = [NSDate date];

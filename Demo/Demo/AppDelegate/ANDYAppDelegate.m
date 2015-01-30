@@ -2,7 +2,26 @@
 #import "ANDYMainTableViewController.h"
 #import "ANDYDataManager.h"
 
+@interface ANDYAppDelegate ()
+
+@property (nonatomic, strong, readwrite) ANDYDataManager *dataManager;
+
+@end
+
 @implementation ANDYAppDelegate
+
+#pragma mark - Getters
+
+- (ANDYDataManager *)dataManager
+{
+    if (_dataManager) return _dataManager;
+
+    _dataManager = [[ANDYDataManager alloc] initWithModelName:@"Demo"];
+
+    return _dataManager;
+}
+
+#pragma mark - UIApplicationDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -18,7 +37,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [[ANDYDataManager sharedManager] persistContext];
+    [self.dataManager persistContext];
 }
 
 @end
