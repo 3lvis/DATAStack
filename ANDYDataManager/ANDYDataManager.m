@@ -4,7 +4,7 @@
 
 @interface ANDYDataManager ()
 
-@property (strong, nonatomic, readwrite) NSManagedObjectContext *mainContext;
+@property (strong, nonatomic) NSManagedObjectContext *mainContext;
 @property (strong, nonatomic) NSManagedObjectContext *writerContext;
 @property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
@@ -225,6 +225,11 @@
 }
 
 #pragma mark - Class methods
+
+- (NSManagedObjectContext *)mainThreadContext
+{
+    return self.mainContext;
+}
 
 - (void)performInBackgroundContext:(void (^)(NSManagedObjectContext *context))operation
 {

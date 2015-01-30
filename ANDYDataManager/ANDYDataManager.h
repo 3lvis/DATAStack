@@ -4,12 +4,6 @@
 @interface ANDYDataManager : NSObject
 
 /*!
- * Provides a NSManagedObjectContext appropriate for use on the main
- * thread.
- */
-@property (strong, nonatomic, readonly) NSManagedObjectContext *mainContext;
-
-/*!
  * Provides a singleton that handles CoreData related operations.
  * \returns The a shared ANDYDataManager for the application.
  */
@@ -29,6 +23,12 @@
  * Sets the model bundle in case it's different from the main bundle
  */
 + (void)setModelBundle:(NSBundle *)modelBundle;
+
+/*!
+ * Provides a NSManagedObjectContext appropriate for use on the main
+ * thread.
+ */
+- (NSManagedObjectContext *)mainThreadContext;
 
 /*!
  * Provides a safe way to perform an operation in a background
