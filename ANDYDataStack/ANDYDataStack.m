@@ -229,11 +229,11 @@
                                                    inDomains:NSUserDomainMask] lastObject];
 }
 
-#pragma mark - Class methods
+#pragma mark - Public methods
 
-- (void)performInBackgroundContext:(void (^)(NSManagedObjectContext *context))operation
+- (void)performInBackgroundThreadContext:(void (^)(NSManagedObjectContext *context))operation
 {
-    NSManagedObjectContext *context = [self backgroundContext];
+    NSManagedObjectContext *context = [self backgroundThreadContext];
     [context performBlock:^{
         if (operation) {
             operation(context);
@@ -241,7 +241,7 @@
     }];
 }
 
-- (NSManagedObjectContext *)backgroundContext
+- (NSManagedObjectContext *)backgroundThreadContext
 {
     NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     context.persistentStoreCoordinator = self.persistentStoreCoordinator;
@@ -254,6 +254,8 @@
                                                object:context];
     return context;
 }
+
+#pragma mark - Observers
 
 - (void)backgroundThreadDidSave:(NSNotification *)notification
 {

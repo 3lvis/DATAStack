@@ -70,7 +70,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (void)createTask
 {
-    [appDelegate.dataStack performInBackgroundContext:^(NSManagedObjectContext *context) {
+    [appDelegate.dataStack performInBackgroundThreadContext:^(NSManagedObjectContext *context) {
         Task *task = [Task insertInManagedObjectContext:context];
         task.title = @"Hello!";
         task.date = [NSDate date];

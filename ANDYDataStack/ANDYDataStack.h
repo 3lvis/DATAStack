@@ -43,7 +43,14 @@ typedef NS_ENUM(NSInteger, ANDYDataStoreType) {
  * Provides a safe way to perform an operation in a background
  * operation by using a context.
  */
-- (void)performInBackgroundContext:(void (^)(NSManagedObjectContext *context))operation;
+- (void)performInBackgroundThreadContext:(void (^)(NSManagedObjectContext *context))operation;
+
+/*!
+ * Provides a new private context bound to the mainThreadContext for a
+ * performant background operation.
+ * \returns A background NSManagedObjectContext.
+ */
+- (NSManagedObjectContext *)backgroundThreadContext;
 
 /*!
  * Saves current state of mainContext into the database.
