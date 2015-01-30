@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "ANDYDataManager"
-  s.version = "1.2.2"
+  s.version = "2.0"
   s.summary = "CoreData stack set up boilerplate."
   s.description = <<-DESC
                    * Feeling tired of having CoreData boilerplate in your AppDelegate?
