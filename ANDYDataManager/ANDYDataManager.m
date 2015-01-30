@@ -126,14 +126,7 @@
 #if !TARGET_IPHONE_SIMULATOR
 - (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
 {
-    assert([[NSFileManager defaultManager] fileExistsAtPath:URL.path]);
-
-    NSError *error = nil;
-    BOOL success = [URL setResourceValue:[NSNumber numberWithBool:YES]
-                                  forKey:NSURLIsExcludedFromBackupKey error:&error];
-    if (!success)NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
-
-    return success;
+    return [URL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
 }
 #endif
 
