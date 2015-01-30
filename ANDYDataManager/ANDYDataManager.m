@@ -226,7 +226,7 @@
 
 #pragma mark - Class methods
 
-+ (void)performInBackgroundContext:(void (^)(NSManagedObjectContext *context))operation
+- (void)performInBackgroundContext:(void (^)(NSManagedObjectContext *context))operation
 {
     NSManagedObjectContext *context = [self backgroundContext];
     [context performBlock:^{
@@ -236,14 +236,14 @@
     }];
 }
 
-+ (NSManagedObjectContext *)backgroundContext
+- (NSManagedObjectContext *)backgroundContext
 {
     NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    context.persistentStoreCoordinator = [[self sharedManager] persistentStoreCoordinator];
+    context.persistentStoreCoordinator = [[ANDYDataManager sharedManager] persistentStoreCoordinator];
     context.undoManager = nil;
     context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy;
 
-    [[NSNotificationCenter defaultCenter] addObserver:[self sharedManager]
+    [[NSNotificationCenter defaultCenter] addObserver:[ANDYDataManager sharedManager]
                                              selector:@selector(backgroundThreadDidSave:)
                                                  name:NSManagedObjectContextDidSaveNotification
                                                object:context];

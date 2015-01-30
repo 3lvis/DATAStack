@@ -16,19 +16,6 @@
 + (ANDYDataManager *)sharedManager;
 
 /*!
- * Provides a new privateContext bound to the mainContext for a
- * performant background operation.
- * \returns A background NSManagedObjectContext.
- */
-+ (NSManagedObjectContext *)backgroundContext;
-
-/*!
- * Provides a safe way to perform an operation in a background
- * operation by using a context.
- */
-+ (void)performInBackgroundContext:(void (^)(NSManagedObjectContext *context))operation;
-
-/*!
  * Configures a stack with InMemoryStore for testing purposes.
  */
 + (void)setUpStackWithInMemoryStore;
@@ -42,6 +29,12 @@
  * Sets the model bundle in case it's different from the main bundle
  */
 + (void)setModelBundle:(NSBundle *)modelBundle;
+
+/*!
+ * Provides a safe way to perform an operation in a background
+ * operation by using a context.
+ */
+- (void)performInBackgroundContext:(void (^)(NSManagedObjectContext *context))operation;
 
 /*!
  * Saves current state of mainContext into the database.
