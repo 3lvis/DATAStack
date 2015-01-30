@@ -1,11 +1,3 @@
-//
-//  ANDYMainTableViewController.m
-//  Demo
-//
-//  Created by Elvis Nunez on 3/20/14.
-//  Copyright (c) 2014 Andy. All rights reserved.
-//
-
 #import "ANDYMainTableViewController.h"
 #import "ANDYFetchedResultsTableDataSource.h"
 #import "ANDYDataManager.h"
