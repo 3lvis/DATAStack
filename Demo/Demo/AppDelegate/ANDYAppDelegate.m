@@ -2,6 +2,8 @@
 #import "ANDYMainTableViewController.h"
 #import "ANDYDataManager.h"
 
+ANDYAppDelegate *appDelegate;
+
 @interface ANDYAppDelegate ()
 
 @property (nonatomic, strong, readwrite) ANDYDataManager *dataManager;
@@ -9,6 +11,16 @@
 @end
 
 @implementation ANDYAppDelegate
+
+- (instancetype)init
+{
+    self = [super init];
+    if (!self) return nil;
+
+    appDelegate = self;
+
+    return self;
+}
 
 #pragma mark - Getters
 

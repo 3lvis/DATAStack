@@ -19,11 +19,8 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (NSFetchedResultsController *)fetchedResultsController
 {
-    if (_fetchedResultsController) {
-        return _fetchedResultsController;
-    }
+    if (_fetchedResultsController) return _fetchedResultsController;
 
-    ANDYAppDelegate *appDelegate = SharedAppDelegate;
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Task"];
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]];
     _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
@@ -36,9 +33,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (ANDYFetchedResultsTableDataSource *)dataSource
 {
-    if (_dataSource) {
-        return _dataSource;
-    }
+    if (_dataSource) return _dataSource;
 
     _dataSource = [[ANDYFetchedResultsTableDataSource alloc] initWithTableView:self.tableView
                                                       fetchedResultsController:self.fetchedResultsController
@@ -55,6 +50,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self.tableView registerClass:[UITableViewCell class]
            forCellReuseIdentifier:ANDYCellIdentifier];
     self.tableView.dataSource = self.dataSource;
@@ -74,7 +70,6 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (void)createTask
 {
-    ANDYAppDelegate *appDelegate = SharedAppDelegate;
     [appDelegate.dataManager performInBackgroundContext:^(NSManagedObjectContext *context) {
         Task *task = [Task insertInManagedObjectContext:context];
         task.title = @"Hello!";
@@ -85,7 +80,6 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (void)createAlternativeTask
 {
-    ANDYAppDelegate *appDelegate = SharedAppDelegate;
     NSManagedObjectContext *context = [appDelegate.dataManager mainThreadContext];
     Task *task = [Task insertInManagedObjectContext:context];
     task.title = @"Hello MAIN!";
