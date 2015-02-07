@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
-  s.name = "ANDYDataStack"
+  s.name = "DATAStack"
   s.version = "2.0.2"
   s.summary = "Core Data stack set up boilerplate."
   s.description = <<-DESC
                    * Feeling tired of having Core Data boilerplate in your AppDelegate?
                    * No more.
                    DESC
-  s.homepage = "https://github.com/NSElvis/ANDYDataStack"
+  s.homepage = "https://github.com/NSElvis/DATAStack"
   s.license = {
     :type => 'MIT',
     :file => 'LICENSE'
@@ -15,10 +15,10 @@ Pod::Spec.new do |s|
   s.social_media_url = "http://twitter.com/NSElvis"
   s.platform = :ios, '5.0'
   s.source = {
-    :git => 'https://github.com/NSElvis/ANDYDataStack.git',
+    :git => 'https://github.com/NSElvis/DATAStack.git',
     :tag => s.version.to_s
   }
-  s.source_files = 'ANDYDataStack/'
+  s.source_files = 'DATAStack/'
   s.frameworks = 'Foundation', 'CoreData'
   s.requires_arc = true
 end

@@ -1,21 +1,21 @@
-#import "ANDYDataStack.h"
+#import "DATAStack.h"
 
 @import UIKit;
 
-@interface ANDYDataStack ()
+@interface DATAStack ()
 
 @property (strong, nonatomic, readwrite) NSManagedObjectContext *mainThreadContext;
 @property (strong, nonatomic) NSManagedObjectContext *writerContext;
 @property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-@property (nonatomic) ANDYDataStackStoreType storeType;
+@property (nonatomic) DATAStackStoreType storeType;
 @property (nonatomic, copy) NSString *modelName;
 @property (nonatomic, strong) NSBundle *modelBundle;
 
 @end
 
-@implementation ANDYDataStack
+@implementation DATAStack
 
 - (instancetype)init
 {
@@ -31,12 +31,12 @@
 
     return [self initWithModelName:modelName
                             bundle:bundle
-                         storeType:ANDYDataStackSQLiteStoreType];
+                         storeType:DATAStackSQLiteStoreType];
 }
 
 - (instancetype)initWithModelName:(NSString *)modelName
                            bundle:(NSBundle *)bundle
-                        storeType:(ANDYDataStackStoreType)storeType
+                        storeType:(DATAStackStoreType)storeType
 {
     self = [super init];
     if (!self) return nil;
@@ -57,7 +57,7 @@
                                                        queue:nil
                                                   usingBlock:^(NSNotification *notification) {
                                                       if (![NSThread isMainThread]) {
-                                                          [NSException raise:@"ANDY_MAIN_THREAD_CREATION_EXCEPTION"
+                                                          [NSException raise:@"DATASTACK_MAIN_THREAD_CREATION_EXCEPTION"
                                                                       format:@"Main context saved in background thread. Use context's `performBlock`"];
                                                       } else {
                                                           if (![notification.object isEqual:context]) {
@@ -178,10 +178,10 @@
     NSString *storeType;
 
     switch (self.storeType) {
-        case ANDYDataStackInMemoryStoreType:
+        case DATAStackInMemoryStoreType:
             storeType = NSInMemoryStoreType;
             break;
-        case ANDYDataStackSQLiteStoreType:
+        case DATAStackSQLiteStoreType:
             storeType = NSSQLiteStoreType;
             break;
     }
@@ -260,7 +260,7 @@
 - (void)backgroundThreadDidSave:(NSNotification *)notification
 {
     if ([NSThread isMainThread]) {
-        [NSException raise:@"ANDY_BACKGROUND_THREAD_CREATION_EXCEPTION"
+        [NSException raise:@"DATASTACK_BACKGROUND_THREAD_CREATION_EXCEPTION"
                     format:@"Background context saved in the main thread. Use context's `performBlock`"];
     } else {
         // sync changes made on the background thread's context to the main thread's context

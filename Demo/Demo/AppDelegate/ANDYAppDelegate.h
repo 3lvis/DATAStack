@@ -1,12 +1,12 @@
 @import UIKit;
 
-@class ANDYDataStack;
+@class DATAStack;
 
 @interface ANDYAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (nonatomic, strong, readonly) ANDYDataStack *dataStack;
+@property (nonatomic, strong, readonly) DATAStack *dataStack;
 
 @end
 
