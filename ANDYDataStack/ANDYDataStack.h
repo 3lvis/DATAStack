@@ -2,9 +2,9 @@
 @import CoreData;
 
 
-typedef NS_ENUM(NSInteger, ANDYDataStoreType) {
-    ANDYDataInMemoryStoreType = 0,
-    ANDYDataSQLiteStoreType
+typedef NS_ENUM(NSInteger, ANDYDataStackStoreType) {
+    ANDYDataStackInMemoryStoreType = 0,
+    ANDYDataStackSQLiteStoreType
 };
 
 @interface ANDYDataStack : NSObject
@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, ANDYDataStoreType) {
  */
 - (instancetype)initWithModelName:(NSString *)modelName
                            bundle:(NSBundle *)bundle
-                        storeType:(ANDYDataStoreType)storeType NS_DESIGNATED_INITIALIZER;
+                        storeType:(ANDYDataStackStoreType)storeType NS_DESIGNATED_INITIALIZER;
 
 /*!
  * Provides a NSManagedObjectContext appropriate for use on the main

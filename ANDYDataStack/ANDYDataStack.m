@@ -9,7 +9,7 @@
 @property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-@property (nonatomic) ANDYDataStoreType storeType;
+@property (nonatomic) ANDYDataStackStoreType storeType;
 @property (nonatomic, copy) NSString *modelName;
 @property (nonatomic, strong) NSBundle *modelBundle;
 
@@ -31,12 +31,12 @@
 
     return [self initWithModelName:modelName
                             bundle:bundle
-                         storeType:ANDYDataSQLiteStoreType];
+                         storeType:ANDYDataStackSQLiteStoreType];
 }
 
 - (instancetype)initWithModelName:(NSString *)modelName
                            bundle:(NSBundle *)bundle
-                        storeType:(ANDYDataStoreType)storeType
+                        storeType:(ANDYDataStackStoreType)storeType
 {
     self = [super init];
     if (!self) return nil;
@@ -178,10 +178,10 @@
     NSString *storeType;
 
     switch (self.storeType) {
-        case ANDYDataInMemoryStoreType:
+        case ANDYDataStackInMemoryStoreType:
             storeType = NSInMemoryStoreType;
             break;
-        case ANDYDataSQLiteStoreType:
+        case ANDYDataStackSQLiteStoreType:
             storeType = NSSQLiteStoreType;
             break;
     }
