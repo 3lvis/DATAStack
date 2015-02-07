@@ -45,6 +45,8 @@
     _modelBundle = bundle;
     _storeType = storeType;
 
+    if (!self.persistentStoreCoordinator) NSLog(@"Error setting up data stack");
+
     return self;
 }
 

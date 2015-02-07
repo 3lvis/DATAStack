@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
     :git => 'https://github.com/NSElvis/DATAStack.git',
     :tag => s.version.to_s
   }
-  s.source_files = 'DATAStack/'
+  s.source_files = 'Source/'
   s.frameworks = 'Foundation', 'CoreData'
   s.requires_arc = true
 end
