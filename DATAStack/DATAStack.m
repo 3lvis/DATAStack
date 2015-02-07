@@ -159,6 +159,8 @@
 
     NSBundle *bundle = (self.modelBundle) ?: [NSBundle mainBundle];
     NSURL *modelURL = [bundle URLForResource:self.modelName withExtension:@"momd"];
+    if (!modelURL) abort(); // Model with {modelName} couldn't be found
+
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
 
     return _managedObjectModel;
