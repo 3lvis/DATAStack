@@ -159,7 +159,9 @@
             [writerManagedObjectContext performBlock:^{
                 NSError *parentError = nil;
                 if ([writerManagedObjectContext save:&parentError]) {
-                    if (completion) completion();
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (completion) completion();
+                    });
                 } else {
                     NSLog(@"Unresolved error saving parent managed object context %@, %@", error, [error userInfo]);
                     abort();
