@@ -136,12 +136,14 @@
                           otherButtonTitles:nil] show];
     }
 
+#if !TARGET_IPHONE_SIMULATOR
     NSError *excludeSQLiteFileFromBackupsError = nil;
     if (![storeURL setResourceValue:@YES
                              forKey:NSURLIsExcludedFromBackupKey
                               error:&excludeSQLiteFileFromBackupsError]) {
         NSLog(@"Excluding SQLite file from backup caused an error: %@", [excludeSQLiteFileFromBackupsError description]);
     };
+#endif
 
     return _persistentStoreCoordinator;
 }
