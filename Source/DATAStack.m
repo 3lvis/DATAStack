@@ -62,22 +62,6 @@
     _mainThreadContext.parentContext = self.writerContext;
     _mainThreadContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy;
 
-    [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification
-                                                      object:_mainThreadContext
-                                                       queue:nil
-                                                  usingBlock:^(NSNotification *notification) {
-                                                      if (![NSThread isMainThread]) {
-                                                          [NSException raise:@"DATASTACK_MAIN_THREAD_CREATION_EXCEPTION"
-                                                                      format:@"Main context saved in background thread. Use context's `performBlock`"];
-                                                      } else {
-                                                          if (![notification.object isEqual:_mainThreadContext]) {
-                                                              [_mainThreadContext performBlock:^(){
-                                                                  [_mainThreadContext mergeChangesFromContextDidSaveNotification:notification];
-                                                              }];
-                                                          }
-                                                      }
-                                                  }];
-
     return _mainThreadContext;
 }
 
