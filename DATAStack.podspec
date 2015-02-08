@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.homepage = "https://github.com/NSElvis/DATAStack"
   s.license = {
     :type => 'MIT',
-    :file => 'LICENSE'
+    :file => 'LICENSE.md'
   }
   s.author = { "Elvis Nunez" => "elvisnunez@me.com" }
   s.social_media_url = "http://twitter.com/NSElvis"
