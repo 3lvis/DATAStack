@@ -64,8 +64,8 @@
 		145DEBA918DB869500830181 /* DemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoTests.m; sourceTree = "<group>"; };
 		145DEBBA18DB86CD00830181 /* ANDYAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANDYAppDelegate.h; sourceTree = "<group>"; };
 		145DEBBB18DB86CD00830181 /* ANDYAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANDYAppDelegate.m; sourceTree = "<group>"; };
-		14999E2718FBB28C007D3406 /* DATAStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATAStack.h; sourceTree = "<group>"; };
-		14999E2818FBB28C007D3406 /* DATAStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATAStack.m; sourceTree = "<group>"; };
+		14999E2718FBB28C007D3406 /* DATAStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DATAStack.h; path = ../Source/DATAStack.h; sourceTree = "<group>"; };
+		14999E2818FBB28C007D3406 /* DATAStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DATAStack.m; path = ../Source/DATAStack.m; sourceTree = "<group>"; };
 		9CFF3B5873A741119D668A74 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		CF32EF5382804A76BD0E9E65 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
