@@ -5,7 +5,7 @@ This is class that helps you to aliviate the Core Data boilerplate. Now you can 
 ``` objc
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [self.dataStack persistContext];
+    [self.dataStack persistWithCompletion:nil];
 }
 ```
 
@@ -16,7 +16,7 @@ Then in your NSFetchedResultsController backed app (attached to your main contex
 
 - (void)createTask
 {
-    [self.dataStack performInBackgroundThreadContext:^(NSManagedObjectContext *context) {
+    [self.dataStack performInNewBackgroundThreadContext:^(NSManagedObjectContext *context) {
         Task *task = [Task insertInManagedObjectContext:context];
         task.title = @"Hello!";
         task.date = [NSDate date];
