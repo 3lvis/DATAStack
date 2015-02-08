@@ -70,9 +70,9 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (void)createTask
 {
-    [appDelegate.dataStack performInBackgroundThreadContext:^(NSManagedObjectContext *context) {
+    [appDelegate.dataStack performInNewBackgroundThreadContext:^(NSManagedObjectContext *context) {
         Task *task = [Task insertInManagedObjectContext:context];
-        task.title = @"Hello!";
+        task.title = @"Hello BACKGROUND!";
         task.date = [NSDate date];
         [context save:nil];
     }];
@@ -82,7 +82,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 {
     NSManagedObjectContext *context = [appDelegate.dataStack mainThreadContext];
     Task *task = [Task insertInManagedObjectContext:context];
-    task.title = @"Hello MAIN!";
+    task.title = @"Hello MAIN THREAD!";
     task.date = [NSDate date];
     [context save:nil];
 }

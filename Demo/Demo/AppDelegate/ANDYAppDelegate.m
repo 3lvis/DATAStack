@@ -49,7 +49,7 @@ ANDYAppDelegate *appDelegate;
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [self.dataStack persistContext];
+    [self.dataStack persistWithCompletion:nil];
 }
 
 @end
