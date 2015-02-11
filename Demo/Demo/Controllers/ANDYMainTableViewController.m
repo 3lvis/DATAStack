@@ -24,7 +24,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Task"];
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]];
     _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                    managedObjectContext:[appDelegate.dataStack mainThreadContext]
+                                                                    managedObjectContext:[appDelegate.dataStack mainContext]
                                                                       sectionNameKeyPath:nil
                                                                                cacheName:nil];
 
@@ -38,7 +38,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
     _dataSource = [[ANDYFetchedResultsTableDataSource alloc] initWithTableView:self.tableView
                                                       fetchedResultsController:self.fetchedResultsController
                                                                 cellIdentifier:ANDYCellIdentifier];
-    _dataSource.configureCellBlock = ^(UITableViewCell *cell, Task *task) {
+    _dataSource.configureCellBlock = ^(UITableViewCell *cell, Task *task, NSIndexPath *indexPath) {
         cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", task.title, task.date];
     };
 
@@ -70,17 +70,17 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (void)createTask
 {
-    [appDelegate.dataStack performInNewBackgroundThreadContext:^(NSManagedObjectContext *context) {
-        Task *task = [Task insertInManagedObjectContext:context];
+    [appDelegate.dataStack performInNewBackgroundContext:^(NSManagedObjectContext *backgroundContext) {
+        Task *task = [Task insertInManagedObjectContext:backgroundContext];
         task.title = @"Hello BACKGROUND!";
         task.date = [NSDate date];
-        [context save:nil];
+        [backgroundContext save:nil];
     }];
 }
 
 - (void)createAlternativeTask
 {
-    NSManagedObjectContext *context = [appDelegate.dataStack mainThreadContext];
+    NSManagedObjectContext *context = [appDelegate.dataStack mainContext];
     Task *task = [Task insertInManagedObjectContext:context];
     task.title = @"Hello MAIN THREAD!";
     task.date = [NSDate date];

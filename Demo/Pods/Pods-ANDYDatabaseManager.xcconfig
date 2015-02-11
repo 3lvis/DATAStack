@@ -1,1 +1,0 @@
-PODS_ANDYDATABASEMANAGER_OTHER_LDFLAGS = -framework CoreData -framework Foundation

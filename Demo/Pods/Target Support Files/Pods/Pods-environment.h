@@ -8,7 +8,7 @@
 
 // ANDYFetchedResultsTableDataSource
 #define COCOAPODS_POD_AVAILABLE_ANDYFetchedResultsTableDataSource
-#define COCOAPODS_VERSION_MAJOR_ANDYFetchedResultsTableDataSource 0
-#define COCOAPODS_VERSION_MINOR_ANDYFetchedResultsTableDataSource 1
+#define COCOAPODS_VERSION_MAJOR_ANDYFetchedResultsTableDataSource 1
+#define COCOAPODS_VERSION_MINOR_ANDYFetchedResultsTableDataSource 2
 #define COCOAPODS_VERSION_PATCH_ANDYFetchedResultsTableDataSource 0
 

@@ -24,14 +24,14 @@
     }
 }
 
-- (void)testNormalMainThreadSave
+- (void)testNormalMainContextSave
 {
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
     XCTAssertNotNil(stack);
 
-    NSManagedObjectContext *context = [stack mainThreadContext];
+    NSManagedObjectContext *context = [stack mainContext];
 
     [self insertUserInContext:context];
 
@@ -52,7 +52,7 @@
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
 
-    NSManagedObjectContext *context = [stack mainThreadContext];
+    NSManagedObjectContext *context = [stack mainContext];
 
     [self insertUserInContext:context];
 
