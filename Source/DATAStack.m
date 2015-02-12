@@ -209,6 +209,40 @@
     return context;
 }
 
+- (NSPersistentStoreCoordinator *)disposablePersistentStoreCoordinator
+{
+    NSBundle *bundle = (self.modelBundle) ?: [NSBundle mainBundle];
+    NSURL *modelURL = [bundle URLForResource:self.modelName withExtension:@"momd"];
+    if (!modelURL) {
+        NSLog(@"Model with model name {%@} not found in bundle {%@}", self.modelName, bundle);
+        abort();
+    }
+
+    NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+
+    NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+
+    NSError *addPersistentStoreError = nil;
+    if (![persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType
+                                                  configuration:nil
+                                                            URL:nil
+                                                        options:nil
+                                                            error:&addPersistentStoreError]) {
+        NSLog(@"Error: %@", [addPersistentStoreError description]);
+        abort();
+    }
+
+    return persistentStoreCoordinator;
+}
+
+- (NSManagedObjectContext *)newDisposableMainContext
+{
+    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    context.persistentStoreCoordinator = [self disposablePersistentStoreCoordinator];
+
+    return context;
+}
+
 #pragma mark - Observers
 
 - (void)backgroundContextDidSave:(NSNotification *)backgroundContextNotification

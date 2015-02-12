@@ -10,6 +10,15 @@
 
 @implementation Tests
 
+- (DATAStack *)dataStack
+{
+    DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"Model"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackInMemoryStoreType];
+
+    return dataStack;
+}
+
 - (void)insertUserInContext:(NSManagedObjectContext *)context
 {
     User *user = [NSEntityDescription insertNewObjectForEntityForName:@"User"
@@ -26,37 +35,45 @@
 
 - (void)testNormalMainContextSave
 {
-    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
-                                                     bundle:[NSBundle bundleForClass:[self class]]
-                                                  storeType:DATAStackInMemoryStoreType];
-    XCTAssertNotNil(stack);
+    DATAStack *dataStack = [self dataStack];
 
-    NSManagedObjectContext *context = [stack mainContext];
+    XCTAssertNotNil(dataStack);
+
+    NSManagedObjectContext *context = [dataStack mainContext];
 
     [self insertUserInContext:context];
 
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
-
     NSError *fetchError = nil;
     NSArray *objects = [context executeFetchRequest:request error:&fetchError];
     if (fetchError) NSLog(@"error fetching IDs: %@", [fetchError description]);
-
     XCTAssertEqual(objects.count, 1);
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
+    [dataStack persistWithCompletion:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
+        NSError *fetchError = nil;
+        NSArray *objects = [dataStack.mainContext executeFetchRequest:request error:&fetchError];
+        if (fetchError) NSLog(@"error fetching IDs: %@", [fetchError description]);
+        XCTAssertEqual(objects.count, 1);
+
+        [expectation fulfill];
+    }];
+
+    [self waitForExpectationsWithTimeout:5.0f handler:nil];
 }
 
 - (void)testRequestWithDictionaryResultType
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
 
-    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
-                                                     bundle:[NSBundle bundleForClass:[self class]]
-                                                  storeType:DATAStackInMemoryStoreType];
+    DATAStack *dataStack = [self dataStack];
 
-    NSManagedObjectContext *context = [stack mainContext];
+    NSManagedObjectContext *context = [dataStack mainContext];
 
     [self insertUserInContext:context];
 
-    [stack persistWithCompletion:^{
+    [dataStack persistWithCompletion:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
 
         NSError *fetchError = nil;
@@ -78,6 +95,35 @@
         NSArray *dictionaryObjects = [context executeFetchRequest:dictionaryRequest error:&dictionaryError];
         if (dictionaryError) NSLog(@"error fetching IDs: %@", [dictionaryError description]);
         XCTAssertEqual(dictionaryObjects.count, 1);
+
+        [expectation fulfill];
+    }];
+
+    [self waitForExpectationsWithTimeout:5.0f handler:nil];
+}
+
+
+- (void)testDisposableMainContext
+{
+    DATAStack *dataStack = [self dataStack];
+
+    NSManagedObjectContext *disposableContext = [dataStack newDisposableMainContext];
+
+    [self insertUserInContext:disposableContext];
+
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
+    NSError *fetchError = nil;
+    NSArray *objects = [disposableContext executeFetchRequest:request error:&fetchError];
+    if (fetchError) NSLog(@"error fetching IDs: %@", [fetchError description]);
+    XCTAssertEqual(objects.count, 1);
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
+    [dataStack persistWithCompletion:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
+        NSError *fetchError = nil;
+        NSArray *objects = [dataStack.mainContext executeFetchRequest:request error:&fetchError];
+        if (fetchError) NSLog(@"error fetching IDs: %@", [fetchError description]);
+        XCTAssertEqual(objects.count, 0);
 
         [expectation fulfill];
     }];

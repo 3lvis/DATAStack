@@ -48,9 +48,16 @@ typedef NS_ENUM(NSInteger, DATAStackStoreType) {
 /*!
  * Provides a new private context bound to the mainContext for a
  * performant background operation.
- * \returns A background NSManagedObjectContext.
+ * \returns A background thread NSManagedObjectContext.
  */
 - (NSManagedObjectContext *)newBackgroundContext;
+
+/*!
+ * Provides a new main context attached to a in
+ * memory store persistent coordinator.
+ * \returns A disposable main thread NSManagedObjectContext.
+ */
+- (NSManagedObjectContext *)newDisposableMainContext;
 
 /*!
  * Persists the current in-memory state into the database.
