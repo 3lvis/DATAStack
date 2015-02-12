@@ -209,7 +209,7 @@
     return context;
 }
 
-- (NSPersistentStoreCoordinator *)disposablePersistentStoreCoordinator
+- (NSManagedObjectContext *)newDisposableMainContext
 {
     NSBundle *bundle = (self.modelBundle) ?: [NSBundle mainBundle];
     NSURL *modelURL = [bundle URLForResource:self.modelName withExtension:@"momd"];
@@ -219,26 +219,10 @@
     }
 
     NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-
     NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
 
-    NSError *addPersistentStoreError = nil;
-    if (![persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType
-                                                  configuration:nil
-                                                            URL:nil
-                                                        options:nil
-                                                            error:&addPersistentStoreError]) {
-        NSLog(@"Error: %@", [addPersistentStoreError description]);
-        abort();
-    }
-
-    return persistentStoreCoordinator;
-}
-
-- (NSManagedObjectContext *)newDisposableMainContext
-{
     NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    context.persistentStoreCoordinator = [self disposablePersistentStoreCoordinator];
+    context.persistentStoreCoordinator = persistentStoreCoordinator;
 
     return context;
 }

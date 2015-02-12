@@ -105,29 +105,8 @@
 - (void)testDisposableMainContext
 {
     DATAStack *dataStack = [self dataStack];
-
     NSManagedObjectContext *disposableContext = [dataStack newDisposableMainContext];
-
-    [self insertUserInContext:disposableContext];
-
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
-    NSError *fetchError = nil;
-    NSArray *objects = [disposableContext executeFetchRequest:request error:&fetchError];
-    if (fetchError) NSLog(@"error fetching IDs: %@", [fetchError description]);
-    XCTAssertEqual(objects.count, 1);
-
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
-    [dataStack persistWithCompletion:^{
-        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
-        NSError *fetchError = nil;
-        NSArray *objects = [dataStack.mainContext executeFetchRequest:request error:&fetchError];
-        if (fetchError) NSLog(@"error fetching IDs: %@", [fetchError description]);
-        XCTAssertEqual(objects.count, 0);
-
-        [expectation fulfill];
-    }];
-
-    [self waitForExpectationsWithTimeout:5.0f handler:nil];
+    XCTAssertThrowsSpecificNamed([self insertUserInContext:disposableContext], NSException, NSInternalInconsistencyException);
 }
 
 @end
