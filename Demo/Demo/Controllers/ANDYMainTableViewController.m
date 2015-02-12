@@ -1,5 +1,5 @@
 #import "ANDYMainTableViewController.h"
-#import "ANDYFetchedResultsTableDataSource.h"
+#import "DATASource.h"
 #import "DATAStack.h"
 #import "Task.h"
 #import "ANDYAppDelegate.h"
@@ -9,35 +9,37 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 @interface ANDYMainTableViewController ()
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-@property (nonatomic, strong) ANDYFetchedResultsTableDataSource *dataSource;
+@property (nonatomic, strong) DATASource *dataSource;
+@property (nonatomic, strong) DATAStack *dataStack;
 
 @end
 
 @implementation ANDYMainTableViewController
 
-#pragma mark - Lazy Instantiation
-
-- (NSFetchedResultsController *)fetchedResultsController
+- (instancetype)initWithDataStack:(DATAStack *)dataStack
 {
-    if (_fetchedResultsController) return _fetchedResultsController;
+    self = [super init];
+    if (!self) return nil;
 
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Task"];
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]];
-    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                    managedObjectContext:[appDelegate.dataStack mainContext]
-                                                                      sectionNameKeyPath:nil
-                                                                               cacheName:nil];
+    _dataStack = dataStack;
 
-    return _fetchedResultsController;
+    return self;
 }
 
-- (ANDYFetchedResultsTableDataSource *)dataSource
+#pragma mark - Lazy Instantiation
+
+- (DATASource *)dataSource
 {
     if (_dataSource) return _dataSource;
 
-    _dataSource = [[ANDYFetchedResultsTableDataSource alloc] initWithTableView:self.tableView
-                                                      fetchedResultsController:self.fetchedResultsController
-                                                                cellIdentifier:ANDYCellIdentifier];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Task"];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]];
+
+    _dataSource = [[DATASource alloc] initWithTableView:self.tableView
+                                           fetchRequest:fetchRequest
+                                         cellIdentifier:ANDYCellIdentifier
+                                            mainContext:self.dataStack.mainContext];
+
     _dataSource.configureCellBlock = ^(UITableViewCell *cell, Task *task, NSIndexPath *indexPath) {
         cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", task.title, task.date];
     };
@@ -70,7 +72,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (void)createTask
 {
-    [appDelegate.dataStack performInNewBackgroundContext:^(NSManagedObjectContext *backgroundContext) {
+    [self.dataStack performInNewBackgroundContext:^(NSManagedObjectContext *backgroundContext) {
         Task *task = [Task insertInManagedObjectContext:backgroundContext];
         task.title = @"Hello BACKGROUND!";
         task.date = [NSDate date];
@@ -80,7 +82,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (void)createAlternativeTask
 {
-    NSManagedObjectContext *context = [appDelegate.dataStack mainContext];
+    NSManagedObjectContext *context = [self.dataStack mainContext];
     Task *task = [Task insertInManagedObjectContext:context];
     task.title = @"Hello MAIN THREAD!";
     task.date = [NSDate date];

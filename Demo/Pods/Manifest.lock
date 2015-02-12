@@ -1,10 +1,10 @@
 PODS:
-  - ANDYFetchedResultsTableDataSource (1.2)
+  - DATASource (2.1)
 
 DEPENDENCIES:
-  - ANDYFetchedResultsTableDataSource
+  - DATASource
 
 SPEC CHECKSUMS:
-  ANDYFetchedResultsTableDataSource: 44dc7d9f3e69f1f4d12f125ba544573dc0d13572
+  DATASource: 72d31d5ca99837258c0f419af4c20cddea93853c
 
 COCOAPODS: 0.35.0

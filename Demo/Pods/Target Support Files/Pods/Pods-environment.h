@@ -6,9 +6,9 @@
 // project.
 
 
-// ANDYFetchedResultsTableDataSource
-#define COCOAPODS_POD_AVAILABLE_ANDYFetchedResultsTableDataSource
-#define COCOAPODS_VERSION_MAJOR_ANDYFetchedResultsTableDataSource 1
-#define COCOAPODS_VERSION_MINOR_ANDYFetchedResultsTableDataSource 2
-#define COCOAPODS_VERSION_PATCH_ANDYFetchedResultsTableDataSource 0
+// DATASource
+#define COCOAPODS_POD_AVAILABLE_DATASource
+#define COCOAPODS_VERSION_MAJOR_DATASource 2
+#define COCOAPODS_VERSION_MINOR_DATASource 1
+#define COCOAPODS_VERSION_PATCH_DATASource 0
 

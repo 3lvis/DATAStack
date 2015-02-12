@@ -1,29 +1,35 @@
-#import "ANDYFetchedResultsTableDataSource.h"
+#import "DATASource.h"
 
-@interface ANDYFetchedResultsTableDataSource () <NSFetchedResultsControllerDelegate>
+@interface DATASource () <NSFetchedResultsControllerDelegate>
 
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong, readwrite) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSString *cellIdentifier;
 
 @end
 
-@implementation ANDYFetchedResultsTableDataSource
+@implementation DATASource
 
-- (instancetype)initWithTableView:(UITableView *)aTableView
-         fetchedResultsController:(NSFetchedResultsController *)aFetchedResultsController
-                   cellIdentifier:(NSString *)aCellIdentifier
+- (instancetype)initWithTableView:(UITableView *)tableView
+                     fetchRequest:(NSFetchRequest *)fetchRequest
+                   cellIdentifier:(NSString *)cellIdentifier
+                      mainContext:(NSManagedObjectContext *)mainContext
 {
     self = [super init];
     if (!self) return nil;
 
-    self.tableView = aTableView;
-    self.fetchedResultsController = aFetchedResultsController;
-    self.cellIdentifier = aCellIdentifier;
+    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                                               managedObjectContext:mainContext
+                                                                                                 sectionNameKeyPath:nil
+                                                                                                          cacheName:nil];
+
+    _tableView = tableView;
+    _fetchedResultsController = fetchedResultsController;
+    _cellIdentifier = cellIdentifier;
 
     self.tableView.dataSource = self;
     self.fetchedResultsController.delegate = self;
-    [self.fetchedResultsController performFetch:NULL];
+    [self.fetchedResultsController performFetch:nil];
 
     return self;
 }
@@ -84,7 +90,7 @@
 
 #pragma mark NSFetchedResultsControllerDelegate
 
-- (void)controllerWillChangeContent:(NSFetchedResultsController*)controller
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
     if (!self.controllerIsHidden) [self.tableView beginUpdates];
 }
@@ -111,12 +117,12 @@
     switch(type) {
         case NSFetchedResultsChangeInsert:
             [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]
-                     withRowAnimation:UITableViewRowAnimationAutomatic];
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
 
         case NSFetchedResultsChangeDelete:
             [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex]
-                     withRowAnimation:UITableViewRowAnimationAutomatic];
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
         case NSFetchedResultsChangeMove:
         case NSFetchedResultsChangeUpdate:
