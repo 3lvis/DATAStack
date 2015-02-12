@@ -25,6 +25,10 @@ Then in your NSFetchedResultsController backed app (attached to your main contex
 }
 ```
 
+**BOOM, it just works.**
+
+(Hint: Maybe you haven't found the best way to use NSFetchedResultsController, well [here it is](https://github.com/NSElvis/ANDYFetchedResultsTableDataSource).)
+
 ### Installation
 
 **DATAStack** is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
@@ -32,10 +36,6 @@ Then in your NSFetchedResultsController backed app (attached to your main contex
 ```ruby
 pod 'DATAStack', '~> 2.3'
 ```
-
-**BOOM, it just works.**
-
-(Hint: Maybe you haven't found the best way to use NSFetchedResultsController, well [here it is](https://github.com/NSElvis/ANDYFetchedResultsTableDataSource).)
 
 Be Awesome
 ==========
