@@ -102,7 +102,6 @@
     [self waitForExpectationsWithTimeout:5.0f handler:nil];
 }
 
-
 - (void)testDisposableMainContext
 {
     DATAStack *dataStack = [self dataStack];
