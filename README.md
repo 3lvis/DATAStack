@@ -35,7 +35,7 @@ Installation
 **DATAStack** is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'DATAStack', '~> 2.3'
+pod 'DATAStack', '~> 2.4'
 ```
 
 Be Awesome
