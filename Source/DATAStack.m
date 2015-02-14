@@ -7,6 +7,7 @@
 @property (strong, nonatomic, readwrite) NSManagedObjectContext *mainContext;
 @property (strong, nonatomic) NSManagedObjectContext *writerContext;
 @property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (strong, nonatomic) NSPersistentStoreCoordinator *disposablePersistentStoreCoordinator;
 
 @property (nonatomic) DATAStackStoreType storeType;
 @property (nonatomic, copy) NSString *modelName;
@@ -148,6 +149,23 @@
     return _persistentStoreCoordinator;
 }
 
+- (NSPersistentStoreCoordinator *)disposablePersistentStoreCoordinator
+{
+    if (_disposablePersistentStoreCoordinator) return _disposablePersistentStoreCoordinator;
+
+    NSBundle *bundle = (self.modelBundle) ?: [NSBundle mainBundle];
+    NSURL *modelURL = [bundle URLForResource:self.modelName withExtension:@"momd"];
+    if (!modelURL) {
+        NSLog(@"Model with model name {%@} not found in bundle {%@}", self.modelName, bundle);
+        abort();
+    }
+
+    NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    _disposablePersistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+
+    return _disposablePersistentStoreCoordinator;
+}
+
 #pragma mark - Private methods
 
 - (void)persistWithCompletion:(void (^)())completion
@@ -211,18 +229,8 @@
 
 - (NSManagedObjectContext *)newDisposableMainContext
 {
-    NSBundle *bundle = (self.modelBundle) ?: [NSBundle mainBundle];
-    NSURL *modelURL = [bundle URLForResource:self.modelName withExtension:@"momd"];
-    if (!modelURL) {
-        NSLog(@"Model with model name {%@} not found in bundle {%@}", self.modelName, bundle);
-        abort();
-    }
-
-    NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
-
     NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    context.persistentStoreCoordinator = persistentStoreCoordinator;
+    context.persistentStoreCoordinator = self.disposablePersistentStoreCoordinator;
 
     return context;
 }
