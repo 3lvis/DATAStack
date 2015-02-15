@@ -52,6 +52,13 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:NSManagedObjectContextDidSaveNotification
+                                                  object:nil];
+}
+
 #pragma mark - Getters
 
 - (NSManagedObjectContext *)mainContext
