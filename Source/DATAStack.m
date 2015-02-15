@@ -5,6 +5,7 @@
 @interface DATAStack ()
 
 @property (strong, nonatomic, readwrite) NSManagedObjectContext *mainContext;
+@property (strong, nonatomic, readwrite) NSManagedObjectContext *disposableMainContext;
 @property (strong, nonatomic) NSManagedObjectContext *writerContext;
 @property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (strong, nonatomic) NSPersistentStoreCoordinator *disposablePersistentStoreCoordinator;
@@ -233,12 +234,14 @@
     return context;
 }
 
-- (NSManagedObjectContext *)newDisposableMainContext
+- (NSManagedObjectContext *)disposableMainContext
 {
-    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    context.persistentStoreCoordinator = self.disposablePersistentStoreCoordinator;
+    if (_disposableMainContext) return _disposableMainContext;
 
-    return context;
+    _disposableMainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    _disposableMainContext.persistentStoreCoordinator = self.disposablePersistentStoreCoordinator;
+
+    return _disposableMainContext;
 }
 
 #pragma mark - Observers

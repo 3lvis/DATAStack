@@ -40,6 +40,12 @@ typedef NS_ENUM(NSInteger, DATAStackStoreType) {
 @property (strong, nonatomic, readonly) NSManagedObjectContext *mainContext;
 
 /*!
+ * Provides a NSManagedObjectContext appropriate for disposable use on the main
+ * thread.
+ */
+@property (strong, nonatomic, readonly) NSManagedObjectContext *disposableMainContext;
+
+/*!
  * Provides a safe way to perform an operation in a background
  * operation by using a context.
  */
@@ -51,13 +57,6 @@ typedef NS_ENUM(NSInteger, DATAStackStoreType) {
  * \returns A background thread NSManagedObjectContext.
  */
 - (NSManagedObjectContext *)newBackgroundContext;
-
-/*!
- * Provides a new main context attached to a in
- * memory store persistent coordinator.
- * \returns A disposable main thread NSManagedObjectContext.
- */
-- (NSManagedObjectContext *)newDisposableMainContext;
 
 /*!
  * Persists the current in-memory state into the database.

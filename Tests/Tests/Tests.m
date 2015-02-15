@@ -105,8 +105,7 @@
 - (void)testDisposableMainContext
 {
     DATAStack *dataStack = [self dataStack];
-    NSManagedObjectContext *disposableContext = [dataStack newDisposableMainContext];
-    XCTAssertThrowsSpecificNamed([self insertUserInContext:disposableContext], NSException, NSInternalInconsistencyException);
+    XCTAssertThrowsSpecificNamed([self insertUserInContext:dataStack.disposableMainContext], NSException, NSInternalInconsistencyException);
 }
 
 @end
