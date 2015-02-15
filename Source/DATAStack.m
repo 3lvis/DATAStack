@@ -52,6 +52,13 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:NSManagedObjectContextDidSaveNotification
+                                                  object:nil];
+}
+
 #pragma mark - Getters
 
 - (NSManagedObjectContext *)mainContext
@@ -82,10 +89,8 @@
 {
     if (_persistentStoreCoordinator) return _persistentStoreCoordinator;
 
-    NSURL *storeURL = nil;
-
     NSString *filePath = [NSString stringWithFormat:@"%@.sqlite", self.modelName];
-    storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:filePath];
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:filePath];
 
     NSDictionary *options = @{ NSMigratePersistentStoresAutomaticallyOption: @YES,
                                NSInferMappingModelAutomaticallyOption: @YES };
@@ -93,9 +98,11 @@
     NSString *storeType;
 
     switch (self.storeType) {
-        case DATAStackInMemoryStoreType:
+        case DATAStackInMemoryStoreType: {
             storeType = NSInMemoryStoreType;
-            break;
+            storeURL = nil;
+            options = nil;
+        } break;
         case DATAStackSQLiteStoreType:
             storeType = NSSQLiteStoreType;
             break;
@@ -109,7 +116,6 @@
     }
 
     NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
 
     NSError *addPersistentStoreError = nil;
