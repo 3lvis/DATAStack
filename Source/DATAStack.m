@@ -213,14 +213,6 @@
 
 - (void)performInNewBackgroundContext:(void (^)(NSManagedObjectContext *backgroundContext))operation
 {
-    NSManagedObjectContext *context = [self newBackgroundContext];
-    [context performBlock:^{
-        if (operation) operation(context);
-    }];
-}
-
-- (NSManagedObjectContext *)newBackgroundContext
-{
     NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     context.persistentStoreCoordinator = self.persistentStoreCoordinator;
     context.undoManager = nil;
@@ -231,7 +223,9 @@
                                                  name:NSManagedObjectContextDidSaveNotification
                                                object:context];
 
-    return context;
+    [context performBlock:^{
+        if (operation) operation(context);
+    }];
 }
 
 - (NSManagedObjectContext *)disposableMainContext

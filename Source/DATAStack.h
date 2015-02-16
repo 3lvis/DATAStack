@@ -52,13 +52,6 @@ typedef NS_ENUM(NSInteger, DATAStackStoreType) {
 - (void)performInNewBackgroundContext:(void (^)(NSManagedObjectContext *backgroundContext))operation;
 
 /*!
- * Provides a new private context bound to the mainContext for a
- * performant background operation.
- * \returns A background thread NSManagedObjectContext.
- */
-- (NSManagedObjectContext *)newBackgroundContext;
-
-/*!
  * Persists the current in-memory state into the database.
  */
 - (void)persistWithCompletion:(void (^)())completion;
