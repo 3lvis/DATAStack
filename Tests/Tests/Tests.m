@@ -49,24 +49,17 @@
     if (fetchError) NSLog(@"error fetching IDs: %@", [fetchError description]);
     XCTAssertEqual(objects.count, 1);
 
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
     [dataStack persistWithCompletion:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
         NSError *fetchError = nil;
         NSArray *objects = [dataStack.mainContext executeFetchRequest:request error:&fetchError];
         if (fetchError) NSLog(@"error fetching IDs: %@", [fetchError description]);
         XCTAssertEqual(objects.count, 1);
-
-        [expectation fulfill];
     }];
-
-    [self waitForExpectationsWithTimeout:5.0f handler:nil];
 }
 
 - (void)testRequestWithDictionaryResultType
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
-
     DATAStack *dataStack = [self dataStack];
 
     NSManagedObjectContext *context = [dataStack mainContext];
@@ -95,11 +88,7 @@
         NSArray *dictionaryObjects = [context executeFetchRequest:dictionaryRequest error:&dictionaryError];
         if (dictionaryError) NSLog(@"error fetching IDs: %@", [dictionaryError description]);
         XCTAssertEqual(dictionaryObjects.count, 1);
-
-        [expectation fulfill];
     }];
-
-    [self waitForExpectationsWithTimeout:5.0f handler:nil];
 }
 
 - (void)testDisposableMainContext
