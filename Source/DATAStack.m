@@ -232,15 +232,15 @@
                                                  name:NSManagedObjectContextDidSaveNotification
                                                object:context];
 
-    if ([NSObject isUnitTesting]) {
-        [context performBlockAndWait:^{
-            if (operation) operation(context);
-        }];
-    } else {
-        [context performBlock:^{
-            if (operation) operation(context);
-        }];
-    }
+    void (^contextBlock)() = ^() {
+        if (operation) operation(context);
+    };
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [context performSelector:[self performSelectorForBackgroundContext]
+                  withObject:contextBlock];
+#pragma clang diagnostic pop
 }
 
 - (NSManagedObjectContext *)disposableMainContext
@@ -257,19 +257,19 @@
 
 - (void)backgroundContextDidSave:(NSNotification *)backgroundContextNotification
 {
-    if ([NSObject isUnitTesting]) {
-        [self.mainContext performBlockAndWait:^{
-            [self.mainContext mergeChangesFromContextDidSaveNotification:backgroundContextNotification];
-        }];
+    void (^contextBlock)() = ^() {
+        [self.mainContext mergeChangesFromContextDidSaveNotification:backgroundContextNotification];
+    };
+
+    if ([NSThread isMainThread] && ![NSObject isUnitTesting]) {
+        [NSException raise:@"DATASTACK_BACKGROUND_CONTEXT_CREATION_EXCEPTION"
+                    format:@"Background context saved in the main thread. Use context's `performBlock`"];
     } else {
-        if ([NSThread isMainThread]) {
-            [NSException raise:@"DATASTACK_BACKGROUND_CONTEXT_CREATION_EXCEPTION"
-                        format:@"Background context saved in the main thread. Use context's `performBlock`"];
-        } else {
-            [self.mainContext performBlock:^{
-                [self.mainContext mergeChangesFromContextDidSaveNotification:backgroundContextNotification];
-            }];
-        }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        [self.mainContext performSelector:[self performSelectorForBackgroundContext]
+                               withObject:contextBlock];
+#pragma clang diagnostic pop
     }
 }
 
