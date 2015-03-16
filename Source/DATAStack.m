@@ -80,13 +80,7 @@
 {
     if (_writerContext) return _writerContext;
 
-
-    if ([NSObject isUnitTesting]) {
-        _writerContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    } else {
-        _writerContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    }
-
+    _writerContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:[self backgroundConcurrencyType]];
     _writerContext.undoManager = nil;
     _writerContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy;
     _writerContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
@@ -241,13 +235,7 @@
 
 - (void)performInNewBackgroundContext:(void (^)(NSManagedObjectContext *backgroundContext))operation
 {
-    NSManagedObjectContext *context;
-    if ([NSObject isUnitTesting]) {
-        context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    } else {
-        context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    }
-
+    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:[self backgroundConcurrencyType]];
     context.persistentStoreCoordinator = self.persistentStoreCoordinator;
     context.undoManager = nil;
     context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy;
@@ -318,6 +306,11 @@
         NSLog(@"error deleting sqlite file");
         abort();
     }
+}
+
+- (NSManagedObjectContextConcurrencyType)backgroundConcurrencyType
+{
+    return ([NSObject isUnitTesting]) ? NSMainQueueConcurrencyType : NSPrivateQueueConcurrencyType;
 }
 
 @end
