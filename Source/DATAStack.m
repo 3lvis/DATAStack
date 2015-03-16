@@ -182,25 +182,45 @@
     NSManagedObjectContext *writerManagedObjectContext = self.writerContext;
     NSManagedObjectContext *managedObjectContext = self.mainContext;
 
-    [managedObjectContext performBlock:^{
-        NSError *error = nil;
-        if ([managedObjectContext save:&error]) {
-            [writerManagedObjectContext performBlock:^{
-                NSError *parentError = nil;
-                if ([writerManagedObjectContext save:&parentError]) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
+    if ([NSObject isUnitTesting]) {
+        [managedObjectContext performBlockAndWait:^{
+            NSError *error = nil;
+            if ([managedObjectContext save:&error]) {
+                [writerManagedObjectContext performBlockAndWait:^{
+                    NSError *parentError = nil;
+                    if ([writerManagedObjectContext save:&parentError]) {
                         if (completion) completion();
-                    });
-                } else {
-                    NSLog(@"Unresolved error saving parent managed object context %@, %@", error, [error userInfo]);
-                    abort();
-                }
-            }];
-        } else {
-            NSLog(@"Unresolved error saving managed object context %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }];
+                    } else {
+                        NSLog(@"Unresolved error saving parent managed object context %@, %@", error, [error userInfo]);
+                        abort();
+                    }
+                }];
+            } else {
+                NSLog(@"Unresolved error saving managed object context %@, %@", error, [error userInfo]);
+                abort();
+            }
+        }];
+    } else {
+        [managedObjectContext performBlock:^{
+            NSError *error = nil;
+            if ([managedObjectContext save:&error]) {
+                [writerManagedObjectContext performBlock:^{
+                    NSError *parentError = nil;
+                    if ([writerManagedObjectContext save:&parentError]) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (completion) completion();
+                        });
+                    } else {
+                        NSLog(@"Unresolved error saving parent managed object context %@, %@", error, [error userInfo]);
+                        abort();
+                    }
+                }];
+            } else {
+                NSLog(@"Unresolved error saving managed object context %@, %@", error, [error userInfo]);
+                abort();
+            }
+        }];
+    }
 }
 
 #pragma mark - Application's Documents directory
@@ -225,9 +245,15 @@
                                                  name:NSManagedObjectContextDidSaveNotification
                                                object:context];
 
-    [context performBlock:^{
-        if (operation) operation(context);
-    }];
+    if ([NSObject isUnitTesting]) {
+        [context performBlockAndWait:^{
+            if (operation) operation(context);
+        }];
+    } else {
+        [context performBlock:^{
+            if (operation) operation(context);
+        }];
+    }
 }
 
 - (NSManagedObjectContext *)disposableMainContext
@@ -244,13 +270,19 @@
 
 - (void)backgroundContextDidSave:(NSNotification *)backgroundContextNotification
 {
-    if ([NSThread isMainThread] && ![NSObject isUnitTesting]) {
-        [NSException raise:@"DATASTACK_BACKGROUND_CONTEXT_CREATION_EXCEPTION"
-                    format:@"Background context saved in the main thread. Use context's `performBlock`"];
-    } else {
-        [self.mainContext performBlock:^{
+    if ([NSObject isUnitTesting]) {
+        [self.mainContext performBlockAndWait:^{
             [self.mainContext mergeChangesFromContextDidSaveNotification:backgroundContextNotification];
         }];
+    } else {
+        if ([NSThread isMainThread]) {
+            [NSException raise:@"DATASTACK_BACKGROUND_CONTEXT_CREATION_EXCEPTION"
+                        format:@"Background context saved in the main thread. Use context's `performBlock`"];
+        } else {
+            [self.mainContext performBlock:^{
+                [self.mainContext mergeChangesFromContextDidSaveNotification:backgroundContextNotification];
+            }];
+        }
     }
 }
 
