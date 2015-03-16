@@ -179,8 +179,6 @@
 
 - (void)persistWithCompletion:(void (^)())completion
 {
-    SEL selector = ([NSObject isUnitTesting]) ? NSSelectorFromString(@"performBlockAndWait:") : NSSelectorFromString(@"performBlock:");
-
     void (^writerContextBlock)() = ^() {
         NSError *parentError = nil;
         if ([self.writerContext save:&parentError]) {
@@ -196,7 +194,8 @@
         if ([self.mainContext save:&error]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            [self.writerContext performSelector:selector withObject:writerContextBlock];
+            [self.writerContext performSelector:[self performSelectorForBackgroundContext]
+                                     withObject:writerContextBlock];
 #pragma clang diagnostic pop
         } else {
             NSLog(@"Unresolved error saving managed object context %@, %@", error, [error userInfo]);
@@ -206,7 +205,8 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    [self.mainContext performSelector:selector withObject:mainContextBlock];
+    [self.mainContext performSelector:[self performSelectorForBackgroundContext]
+                           withObject:mainContextBlock];
 #pragma clang diagnostic pop
 }
 
@@ -298,6 +298,11 @@
 - (NSManagedObjectContextConcurrencyType)backgroundConcurrencyType
 {
     return ([NSObject isUnitTesting]) ? NSMainQueueConcurrencyType : NSPrivateQueueConcurrencyType;
+}
+
+- (SEL)performSelectorForBackgroundContext
+{
+    return ([NSObject isUnitTesting]) ? NSSelectorFromString(@"performBlockAndWait:") : NSSelectorFromString(@"performBlock:");
 }
 
 @end
