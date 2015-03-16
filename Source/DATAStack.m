@@ -278,7 +278,6 @@
 - (void)drop
 {
     NSPersistentStore *store = [self.persistentStoreCoordinator.persistentStores lastObject];
-    NSURL *storeURL = store.URL;
 
     self.writerContext = nil;
     self.mainContext = nil;
@@ -287,7 +286,7 @@
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
     NSError *error = nil;
-    if ([fileManager fileExistsAtPath:storeURL.path]) [fileManager removeItemAtURL:storeURL error:&error];
+    if ([fileManager fileExistsAtPath:store.URL.path]) [fileManager removeItemAtURL:store.URL error:&error];
 
     if (error) {
         NSLog(@"error deleting sqlite file");
