@@ -80,7 +80,13 @@
 {
     if (_writerContext) return _writerContext;
 
-    _writerContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+
+    if ([NSObject isUnitTesting]) {
+        _writerContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    } else {
+        _writerContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    }
+
     _writerContext.undoManager = nil;
     _writerContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy;
     _writerContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
@@ -189,9 +195,7 @@
                 [writerManagedObjectContext performBlockAndWait:^{
                     NSError *parentError = nil;
                     if ([writerManagedObjectContext save:&parentError]) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            if (completion) completion();
-                        });
+                        if (completion) completion();
                     } else {
                         NSLog(@"Unresolved error saving parent managed object context %@, %@", error, [error userInfo]);
                         abort();
@@ -237,7 +241,13 @@
 
 - (void)performInNewBackgroundContext:(void (^)(NSManagedObjectContext *backgroundContext))operation
 {
-    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    NSManagedObjectContext *context;
+    if ([NSObject isUnitTesting]) {
+        context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    } else {
+        context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    }
+
     context.persistentStoreCoordinator = self.persistentStoreCoordinator;
     context.undoManager = nil;
     context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy;
@@ -272,14 +282,14 @@
 
 - (void)backgroundContextDidSave:(NSNotification *)backgroundContextNotification
 {
-    if ([NSThread isMainThread]) {
-        [NSException raise:@"DATASTACK_BACKGROUND_CONTEXT_CREATION_EXCEPTION"
-                    format:@"Background context saved in the main thread. Use context's `performBlock`"];
+    if ([NSObject isUnitTesting]) {
+        [self.mainContext performBlockAndWait:^{
+            [self.mainContext mergeChangesFromContextDidSaveNotification:backgroundContextNotification];
+        }];
     } else {
-        if ([NSObject isUnitTesting]) {
-            [self.mainContext performBlockAndWait:^{
-                [self.mainContext mergeChangesFromContextDidSaveNotification:backgroundContextNotification];
-            }];
+        if ([NSThread isMainThread]) {
+            [NSException raise:@"DATASTACK_BACKGROUND_CONTEXT_CREATION_EXCEPTION"
+                        format:@"Background context saved in the main thread. Use context's `performBlock`"];
         } else {
             [self.mainContext performBlock:^{
                 [self.mainContext mergeChangesFromContextDidSaveNotification:backgroundContextNotification];

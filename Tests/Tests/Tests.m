@@ -13,8 +13,8 @@
 - (DATAStack *)dataStack
 {
     DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"Model"
-                                                     bundle:[NSBundle bundleForClass:[self class]]
-                                                  storeType:DATAStackInMemoryStoreType];
+                                                         bundle:[NSBundle bundleForClass:[self class]]
+                                                      storeType:DATAStackInMemoryStoreType];
 
     return dataStack;
 }
@@ -56,6 +56,37 @@
         if (fetchError) NSLog(@"error fetching IDs: %@", [fetchError description]);
         XCTAssertEqual(objects.count, 1);
     }];
+}
+
+- (void)testBackgroundContextSave
+{
+    DATAStack *dataStack = [self dataStack];
+
+    XCTAssertNotNil(dataStack);
+
+    __block BOOL hasBeenTested = NO;
+
+    [dataStack performInNewBackgroundContext:^(NSManagedObjectContext *backgroundContext) {
+        [self insertUserInContext:backgroundContext];
+
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
+        NSError *fetchError = nil;
+        NSArray *objects = [backgroundContext executeFetchRequest:request error:&fetchError];
+        if (fetchError) NSLog(@"error fetching IDs: %@", [fetchError description]);
+        XCTAssertEqual(objects.count, 1);
+
+        [dataStack persistWithCompletion:^{
+            NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
+            NSError *fetchError = nil;
+            NSArray *objects = [dataStack.mainContext executeFetchRequest:request error:&fetchError];
+            if (fetchError) NSLog(@"error fetching IDs: %@", [fetchError description]);
+            XCTAssertEqual(objects.count, 1);
+
+            hasBeenTested = YES;
+        }];
+    }];
+
+    XCTAssertTrue(hasBeenTested);
 }
 
 - (void)testRequestWithDictionaryResultType
