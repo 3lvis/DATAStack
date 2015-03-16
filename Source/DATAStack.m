@@ -1,5 +1,7 @@
 #import "DATAStack.h"
 
+#import "NSObject+HYPTesting.h"
+
 @import UIKit;
 
 @interface DATAStack ()
