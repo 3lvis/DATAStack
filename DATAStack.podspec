@@ -21,4 +21,5 @@ Pod::Spec.new do |s|
   s.source_files = 'Source/'
   s.frameworks = 'Foundation', 'CoreData'
   s.requires_arc = true
+  s.dependency 'NSObject-HYPTesting', '~> 1.2'
 end
