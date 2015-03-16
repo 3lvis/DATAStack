@@ -179,48 +179,35 @@
 
 - (void)persistWithCompletion:(void (^)())completion
 {
-    NSManagedObjectContext *writerManagedObjectContext = self.writerContext;
-    NSManagedObjectContext *managedObjectContext = self.mainContext;
+    SEL selector = ([NSObject isUnitTesting]) ? NSSelectorFromString(@"performBlockAndWait:") : NSSelectorFromString(@"performBlock:");
 
-    if ([NSObject isUnitTesting]) {
-        [managedObjectContext performBlockAndWait:^{
-            NSError *error = nil;
-            if ([managedObjectContext save:&error]) {
-                [writerManagedObjectContext performBlockAndWait:^{
-                    NSError *parentError = nil;
-                    if ([writerManagedObjectContext save:&parentError]) {
-                        if (completion) completion();
-                    } else {
-                        NSLog(@"Unresolved error saving parent managed object context %@, %@", error, [error userInfo]);
-                        abort();
-                    }
-                }];
-            } else {
-                NSLog(@"Unresolved error saving managed object context %@, %@", error, [error userInfo]);
-                abort();
-            }
-        }];
-    } else {
-        [managedObjectContext performBlock:^{
-            NSError *error = nil;
-            if ([managedObjectContext save:&error]) {
-                [writerManagedObjectContext performBlock:^{
-                    NSError *parentError = nil;
-                    if ([writerManagedObjectContext save:&parentError]) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            if (completion) completion();
-                        });
-                    } else {
-                        NSLog(@"Unresolved error saving parent managed object context %@, %@", error, [error userInfo]);
-                        abort();
-                    }
-                }];
-            } else {
-                NSLog(@"Unresolved error saving managed object context %@, %@", error, [error userInfo]);
-                abort();
-            }
-        }];
-    }
+    void (^writerContextBlock)() = ^() {
+        NSError *parentError = nil;
+        if ([self.writerContext save:&parentError]) {
+            if (completion) completion();
+        } else {
+            NSLog(@"Unresolved error saving parent managed object context %@, %@", parentError, [parentError userInfo]);
+            abort();
+        }
+    };
+
+    void (^mainContextBlock)() = ^() {
+        NSError *error = nil;
+        if ([self.mainContext save:&error]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+            [self.writerContext performSelector:selector withObject:writerContextBlock];
+#pragma clang diagnostic pop
+        } else {
+            NSLog(@"Unresolved error saving managed object context %@, %@", error, [error userInfo]);
+            abort();
+        }
+    };
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [self.mainContext performSelector:selector withObject:mainContextBlock];
+#pragma clang diagnostic pop
 }
 
 #pragma mark - Application's Documents directory
