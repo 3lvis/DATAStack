@@ -49,13 +49,19 @@
     if (fetchError) NSLog(@"error fetching IDs: %@", [fetchError description]);
     XCTAssertEqual(objects.count, 1);
 
+    __block BOOL synchronousPersistWithCompletion = NO;
+
     [dataStack persistWithCompletion:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
         NSError *fetchError = nil;
         NSArray *objects = [dataStack.mainContext executeFetchRequest:request error:&fetchError];
         if (fetchError) NSLog(@"error fetching IDs: %@", [fetchError description]);
         XCTAssertEqual(objects.count, 1);
+
+        synchronousPersistWithCompletion = YES;
     }];
+
+    XCTAssertTrue(synchronousPersistWithCompletion);
 }
 
 - (void)testBackgroundContextSave
@@ -64,7 +70,8 @@
 
     XCTAssertNotNil(dataStack);
 
-    __block BOOL hasBeenTested = NO;
+    __block BOOL synchronousPerformInNewBackgroundContext = NO;
+    __block BOOL synchronousPersistWithCompletion = NO;
 
     [dataStack performInNewBackgroundContext:^(NSManagedObjectContext *backgroundContext) {
         [self insertUserInContext:backgroundContext];
@@ -75,6 +82,8 @@
         if (fetchError) NSLog(@"error fetching IDs: %@", [fetchError description]);
         XCTAssertEqual(objects.count, 1);
 
+        synchronousPerformInNewBackgroundContext = YES;
+
         [dataStack persistWithCompletion:^{
             NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
             NSError *fetchError = nil;
@@ -82,11 +91,12 @@
             if (fetchError) NSLog(@"error fetching IDs: %@", [fetchError description]);
             XCTAssertEqual(objects.count, 1);
 
-            hasBeenTested = YES;
+            synchronousPersistWithCompletion = YES;
         }];
     }];
 
-    XCTAssertTrue(hasBeenTested);
+    XCTAssertTrue(synchronousPerformInNewBackgroundContext);
+    XCTAssertTrue(synchronousPersistWithCompletion);
 }
 
 - (void)testRequestWithDictionaryResultType
@@ -96,6 +106,8 @@
     NSManagedObjectContext *context = [dataStack mainContext];
 
     [self insertUserInContext:context];
+
+    __block BOOL synchronousPersistWithCompletion = NO;
 
     [dataStack persistWithCompletion:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
@@ -119,7 +131,11 @@
         NSArray *dictionaryObjects = [context executeFetchRequest:dictionaryRequest error:&dictionaryError];
         if (dictionaryError) NSLog(@"error fetching IDs: %@", [dictionaryError description]);
         XCTAssertEqual(dictionaryObjects.count, 1);
+
+        synchronousPersistWithCompletion = YES;
     }];
+
+    XCTAssertTrue(synchronousPersistWithCompletion);
 }
 
 - (void)testDisposableMainContext
