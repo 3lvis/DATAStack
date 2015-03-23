@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "DATAStack"
-  s.version = "3.0.0"
+  s.version = "3.0.1"
   s.summary = "Core Data stack set up boilerplate"
   s.description = <<-DESC
                    * Feeling tired of having Core Data boilerplate in your AppDelegate?
