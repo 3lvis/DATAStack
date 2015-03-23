@@ -182,9 +182,7 @@
     void (^writerContextBlock)() = ^() {
         NSError *parentError = nil;
         if ([self.writerContext save:&parentError]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (completion) completion();
-            });
+            if (completion) completion();
         } else {
             NSLog(@"Unresolved error saving parent managed object context %@, %@", parentError, [parentError userInfo]);
             abort();
@@ -196,8 +194,9 @@
         if ([self.mainContext save:&error]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            [self.writerContext performSelector:[self performSelectorForBackgroundContext]
-                                     withObject:writerContextBlock];
+            [self.writerContext performSelectorOnMainThread:[self performSelectorForBackgroundContext]
+                                                 withObject:writerContextBlock
+                                              waitUntilDone:YES];
 #pragma clang diagnostic pop
         } else {
             NSLog(@"Unresolved error saving managed object context %@, %@", error, [error userInfo]);
