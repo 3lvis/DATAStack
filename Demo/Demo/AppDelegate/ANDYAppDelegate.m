@@ -4,7 +4,7 @@
 
 @interface ANDYAppDelegate ()
 
-@property (nonatomic, strong, readwrite) DATAStack *dataStack;
+@property (nonatomic) DATAStack *dataStack;
 
 @end
 

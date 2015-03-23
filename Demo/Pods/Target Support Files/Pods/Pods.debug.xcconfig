@@ -1,6 +1,6 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/DATASource"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/DATASource"
-OTHER_LDFLAGS = -ObjC -l"Pods-DATASource" -framework "CoreData" -framework "Foundation" -framework "UIKit"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/DATASource" "${PODS_ROOT}/Headers/Public/NSObject-HYPTesting"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/DATASource" -isystem "${PODS_ROOT}/Headers/Public/NSObject-HYPTesting"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"Pods-DATASource" -l"Pods-NSObject-HYPTesting" -framework "CoreData" -framework "Foundation" -framework "UIKit"
 OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
 PODS_ROOT = ${SRCROOT}/Pods

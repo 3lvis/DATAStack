@@ -19,25 +19,9 @@
 		145DEB8D18DB869500830181 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 145DEB8C18DB869500830181 /* main.m */; };
 		145DEB9418DB869500830181 /* Demo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 145DEB9218DB869500830181 /* Demo.xcdatamodeld */; };
 		145DEB9618DB869500830181 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 145DEB9518DB869500830181 /* Images.xcassets */; };
-		145DEB9D18DB869500830181 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 145DEB9C18DB869500830181 /* XCTest.framework */; };
-		145DEB9E18DB869500830181 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 145DEB7E18DB869500830181 /* Foundation.framework */; };
-		145DEB9F18DB869500830181 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 145DEB8218DB869500830181 /* UIKit.framework */; };
-		145DEBA018DB869500830181 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 145DEB8418DB869500830181 /* CoreData.framework */; };
-		145DEBA818DB869500830181 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 145DEBA618DB869500830181 /* InfoPlist.strings */; };
-		145DEBAA18DB869500830181 /* DemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 145DEBA918DB869500830181 /* DemoTests.m */; };
 		145DEBBE18DB86CD00830181 /* ANDYAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 145DEBBB18DB86CD00830181 /* ANDYAppDelegate.m */; };
 		4AAF092227104539808448D7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF32EF5382804A76BD0E9E65 /* libPods.a */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		145DEBA118DB869500830181 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 145DEB7318DB869500830181 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 145DEB7A18DB869500830181;
-			remoteInfo = Demo;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		144906B918DB9ACD00963063 /* _Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Task.h; sourceTree = "<group>"; };
@@ -59,11 +43,7 @@
 		145DEB8E18DB869500830181 /* Demo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Demo-Prefix.pch"; sourceTree = "<group>"; };
 		145DEB9318DB869500830181 /* Demo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Demo.xcdatamodel; sourceTree = "<group>"; };
 		145DEB9518DB869500830181 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		145DEB9B18DB869500830181 /* DemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		145DEB9C18DB869500830181 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		145DEBA518DB869500830181 /* DemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DemoTests-Info.plist"; sourceTree = "<group>"; };
-		145DEBA718DB869500830181 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		145DEBA918DB869500830181 /* DemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoTests.m; sourceTree = "<group>"; };
 		145DEBBA18DB86CD00830181 /* ANDYAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANDYAppDelegate.h; sourceTree = "<group>"; };
 		145DEBBB18DB86CD00830181 /* ANDYAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANDYAppDelegate.m; sourceTree = "<group>"; };
 		38F82A25AF2D9D0AFAEA8487 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -81,17 +61,6 @@
 				145DEB8318DB869500830181 /* UIKit.framework in Frameworks */,
 				145DEB7F18DB869500830181 /* Foundation.framework in Frameworks */,
 				4AAF092227104539808448D7 /* libPods.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		145DEB9818DB869500830181 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				145DEB9D18DB869500830181 /* XCTest.framework in Frameworks */,
-				145DEBA018DB869500830181 /* CoreData.framework in Frameworks */,
-				145DEB9F18DB869500830181 /* UIKit.framework in Frameworks */,
-				145DEB9E18DB869500830181 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,7 +91,6 @@
 			children = (
 				1454ABC81A8CDA8D00412208 /* Source */,
 				145DEB8618DB869500830181 /* Demo */,
-				145DEBA318DB869500830181 /* DemoTests */,
 				145DEB7D18DB869500830181 /* Frameworks */,
 				145DEB7C18DB869500830181 /* Products */,
 				E802C3391A0242A30C902E25 /* Pods */,
@@ -133,7 +101,6 @@
 			isa = PBXGroup;
 			children = (
 				145DEB7B18DB869500830181 /* Demo.app */,
-				145DEB9B18DB869500830181 /* DemoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -170,24 +137,6 @@
 				145DEB8918DB869500830181 /* InfoPlist.strings */,
 				145DEB8C18DB869500830181 /* main.m */,
 				145DEB8E18DB869500830181 /* Demo-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		145DEBA318DB869500830181 /* DemoTests */ = {
-			isa = PBXGroup;
-			children = (
-				145DEBA918DB869500830181 /* DemoTests.m */,
-				145DEBA418DB869500830181 /* Supporting Files */,
-			);
-			path = DemoTests;
-			sourceTree = "<group>";
-		};
-		145DEBA418DB869500830181 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				145DEBA518DB869500830181 /* DemoTests-Info.plist */,
-				145DEBA618DB869500830181 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -252,24 +201,6 @@
 			productReference = 145DEB7B18DB869500830181 /* Demo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		145DEB9A18DB869500830181 /* DemoTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 145DEBB018DB869500830181 /* Build configuration list for PBXNativeTarget "DemoTests" */;
-			buildPhases = (
-				145DEB9718DB869500830181 /* Sources */,
-				145DEB9818DB869500830181 /* Frameworks */,
-				145DEB9918DB869500830181 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				145DEBA218DB869500830181 /* PBXTargetDependency */,
-			);
-			name = DemoTests;
-			productName = DemoTests;
-			productReference = 145DEB9B18DB869500830181 /* DemoTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -279,11 +210,6 @@
 				CLASSPREFIX = ANDY;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Andy;
-				TargetAttributes = {
-					145DEB9A18DB869500830181 = {
-						TestTargetID = 145DEB7A18DB869500830181;
-					};
-				};
 			};
 			buildConfigurationList = 145DEB7618DB869500830181 /* Build configuration list for PBXProject "Demo" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -298,7 +224,6 @@
 			projectRoot = "";
 			targets = (
 				145DEB7A18DB869500830181 /* Demo */,
-				145DEB9A18DB869500830181 /* DemoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -310,14 +235,6 @@
 			files = (
 				145DEB8B18DB869500830181 /* InfoPlist.strings in Resources */,
 				145DEB9618DB869500830181 /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		145DEB9918DB869500830181 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				145DEBA818DB869500830181 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,37 +288,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		145DEB9718DB869500830181 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				145DEBAA18DB869500830181 /* DemoTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		145DEBA218DB869500830181 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 145DEB7A18DB869500830181 /* Demo */;
-			targetProxy = 145DEBA118DB869500830181 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		145DEB8918DB869500830181 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				145DEB8A18DB869500830181 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		145DEBA618DB869500830181 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				145DEBA718DB869500830181 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -521,46 +414,6 @@
 			};
 			name = Release;
 		};
-		145DEBB118DB869500830181 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Demo.app/Demo";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Demo/Demo-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "DemoTests/DemoTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		145DEBB218DB869500830181 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Demo.app/Demo";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Demo/Demo-Prefix.pch";
-				INFOPLIST_FILE = "DemoTests/DemoTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -578,15 +431,6 @@
 			buildConfigurations = (
 				145DEBAE18DB869500830181 /* Debug */,
 				145DEBAF18DB869500830181 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		145DEBB018DB869500830181 /* Build configuration list for PBXNativeTarget "DemoTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				145DEBB118DB869500830181 /* Debug */,
-				145DEBB218DB869500830181 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

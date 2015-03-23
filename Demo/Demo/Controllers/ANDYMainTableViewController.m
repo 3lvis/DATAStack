@@ -8,9 +8,9 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 @interface ANDYMainTableViewController ()
 
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-@property (nonatomic, strong) DATASource *dataSource;
-@property (nonatomic, strong) DATAStack *dataStack;
+@property (nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic) DATASource *dataSource;
+@property (nonatomic) DATAStack *dataStack;
 
 @end
 
