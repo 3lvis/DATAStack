@@ -1,6 +1,0 @@
-#include "Pods-DATASource.xcconfig"
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/DATASource" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/DATASource" "${PODS_ROOT}/Headers/Public/NSObject-HYPTesting"
-OTHER_LDFLAGS = ${PODS_DATASOURCE_OTHER_LDFLAGS} -ObjC
-PODS_ROOT = ${SRCROOT}
-SKIP_INSTALL = YES
