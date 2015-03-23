@@ -37,13 +37,13 @@ typedef NS_ENUM(NSInteger, DATAStackStoreType) {
  * Provides a NSManagedObjectContext appropriate for use on the main
  * thread.
  */
-@property (strong, nonatomic, readonly) NSManagedObjectContext *mainContext;
+@property (nonatomic, readonly) NSManagedObjectContext *mainContext;
 
 /*!
  * Provides a NSManagedObjectContext appropriate for disposable use on the main
  * thread.
  */
-@property (strong, nonatomic, readonly) NSManagedObjectContext *disposableMainContext;
+@property (nonatomic, readonly) NSManagedObjectContext *disposableMainContext;
 
 /*!
  * Provides a safe way to perform an operation in a background

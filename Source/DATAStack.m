@@ -6,15 +6,15 @@
 
 @interface DATAStack ()
 
-@property (strong, nonatomic, readwrite) NSManagedObjectContext *mainContext;
-@property (strong, nonatomic, readwrite) NSManagedObjectContext *disposableMainContext;
-@property (strong, nonatomic) NSManagedObjectContext *writerContext;
-@property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (strong, nonatomic) NSPersistentStoreCoordinator *disposablePersistentStoreCoordinator;
+@property (nonatomic) NSManagedObjectContext *mainContext;
+@property (nonatomic) NSManagedObjectContext *disposableMainContext;
+@property (nonatomic) NSManagedObjectContext *writerContext;
+@property (nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic) NSPersistentStoreCoordinator *disposablePersistentStoreCoordinator;
 
 @property (nonatomic) DATAStackStoreType storeType;
 @property (nonatomic, copy) NSString *modelName;
-@property (nonatomic, strong) NSBundle *modelBundle;
+@property (nonatomic) NSBundle *modelBundle;
 
 @end
 
