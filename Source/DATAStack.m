@@ -194,8 +194,9 @@
         if ([self.mainContext save:&error]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            [self.writerContext performSelector:[self performSelectorForBackgroundContext]
-                                     withObject:writerContextBlock];
+            [self.writerContext performSelectorOnMainThread:[self performSelectorForBackgroundContext]
+                                                 withObject:writerContextBlock
+                                              waitUntilDone:YES];
 #pragma clang diagnostic pop
         } else {
             NSLog(@"Unresolved error saving managed object context %@, %@", error, [error userInfo]);
