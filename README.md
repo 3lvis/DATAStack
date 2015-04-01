@@ -3,6 +3,16 @@
 This is class that helps you to aliviate the Core Data boilerplate. Now you can go to your AppDelegate remove all the Core Data related code and replace it with [an instance of DATAStack](https://github.com/NSElvis/DATAStack/blob/master/Demo/Demo/AppDelegate/ANDYAppDelegate.m#L27).
 
 ``` objc
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+    [self.dataStack persistWithCompletion:nil];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    [self.dataStack persistWithCompletion:nil];
+}
+
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     [self.dataStack persistWithCompletion:nil];
