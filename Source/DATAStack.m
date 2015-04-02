@@ -146,8 +146,6 @@
                           otherButtonTitles:nil] show];
     }
 
-    assert([[NSFileManager defaultManager] fileExistsAtPath:[storeURL path]]);
-
     NSError *excludeSQLiteFileFromBackupsError = nil;
     if (![storeURL setResourceValue:@YES
                              forKey:NSURLIsExcludedFromBackupKey
