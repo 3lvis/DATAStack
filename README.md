@@ -1,4 +1,4 @@
-![DATAStack](https://github.com/NSElvis/DATAStack/blob/master/Images/datastack-logo.png)
+![DATAStack](https://github.com/3lvis/DATAStack/blob/master/Images/datastack-logo.png)
 
 This is class that helps you to alleviate the Core Data boilerplate. Now you can go to your AppDelegate remove all the Core Data related code and replace it with [an instance of DATAStack](https://github.com/3lvis/DATAStack/blob/master/Demo/Demo/AppDelegate/ANDYAppDelegate.m#L19).
 
@@ -37,7 +37,7 @@ Then in your DATASource backed app (attached to your main context). You can do t
 
 **BOOM, it just works.**
 
-_(Hint: Maybe you haven't found the best way to use NSFetchedResultsController, well [here it is](https://github.com/NSElvis/DATASource).)_
+_(Hint: Maybe you haven't found the best way to use NSFetchedResultsController, well [here it is](https://github.com/3lvis/DATASource).)_
 
 Installation
 ===========
@@ -45,7 +45,7 @@ Installation
 **DATAStack** is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'DATAStack', '~> 2.4.2'
+pod 'DATAStack'
 ```
 
 Be Awesome
