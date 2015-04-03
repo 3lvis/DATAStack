@@ -1,4 +1,4 @@
-![DATAStack](https://github.com/3lvis/DATAStack/blob/master/Images/datastack-logo.png)
+![DATAStack](https://raw.githubusercontent.com/3lvis/DATAStack/master/Images/datastack-logo.png)
 
 This is class that helps you to alleviate the Core Data boilerplate. Now you can go to your AppDelegate remove all the Core Data related code and replace it with [an instance of DATAStack](https://github.com/3lvis/DATAStack/blob/master/Demo/Demo/AppDelegate/ANDYAppDelegate.m#L19).
 
