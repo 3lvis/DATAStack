@@ -6,16 +6,16 @@ Pod::Spec.new do |s|
                    * Feeling tired of having Core Data boilerplate in your AppDelegate?
                    * No more.
                    DESC
-  s.homepage = "https://github.com/NSElvis/DATAStack"
+  s.homepage = "https://github.com/3lvis/DATAStack"
   s.license = {
     :type => 'MIT',
     :file => 'LICENSE.md'
   }
   s.author = { "Elvis Nunez" => "elvisnunez@me.com" }
-  s.social_media_url = "http://twitter.com/NSElvis"
+  s.social_media_url = "http://twitter.com/3lvis"
   s.platform = :ios, '7.0'
   s.source = {
-    :git => 'https://github.com/NSElvis/DATAStack.git',
+    :git => 'https://github.com/3lvis/DATAStack.git',
     :tag => s.version.to_s
   }
   s.source_files = 'Source/'
