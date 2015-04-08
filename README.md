@@ -30,7 +30,7 @@ Then in your DATASource backed app (attached to your main context). You can do t
         Task *task = [Task insertInManagedObjectContext:backgroundContext];
         task.title = @"Hello!";
         task.date = [NSDate date];
-        [context save:nil];
+        [backgroundContext save:nil];
     }];
 }
 ```
