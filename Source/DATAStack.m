@@ -147,11 +147,16 @@
     }
 
     NSError *excludeSQLiteFileFromBackupsError = nil;
-    if (![storeURL setResourceValue:@YES
-                             forKey:NSURLIsExcludedFromBackupKey
-                              error:&excludeSQLiteFileFromBackupsError]) {
-        NSLog(@"Excluding SQLite file from backup caused an error: %@", [excludeSQLiteFileFromBackupsError description]);
-    };
+    BOOL shouldExcludeSQLiteFromBackup = (self.storeType == DATAStackSQLiteStoreType &&
+                                          ![NSObject isUnitTesting]);
+    if (shouldExcludeSQLiteFromBackup) {
+        [storeURL setResourceValue:@YES
+                            forKey:NSURLIsExcludedFromBackupKey
+                             error:&excludeSQLiteFileFromBackupsError];
+        if (excludeSQLiteFileFromBackupsError) {
+            NSLog(@"Excluding SQLite file from backup caused an error: %@", [excludeSQLiteFileFromBackupsError description]);
+        }
+    }
 
     return _persistentStoreCoordinator;
 }
