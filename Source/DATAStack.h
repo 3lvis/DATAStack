@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, DATAStackStoreType) {
 - (instancetype)initWithModelName:(NSString *)modelName;
 
 /*!
- * @discussion Creates an instance of DATAStack with SQLiteStoreType.
+ * @discussion Creates an instance of DATAStack with the defined DATAStackStoreType (SQLite or In-memory).
  * @param modelName The name of the Core Data model.
  * @param bundle The bundle where the Core Data model is located.
  * @param storeType The store type, either @c SQLite or @c InMemory.
