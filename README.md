@@ -33,7 +33,7 @@ Is recommendable that **DATAStack** gets persisted when this three methods get c
 
 ## Main Thread NSManagedObjectContext
 
-You can easily access the NSManagedObjectContext attached to the main thread.
+Getting access to the NSManagedObjectContext attached to the main thread is as simple as using the `mainContext` property.
 
 ``` objc
 self.dataStack.mainContext
@@ -68,7 +68,7 @@ Deleting the `.sqlite` file and resetting the state of your **DATAStack** is as 
 
 **DATAStack** is optimized for unit testing and it runs synchronously in testing enviroments. Hopefully you'll have to use less XCTestExpectations now.
 
-You can easily create a stack that uses in memory store like this if your Core Data model is located in your app bundle:
+You can create a stack that uses in memory store like this if your Core Data model is located in your app bundle:
 
 ```objc
 self.dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"
