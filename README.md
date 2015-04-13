@@ -1,10 +1,10 @@
 ![DATAStack](https://raw.githubusercontent.com/3lvis/DATAStack/master/Images/datastack-logo.png)
 
-DATAStack helps you to alleviate the Core Data boilerplate. Now you can go to your AppDelegate remove all the Core Data related code and replace it with [an instance of DATAStack](https://github.com/3lvis/DATAStack/blob/master/Demo/Demo/AppDelegate/ANDYAppDelegate.m#L19).
+**DATAStack** helps you to alleviate the Core Data boilerplate. Now you can go to your AppDelegate remove all the Core Data related code and replace it with [an instance of DATAStack](https://github.com/3lvis/DATAStack/blob/master/Demo/Demo/AppDelegate/ANDYAppDelegate.m#L19).
 
 ## Initialization
 
-You can easily initialize a new instance of DATAStack with just your Core Data Model name (xcdatamodel).
+You can easily initialize a new instance of **DATAStack** with just your Core Data Model name (xcdatamodel).
 
 ``` objc
 self.dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"];
@@ -12,7 +12,7 @@ self.dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"];
 
 ## Set up
 
-Is recommendable that `DATAStack` gets persisted when this three methods get called in your `AppDelegate`.
+Is recommendable that **DATAStack** gets persisted when this three methods get called in your `AppDelegate`.
 
 ``` objc
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -58,7 +58,7 @@ You can easily create a new background NSManagedObjectContext for data processin
 
 ## Clean up
 
-Deleting the `.sqlite` file and resetting the state of your DATAStack is as simple as just calling `drop`.
+Deleting the `.sqlite` file and resetting the state of your **DATAStack** is as simple as just calling `drop`.
 
 ```objc
 [self.dataStack drop];
@@ -66,7 +66,7 @@ Deleting the `.sqlite` file and resetting the state of your DATAStack is as simp
 
 ## Testing
 
-DATAStack is optimized for unit testing and it runs synchronously in testing enviroments. Hopefully you'll have to use less XCTestExpectations now.
+**DATAStack** is optimized for unit testing and it runs synchronously in testing enviroments. Hopefully you'll have to use less XCTestExpectations now.
 
 You can easily create a stack that uses in memory store like this if your Core Data model is located in your app bundle:
 
