@@ -99,3 +99,11 @@ pod 'DATAStack'
 If something looks stupid, please create a friendly and constructive issue, getting your feedback would be awesome. 
 
 Have a great day.
+
+## Author
+
+Elvis Nuñez, [@3lvis](https://twitter.com/3lvis)
+
+## License
+
+**DATAStack** is available under the MIT license. See the LICENSE file for more info.
