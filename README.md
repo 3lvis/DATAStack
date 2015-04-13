@@ -96,4 +96,6 @@ pod 'DATAStack'
 
 ## Be Awesome
 
-If something looks stupid, please create a friendly and constructive issue, getting your feedback would be awesome. Have a great day.
+If something looks stupid, please create a friendly and constructive issue, getting your feedback would be awesome. 
+
+Have a great day.
