@@ -95,6 +95,18 @@
     NSString *filePath = [NSString stringWithFormat:@"%@.sqlite", self.modelName];
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:filePath];
 
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[storeURL path]]) {
+        NSString *preloadedPath = [[NSBundle mainBundle] pathForResource:self.modelName ofType:@"sqlite"];
+        if (preloadedPath) {
+            NSURL *preloadURL = [NSURL fileURLWithPath:preloadedPath];
+            NSError *error = nil;
+
+            if (![[NSFileManager defaultManager] copyItemAtURL:preloadURL toURL:storeURL error:&error]) {
+                NSLog(@"Oops, could not copy preloaded data. Error: %@", [error description]);
+            }
+        }
+    }
+
     NSDictionary *options = @{ NSMigratePersistentStoresAutomaticallyOption: @YES,
                                NSInferMappingModelAutomaticallyOption: @YES };
 
