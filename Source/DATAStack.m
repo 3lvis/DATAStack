@@ -96,11 +96,14 @@
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:filePath];
 
     if (![[NSFileManager defaultManager] fileExistsAtPath:[storeURL path]]) {
-        NSURL *preloadURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:self.modelName ofType:@"sqlite"]];
-        NSError *error = nil;
+        NSString *preloadedPath = [[NSBundle mainBundle] pathForResource:self.modelName ofType:@"sqlite"];
+        if (preloadedPath) {
+            NSURL *preloadURL = [NSURL fileURLWithPath:preloadedPath];
+            NSError *error = nil;
 
-        if (![[NSFileManager defaultManager] copyItemAtURL:preloadURL toURL:storeURL error:&error]) {
-            NSLog(@"Oops, could not copy preloaded data. Error: %@", [error description]);
+            if (![[NSFileManager defaultManager] copyItemAtURL:preloadURL toURL:storeURL error:&error]) {
+                NSLog(@"Oops, could not copy preloaded data. Error: %@", [error description]);
+            }
         }
     }
 
