@@ -296,20 +296,39 @@
 
 #pragma mark - Test
 
-- (void)drop
-{
+- (void)drop {
     NSPersistentStore *store = [self.persistentStoreCoordinator.persistentStores lastObject];
+    NSURL *storeURL = store.URL;
+    NSString *sqliteFile = [storeURL.path stringByDeletingPathExtension];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
 
     self.writerContext = nil;
     self.mainContext = nil;
     self.persistentStoreCoordinator = nil;
 
-    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *shm = [NSString stringWithFormat:@"%@.sqlite-shm", sqliteFile];
+    NSError *removeShmError = nil;
+    if ([fileManager fileExistsAtPath:shm]) {
+        [fileManager removeItemAtURL:[NSURL fileURLWithPath:shm] error:&removeShmError];
+    }
+    if (removeShmError) {
+        NSLog(@"Could not delete persitent store shm: %@", removeShmError.localizedDescription);
+    }
 
-    NSError *error = nil;
-    if ([fileManager fileExistsAtPath:store.URL.path]) [fileManager removeItemAtURL:store.URL error:&error];
+    NSString *wal = [NSString stringWithFormat:@"%@.sqlite-wal", sqliteFile];
+    NSError *removeWalError = nil;
+    if ([fileManager fileExistsAtPath:wal]) {
+        [fileManager removeItemAtURL:[NSURL fileURLWithPath:wal] error:&removeWalError];
+    }
+    if (removeWalError) {
+        NSLog(@"Could not delete persitent store wal: %@", removeWalError.localizedDescription);
+    }
 
-    if (error) {
+    NSError *removeStoreURLError = nil;
+    if ([fileManager fileExistsAtPath:storeURL.path]) {
+        [fileManager removeItemAtURL:storeURL error:&removeStoreURLError];
+    }
+    if (removeStoreURLError) {
         NSLog(@"error deleting sqlite file");
         abort();
     }
