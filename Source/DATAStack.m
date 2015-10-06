@@ -186,6 +186,15 @@
 
     NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     _disposablePersistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+    NSError *addPersistentStoreError = nil;
+    [_disposablePersistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType
+                                                        configuration:nil
+                                                                  URL:nil
+                                                              options:nil
+                                                                error:&addPersistentStoreError];
+    if (addPersistentStoreError) {
+        NSLog(@"There was a problem adding the persistent store to the disposable persistent coordinator: %@", [addPersistentStoreError description]);
+    }
 
     return _disposablePersistentStoreCoordinator;
 }
