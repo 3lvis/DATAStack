@@ -138,10 +138,4 @@
     XCTAssertTrue(synchronousPersistWithCompletion);
 }
 
-- (void)testDisposableMainContext
-{
-    DATAStack *dataStack = [self dataStack];
-    XCTAssertThrowsSpecificNamed([self insertUserInContext:dataStack.disposableMainContext], NSException, NSInternalInconsistencyException);
-}
-
 @end
