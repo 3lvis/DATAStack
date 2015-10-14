@@ -20,7 +20,7 @@
 		145DEB9418DB869500830181 /* Demo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 145DEB9218DB869500830181 /* Demo.xcdatamodeld */; };
 		145DEB9618DB869500830181 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 145DEB9518DB869500830181 /* Images.xcassets */; };
 		145DEBBE18DB86CD00830181 /* ANDYAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 145DEBBB18DB86CD00830181 /* ANDYAppDelegate.m */; };
-		4AAF092227104539808448D7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF32EF5382804A76BD0E9E65 /* libPods.a */; };
+		A9269267690ECE0BD4EDC90C /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90FBECD9F277D8B540BC46D4 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,8 +47,8 @@
 		145DEBBA18DB86CD00830181 /* ANDYAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANDYAppDelegate.h; sourceTree = "<group>"; };
 		145DEBBB18DB86CD00830181 /* ANDYAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANDYAppDelegate.m; sourceTree = "<group>"; };
 		38F82A25AF2D9D0AFAEA8487 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		90FBECD9F277D8B540BC46D4 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA59B627DD3AAAF9B5BF7969 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		CF32EF5382804A76BD0E9E65 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +60,7 @@
 				145DEB8518DB869500830181 /* CoreData.framework in Frameworks */,
 				145DEB8318DB869500830181 /* UIKit.framework in Frameworks */,
 				145DEB7F18DB869500830181 /* Foundation.framework in Frameworks */,
-				4AAF092227104539808448D7 /* libPods.a in Frameworks */,
+				A9269267690ECE0BD4EDC90C /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,7 +113,7 @@
 				145DEB8218DB869500830181 /* UIKit.framework */,
 				145DEB8418DB869500830181 /* CoreData.framework */,
 				145DEB9C18DB869500830181 /* XCTest.framework */,
-				CF32EF5382804A76BD0E9E65 /* libPods.a */,
+				90FBECD9F277D8B540BC46D4 /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -191,6 +191,7 @@
 				145DEB7818DB869500830181 /* Frameworks */,
 				145DEB7918DB869500830181 /* Resources */,
 				86AC48254EAE4842A39A3A32 /* Copy Pods Resources */,
+				FA83D9A7E01C6E203F539B5D /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -208,7 +209,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = ANDY;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Andy;
 			};
 			buildConfigurationList = 145DEB7618DB869500830181 /* Build configuration list for PBXProject "Demo" */;
@@ -271,6 +272,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		FA83D9A7E01C6E203F539B5D /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -320,6 +336,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -334,7 +351,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -366,7 +383,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -382,7 +399,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Demo/Demo-Prefix.pch";
 				INFOPLIST_FILE = "Demo/Demo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.weekendcompany.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WARNING_CFLAGS = (
 					"-Weverything",
@@ -403,7 +421,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Demo/Demo-Prefix.pch";
 				INFOPLIST_FILE = "Demo/Demo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.weekendcompany.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WARNING_CFLAGS = (
 					"-Weverything",

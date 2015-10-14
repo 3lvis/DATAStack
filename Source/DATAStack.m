@@ -1,6 +1,6 @@
 #import "DATAStack.h"
 
-#import "NSObject+HYPTesting.h"
+@import TestCheck;
 
 @import UIKit;
 
@@ -95,6 +95,8 @@
     NSString *filePath = [NSString stringWithFormat:@"%@.sqlite", self.modelName];
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:filePath];
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnullable-to-nonnull-conversion"
     if (![[NSFileManager defaultManager] fileExistsAtPath:[storeURL path]]) {
         NSString *preloadedPath = [[NSBundle mainBundle] pathForResource:self.modelName ofType:@"sqlite"];
         if (preloadedPath) {
@@ -106,6 +108,7 @@
             }
         }
     }
+#pragma clang diagnostic pop
 
     NSDictionary *options = @{ NSMigratePersistentStoresAutomaticallyOption: @YES,
                                NSInferMappingModelAutomaticallyOption: @YES };
@@ -139,7 +142,8 @@
                                                              URL:storeURL
                                                          options:options
                                                            error:&addPersistentStoreError]) {
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnullable-to-nonnull-conversion"
         [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:nil];
         if (![_persistentStoreCoordinator addPersistentStoreWithType:storeType
                                                        configuration:nil
@@ -149,6 +153,7 @@
             NSLog(@"Unresolved error %@, %@", addPersistentStoreError, [addPersistentStoreError userInfo]);
             abort();
         }
+#pragma clang diagnostic pop
 
         NSString *alertTitle = NSLocalizedString(@"Error encountered while reading the database. Please allow all the data to download again.", @"[Error] Message to show when the database is corrupted");
         [[[UIAlertView alloc] initWithTitle:alertTitle
@@ -160,7 +165,7 @@
 
     NSError *excludeSQLiteFileFromBackupsError = nil;
     BOOL shouldExcludeSQLiteFromBackup = (self.storeType == DATAStackSQLiteStoreType &&
-                                          ![NSObject isUnitTesting]);
+                                          ![Test isRunning]);
     if (shouldExcludeSQLiteFromBackup) {
         [storeURL setResourceValue:@YES
                             forKey:NSURLIsExcludedFromBackupKey
@@ -206,7 +211,7 @@
     void (^writerContextBlock)() = ^() {
         NSError *parentError = nil;
         if ([self.writerContext save:&parentError]) {
-            if ([NSObject isUnitTesting]) {
+            if ([Test isRunning]) {
                 if (completion) completion();
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -291,7 +296,7 @@
         [self.mainContext mergeChangesFromContextDidSaveNotification:backgroundContextNotification];
     };
 
-    if ([NSThread isMainThread] && ![NSObject isUnitTesting]) {
+    if ([NSThread isMainThread] && ![Test isRunning]) {
         [NSException raise:@"DATASTACK_BACKGROUND_CONTEXT_CREATION_EXCEPTION"
                     format:@"Background context saved in the main thread. Use context's `performBlock`"];
     } else {
@@ -333,10 +338,14 @@
         NSLog(@"Could not delete persitent store wal: %@", removeWalError.localizedDescription);
     }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnullable-to-nonnull-conversion"
     NSError *removeStoreURLError = nil;
     if ([fileManager fileExistsAtPath:storeURL.path]) {
         [fileManager removeItemAtURL:storeURL error:&removeStoreURLError];
     }
+#pragma clang diagnostic pop
+
     if (removeStoreURLError) {
         NSLog(@"error deleting sqlite file");
         abort();
@@ -345,12 +354,12 @@
 
 - (NSManagedObjectContextConcurrencyType)backgroundConcurrencyType
 {
-    return ([NSObject isUnitTesting]) ? NSMainQueueConcurrencyType : NSPrivateQueueConcurrencyType;
+    return ([Test isRunning]) ? NSMainQueueConcurrencyType : NSPrivateQueueConcurrencyType;
 }
 
 - (SEL)performSelectorForBackgroundContext
 {
-    return ([NSObject isUnitTesting]) ? NSSelectorFromString(@"performBlockAndWait:") : NSSelectorFromString(@"performBlock:");
+    return ([Test isRunning]) ? NSSelectorFromString(@"performBlockAndWait:") : NSSelectorFromString(@"performBlock:");
 }
 
 @end
