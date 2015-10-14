@@ -1,7 +1,6 @@
 @import Foundation;
 @import CoreData;
 
-
 typedef NS_ENUM(NSInteger, DATAStackStoreType) {
     DATAStackInMemoryStoreType = 0,
     DATAStackSQLiteStoreType

@@ -2,8 +2,6 @@
 
 @import TestCheck;
 
-@import UIKit;
-
 @interface DATAStack ()
 
 @property (nonatomic) NSManagedObjectContext *mainContext;
@@ -155,12 +153,8 @@
         }
 #pragma clang diagnostic pop
 
-        NSString *alertTitle = NSLocalizedString(@"Error encountered while reading the database. Please allow all the data to download again.", @"[Error] Message to show when the database is corrupted");
-        [[[UIAlertView alloc] initWithTitle:alertTitle
-                                    message:nil
-                                   delegate:nil
-                          cancelButtonTitle:@"OK"
-                          otherButtonTitles:nil] show];
+        [NSException raise:@"DATASTACK_NON_VALID_MIGRATION_OCURRED"
+                    format:@"Error encountered while reading the database. Please allow all the data to download again."];
     }
 
     NSError *excludeSQLiteFileFromBackupsError = nil;
