@@ -15,18 +15,15 @@ self.dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"];
 Is recommendable that **DATAStack** gets persisted when this three methods get called in your `AppDelegate`.
 
 ``` objc
-- (void)applicationWillResignActive:(UIApplication *)application
-{
+- (void)applicationWillResignActive:(UIApplication *)application {
     [self.dataStack persistWithCompletion:nil];
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
+- (void)applicationDidEnterBackground:(UIApplication *)application {
     [self.dataStack persistWithCompletion:nil];
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application
-{
+- (void)applicationWillTerminate:(UIApplication *)application {
     [self.dataStack persistWithCompletion:nil];
 }
 ```
@@ -44,8 +41,7 @@ self.dataStack.mainContext
 You can easily create a new background NSManagedObjectContext for data processing. This block is completely asynchronous and will be run on a background thread.
 
 ``` objc
-- (void)createTask
-{
+- (void)createTask {
     [self.dataStack performInNewBackgroundContext:^(NSManagedObjectContext *backgroundContext) {
         Task *task = [Task insertInManagedObjectContext:backgroundContext];
         task.title = @"Hello!";

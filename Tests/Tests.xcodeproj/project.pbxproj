@@ -7,11 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		141BA4981A862AF200E5A0C8 /* DATAStackOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 141BA4971A862AF200E5A0C8 /* DATAStackOld.m */; };
 		141BA4A11A862B5300E5A0C8 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 141BA49F1A862B5300E5A0C8 /* Model.xcdatamodeld */; };
-		141BA4A41A862BE700E5A0C8 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 141BA4A31A862BE700E5A0C8 /* User.m */; };
+		143884421BD415810057DAA3 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143884411BD415810057DAA3 /* Tests.swift */; settings = {ASSET_TAGS = (); }; };
 		14B564731A06D87B00342CDA /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = 14B564721A06D87B00342CDA /* .travis.yml */; };
-		14C4182E1A01919C00636FD6 /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 14C4182D1A01919C00636FD6 /* Tests.m */; };
 		14C4183D1A019A1500636FD6 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14C418391A019A1500636FD6 /* LICENSE.md */; };
 		14C4183E1A019A1500636FD6 /* DATAStack.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 14C4183A1A019A1500636FD6 /* DATAStack.podspec */; };
 		14EEFBA41BD2FC3000DBAAF0 /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EEFBA31BD2FC3000DBAAF0 /* DATAStack.swift */; settings = {ASSET_TAGS = (); }; };
@@ -19,15 +17,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		141BA4961A862AF200E5A0C8 /* DATAStackOld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATAStackOld.h; sourceTree = "<group>"; };
-		141BA4971A862AF200E5A0C8 /* DATAStackOld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATAStackOld.m; sourceTree = "<group>"; };
 		141BA4A01A862B5300E5A0C8 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		141BA4A21A862BE700E5A0C8 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		141BA4A31A862BE700E5A0C8 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		143884411BD415810057DAA3 /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		14B564721A06D87B00342CDA /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .travis.yml; path = ../.travis.yml; sourceTree = "<group>"; };
 		14C418261A01919C00636FD6 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		14C4182C1A01919C00636FD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		14C4182D1A01919C00636FD6 /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		14C418381A019A1500636FD6 /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CONTRIBUTING.md; path = ../CONTRIBUTING.md; sourceTree = "<group>"; };
 		14C418391A019A1500636FD6 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
 		14C4183A1A019A1500636FD6 /* DATAStack.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; name = DATAStack.podspec; path = ../DATAStack.podspec; sourceTree = "<group>"; };
@@ -74,10 +68,8 @@
 			isa = PBXGroup;
 			children = (
 				141BA49F1A862B5300E5A0C8 /* Model.xcdatamodeld */,
-				141BA4A21A862BE700E5A0C8 /* User.h */,
-				141BA4A31A862BE700E5A0C8 /* User.m */,
-				14C4182D1A01919C00636FD6 /* Tests.m */,
 				14C4182B1A01919C00636FD6 /* Supporting Files */,
+				143884411BD415810057DAA3 /* Tests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -93,8 +85,6 @@
 		14C418371A01974300636FD6 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				141BA4961A862AF200E5A0C8 /* DATAStackOld.h */,
-				141BA4971A862AF200E5A0C8 /* DATAStackOld.m */,
 				14EEFBA31BD2FC3000DBAAF0 /* DATAStack.swift */,
 			);
 			name = Source;
@@ -251,10 +241,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				141BA4A41A862BE700E5A0C8 /* User.m in Sources */,
+				143884421BD415810057DAA3 /* Tests.swift in Sources */,
 				14EEFBA41BD2FC3000DBAAF0 /* DATAStack.swift in Sources */,
-				141BA4981A862AF200E5A0C8 /* DATAStackOld.m in Sources */,
-				14C4182E1A01919C00636FD6 /* Tests.m in Sources */,
 				141BA4A11A862B5300E5A0C8 /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -362,10 +350,7 @@
 			baseConfigurationReference = C3213069D0C637A19BD8D76E /* Pods.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -384,10 +369,7 @@
 			baseConfigurationReference = FF5510A6A9AA0338758290F9 /* Pods.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nselvis.$(PRODUCT_NAME:rfc1034identifier)";

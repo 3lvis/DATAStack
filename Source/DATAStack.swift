@@ -2,20 +2,20 @@ import Foundation
 import CoreData
 import TestCheck
 
-public class DATAStack: NSObject {
+@objc public class DATAStack: NSObject {
     // MARK: - Enums
 
-    public enum StoreType {
-        case InMemoryStoreType, SQLiteStoreType
+    @objc public enum DATAStackStoreType: Int {
+        case InMemory, SQLite
     }
 
     // MARK: - Variables
 
-    private var storeType: StoreType
+    private var storeType: DATAStackStoreType = .SQLite
 
-    private var modelName: String
+    private var modelName: String = ""
 
-    private var modelBundle: NSBundle
+    private var modelBundle: NSBundle = NSBundle.mainBundle()
 
     public private(set) lazy var mainContext: NSManagedObjectContext = {
         let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
@@ -44,7 +44,7 @@ public class DATAStack: NSObject {
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
 
         switch self.storeType {
-        case .InMemoryStoreType:
+        case .InMemory:
             do {
                 try persistentStoreCoordinator.addPersistentStoreWithType(NSInMemoryStoreType, configuration: nil, URL: nil, options: nil)
             } catch let error as NSError {
@@ -52,7 +52,7 @@ public class DATAStack: NSObject {
             }
 
             break
-        case .SQLiteStoreType:
+        case .SQLite:
             let storeURL = self.applicationDocumentsDirectory().URLByAppendingPathComponent(filePath)
             guard let storePath = storeURL.path else { fatalError("Store path not found: \(storeURL)") }
 
@@ -87,7 +87,7 @@ public class DATAStack: NSObject {
                 }
             }
 
-            let shouldExcludeSQLiteFromBackup = self.storeType == .SQLiteStoreType && !Test.isRunning()
+            let shouldExcludeSQLiteFromBackup = self.storeType == .SQLite && !Test.isRunning()
             if shouldExcludeSQLiteFromBackup {
                 do {
                     try storeURL.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
@@ -126,23 +126,21 @@ public class DATAStack: NSObject {
 
     // MARK: - Initalizers
 
-    override convenience init() {
+    public override init() {
         let bundle = NSBundle.mainBundle()
         let bundleName = bundle.infoDictionary!["CFBundleName"] as! String
 
-        self.init(modelName: bundleName)
+        self.modelName = bundleName
     }
 
-    public convenience init(modelName: String) {
-        self.init(modelName: modelName, storeType: .SQLiteStoreType)
+    public init(modelName: String) {
+        self.modelName = modelName
     }
 
-    public init(modelName: String, bundle: NSBundle = NSBundle.mainBundle(), storeType: StoreType) {
+    public init(modelName: String, bundle: NSBundle, storeType: DATAStackStoreType) {
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
-
-        super.init()
     }
 
     deinit {
@@ -184,9 +182,13 @@ public class DATAStack: NSObject {
         let writerContextBlock: @convention(block) () -> Void = {
             do {
                 try self.writerContext.save()
-                dispatch_async(dispatch_get_main_queue(), {
+                if Test.isRunning() {
                     completion()
-                })
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        completion()
+                    })
+                }
             } catch let parentError as NSError {
                 fatalError("Unresolved error saving parent managed object context \(parentError)");
             }
