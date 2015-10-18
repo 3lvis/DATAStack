@@ -181,11 +181,67 @@ public class DATAStack: NSObject {
     }
 
     public func persistWithCompletion(completion: () -> ()) {
-        
+        let writerContextBlock: @convention(block) () -> Void = {
+            do {
+                try self.writerContext.save()
+                dispatch_async(dispatch_get_main_queue(), {
+                    completion()
+                })
+            } catch let parentError as NSError {
+                fatalError("Unresolved error saving parent managed object context \(parentError)");
+            }
+        }
+        let writerContextBlockObject : AnyObject = unsafeBitCast(writerContextBlock, AnyObject.self)
+
+        let mainContextBlock: @convention(block) () -> Void = {
+            do {
+                try self.mainContext.save()
+                self.writerContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: writerContextBlockObject)
+            } catch let error as NSError {
+                fatalError("Unresolved error saving managed object context \(error)")
+            }
+        }
+        let mainContextBlockObject : AnyObject = unsafeBitCast(mainContextBlock, AnyObject.self)
+        self.mainContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: mainContextBlockObject)
+
     }
-    
+
     public func drop() {
-        
+        guard let store = self.persistentStoreCoordinator.persistentStores.last, storeURL = store.URL, storePath = storeURL.path
+            else { fatalError("Persistent store coordinator not found") }
+
+        let sqliteFile = (storePath as NSString).stringByDeletingPathExtension
+        let fileManager = NSFileManager.defaultManager()
+
+        // self.writerContext = nil
+        // self.mainContext = nil
+        // self.persistentStoreCoordinator = nil
+
+        let shm = sqliteFile + ".sqlite-shm"
+        if fileManager.fileExistsAtPath(shm) {
+            do {
+                try fileManager.removeItemAtURL(NSURL.fileURLWithPath(shm))
+            } catch let error as NSError {
+                print("Could not delete persistent store shm: \(error)")
+            }
+        }
+
+        let wal = sqliteFile + ".sqlite-wal"
+        if fileManager.fileExistsAtPath(wal) {
+            do {
+                try fileManager.removeItemAtURL(NSURL.fileURLWithPath(wal))
+            } catch let error as NSError {
+                print("Could not delete persistent store wal: \(error)")
+            }
+        }
+
+        if fileManager.fileExistsAtPath(storePath) {
+            do {
+                try fileManager.removeItemAtURL(storeURL)
+            } catch let error as NSError {
+                print("Could not delete sqlite file: \(error)")
+            }
+        }
     }
 
     private func applicationDocumentsDirectory() -> NSURL {
