@@ -1,6 +1,6 @@
 #import "ANDYMainTableViewController.h"
-#import "DATASource.h"
-#import "DATAStack.h"
+@import DATASource;
+#import "Demo-Swift.h"
 #import "Task.h"
 #import "ANDYAppDelegate.h"
 
@@ -36,11 +36,12 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]];
 
     _dataSource = [[DATASource alloc] initWithTableView:self.tableView
-                                           fetchRequest:fetchRequest
-                                            sectionName:nil
                                          cellIdentifier:ANDYCellIdentifier
+                                           fetchRequest:fetchRequest
                                             mainContext:self.dataStack.mainContext
-                                          configuration:^(UITableViewCell *cell, Task *task, NSIndexPath *indexPath) {
+                                            sectionName:nil
+                                          configuration:^(UITableViewCell * _Nonnull cell, NSManagedObject * _Nonnull item, NSIndexPath * _Nonnull indexPath) {
+                                              Task *task = (Task *)item;
                                               cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", task.title, task.date];
                                           }];
 

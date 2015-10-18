@@ -6,7 +6,7 @@ typedef NS_ENUM(NSInteger, DATAStackStoreType) {
     DATAStackSQLiteStoreType
 };
 
-@interface DATAStack : NSObject
+@interface DATAStackOld : NSObject
 
 /*!
  * @discussion Creates an instance of DATAStack with SQLiteStoreType using the app's name as a Core Data model name.

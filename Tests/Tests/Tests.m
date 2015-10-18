@@ -1,6 +1,6 @@
 @import XCTest;
 
-#import "DATAStack.h"
+#import "DATAStackOld.h"
 
 #import "User.h"
 
@@ -10,9 +10,9 @@
 
 @implementation Tests
 
-- (DATAStack *)dataStack
+- (DATAStackOld *)dataStack
 {
-    DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"Model"
+    DATAStackOld *dataStack = [[DATAStackOld alloc] initWithModelName:@"Model"
                                                          bundle:[NSBundle bundleForClass:[self class]]
                                                       storeType:DATAStackInMemoryStoreType];
 
@@ -35,7 +35,7 @@
 
 - (void)testNormalMainContextSave
 {
-    DATAStack *dataStack = [self dataStack];
+    DATAStackOld *dataStack = [self dataStack];
 
     XCTAssertNotNil(dataStack);
 
@@ -66,7 +66,7 @@
 
 - (void)testBackgroundContextSave
 {
-    DATAStack *dataStack = [self dataStack];
+    DATAStackOld *dataStack = [self dataStack];
 
     XCTAssertNotNil(dataStack);
 
@@ -101,7 +101,7 @@
 
 - (void)testRequestWithDictionaryResultType
 {
-    DATAStack *dataStack = [self dataStack];
+    DATAStackOld *dataStack = [self dataStack];
 
     NSManagedObjectContext *context = [dataStack mainContext];
 

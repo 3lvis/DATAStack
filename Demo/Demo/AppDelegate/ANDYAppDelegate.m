@@ -1,6 +1,6 @@
 #import "ANDYAppDelegate.h"
 #import "ANDYMainTableViewController.h"
-#import "DATAStack.h"
+#import "Demo-Swift.h"
 
 @interface ANDYAppDelegate ()
 
@@ -37,17 +37,17 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    [self.dataStack persistWithCompletion:nil];
+    [self.dataStack persistWithCompletion:^{}];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    [self.dataStack persistWithCompletion:nil];
+    [self.dataStack persistWithCompletion:^{}];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [self.dataStack persistWithCompletion:nil];
+    [self.dataStack persistWithCompletion:^{}];
 }
 
 @end

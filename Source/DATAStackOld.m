@@ -1,8 +1,8 @@
-#import "DATAStack.h"
+#import "DATAStackOld.h"
 
 @import TestCheck;
 
-@interface DATAStack ()
+@interface DATAStackOld ()
 
 @property (nonatomic) NSManagedObjectContext *mainContext;
 @property (nonatomic) NSManagedObjectContext *disposableMainContext;
@@ -16,7 +16,7 @@
 
 @end
 
-@implementation DATAStack
+@implementation DATAStackOld
 
 #pragma mark - Initializers
 
@@ -140,8 +140,6 @@
                                                              URL:storeURL
                                                          options:options
                                                            error:&addPersistentStoreError]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnullable-to-nonnull-conversion"
         [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:nil];
         if (![_persistentStoreCoordinator addPersistentStoreWithType:storeType
                                                        configuration:nil
@@ -151,7 +149,6 @@
             NSLog(@"Unresolved error %@, %@", addPersistentStoreError, [addPersistentStoreError userInfo]);
             abort();
         }
-#pragma clang diagnostic pop
 
         [NSException raise:@"DATASTACK_NON_VALID_MIGRATION_OCURRED"
                     format:@"Error encountered while reading the database. Please allow all the data to download again."];
