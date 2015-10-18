@@ -1,5 +1,5 @@
 #import "ANDYAppDelegate.h"
-#import "ANDYMainTableViewController.h"
+#import "Controller.h"
 #import "Demo-Swift.h"
 
 @interface ANDYAppDelegate ()
@@ -27,7 +27,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    ANDYMainTableViewController *mainController = [[ANDYMainTableViewController alloc] initWithDataStack:self.dataStack];
+    Controller *mainController = [[Controller alloc] initWithDataStack:self.dataStack];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:mainController];
     self.window.rootViewController = navController;
 

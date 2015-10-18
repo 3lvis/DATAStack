@@ -1,12 +1,11 @@
-#import "ANDYMainTableViewController.h"
+#import "Controller.h"
 @import DATASource;
 #import "Demo-Swift.h"
-#import "Task.h"
 #import "ANDYAppDelegate.h"
 
 static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
-@interface ANDYMainTableViewController ()
+@interface Controller ()
 
 @property (nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic) DATASource *dataSource;
@@ -14,14 +13,14 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 @end
 
-@implementation ANDYMainTableViewController
+@implementation Controller
 
 - (instancetype)initWithDataStack:(DATAStack *)dataStack
 {
     self = [super init];
-    if (!self) return nil;
-
-    _dataStack = dataStack;
+    if (self) {
+        _dataStack = dataStack;
+    }
 
     return self;
 }
@@ -41,8 +40,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
                                             mainContext:self.dataStack.mainContext
                                             sectionName:nil
                                           configuration:^(UITableViewCell * _Nonnull cell, NSManagedObject * _Nonnull item, NSIndexPath * _Nonnull indexPath) {
-                                              Task *task = (Task *)item;
-                                              cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", task.title, task.date];
+                                              cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", [item valueForKey:@"title"], [item valueForKey:@"date"]];
                                           }];
 
     return _dataSource;
@@ -54,39 +52,36 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 {
     [super viewDidLoad];
 
-    [self.tableView registerClass:[UITableViewCell class]
-           forCellReuseIdentifier:ANDYCellIdentifier];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:ANDYCellIdentifier];
     self.tableView.dataSource = self.dataSource;
 
-    UIBarButtonItem *addTaskButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                                   target:self
-                                                                                   action:@selector(createTask)];
-    self.navigationItem.rightBarButtonItem = addTaskButton;
+    UIBarButtonItem *backgroundButton = [[UIBarButtonItem alloc] initWithTitle:@"Background" style:UIBarButtonItemStyleDone target:self action:@selector(createBackground)];
+    self.navigationItem.rightBarButtonItem = backgroundButton;
 
-    UIBarButtonItem *alternativeAddTaskButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                                              target:self
-                                                                                              action:@selector(createAlternativeTask)];
-    self.navigationItem.leftBarButtonItem = alternativeAddTaskButton;
+    UIBarButtonItem *mainButton = [[UIBarButtonItem alloc] initWithTitle:@"Main" style:UIBarButtonItemStyleDone target:self action:@selector(createMain)];
+    self.navigationItem.leftBarButtonItem = mainButton;
 }
 
 #pragma mark - Actions
 
-- (void)createTask
+- (void)createBackground
 {
     [self.dataStack performInNewBackgroundContext:^(NSManagedObjectContext *backgroundContext) {
-        Task *task = [Task insertInManagedObjectContext:backgroundContext];
-        task.title = @"Hello BACKGROUND!";
-        task.date = [NSDate date];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Task" inManagedObjectContext:backgroundContext];
+        NSManagedObject *object = [[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:backgroundContext];
+        [object setValue:@"Background" forKey:@"title"];
+        [object setValue:[NSDate date] forKey:@"date"];
         [backgroundContext save:nil];
     }];
 }
 
-- (void)createAlternativeTask
+- (void)createMain
 {
     NSManagedObjectContext *context = [self.dataStack mainContext];
-    Task *task = [Task insertInManagedObjectContext:context];
-    task.title = @"Hello MAIN THREAD!";
-    task.date = [NSDate date];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Task" inManagedObjectContext:context];
+    NSManagedObject *object = [[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:context];
+    [object setValue:@"Main" forKey:@"title"];
+    [object setValue:[NSDate date] forKey:@"date"];
     [context save:nil];
 }
 

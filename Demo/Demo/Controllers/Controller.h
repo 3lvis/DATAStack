@@ -1,6 +1,6 @@
 @class DATAStack;
 
-@interface ANDYMainTableViewController : UITableViewController
+@interface Controller : UITableViewController
 
 - (instancetype)initWithDataStack:(DATAStack *)dataStack;
 
