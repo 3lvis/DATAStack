@@ -2,7 +2,7 @@
 
 @import UIKit;
 
-@interface Controller : UITableViewController
+@interface ViewController : UITableViewController
 
 - (instancetype)initWithDataStack:(DATAStack *)dataStack;
 

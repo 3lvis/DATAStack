@@ -1,4 +1,4 @@
-#import "Controller.h"
+#import "ViewController.h"
 @import DATASource;
 @import CoreData;
 #import "DemoObjectiveC-Swift.h"
@@ -6,7 +6,7 @@
 
 static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
-@interface Controller ()
+@interface ViewController ()
 
 @property (nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic) DATASource *dataSource;
@@ -14,7 +14,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 @end
 
-@implementation Controller
+@implementation ViewController
 
 - (instancetype)initWithDataStack:(DATAStack *)dataStack {
     self = [super init];

@@ -19,7 +19,7 @@
 		14AED4591BD45468000984E4 /* DemoSwift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 14AED4571BD45468000984E4 /* DemoSwift.xcdatamodeld */; };
 		14AED45B1BD45468000984E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14AED45A1BD45468000984E4 /* Assets.xcassets */; };
 		14AED45E1BD45468000984E4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14AED45C1BD45468000984E4 /* LaunchScreen.storyboard */; };
-		14E50EA41BD4555400B7F17D /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E50EA31BD4555400B7F17D /* Controller.m */; settings = {ASSET_TAGS = (); }; };
+		14E50EA41BD4555400B7F17D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E50EA31BD4555400B7F17D /* ViewController.m */; settings = {ASSET_TAGS = (); }; };
 		14E50EA51BD455A600B7F17D /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AED4301BD451E1000984E4 /* DATAStack.swift */; settings = {ASSET_TAGS = (); }; };
 		14E50EA61BD455A700B7F17D /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AED4301BD451E1000984E4 /* DATAStack.swift */; settings = {ASSET_TAGS = (); }; };
 		53716006C9F9FC175D1566A0 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE51205883F40633FEDD15B7 /* Pods.framework */; };
@@ -51,8 +51,8 @@
 		14C136521AB784B200B7B07A /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CONTRIBUTING.md; path = ../CONTRIBUTING.md; sourceTree = "<group>"; };
 		14C136541AB784B200B7B07A /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
 		14C136551AB784B200B7B07A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		14E50EA21BD4555400B7F17D /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
-		14E50EA31BD4555400B7F17D /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
+		14E50EA21BD4555400B7F17D /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		14E50EA31BD4555400B7F17D /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9EA451FD28AFB9F66BDED9BC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A597C407342E6ED987369B6E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		CE51205883F40633FEDD15B7 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,8 +135,8 @@
 			children = (
 				14AED4401BD45460000984E4 /* AppDelegate.h */,
 				14AED4411BD45460000984E4 /* AppDelegate.m */,
-				14E50EA21BD4555400B7F17D /* Controller.h */,
-				14E50EA31BD4555400B7F17D /* Controller.m */,
+				14E50EA21BD4555400B7F17D /* ViewController.h */,
+				14E50EA31BD4555400B7F17D /* ViewController.m */,
 				14AED4461BD45460000984E4 /* Assets.xcassets */,
 				14AED4481BD45460000984E4 /* LaunchScreen.storyboard */,
 				14AED44B1BD45460000984E4 /* Info.plist */,
@@ -493,7 +493,7 @@
 				14E50EA51BD455A600B7F17D /* DATAStack.swift in Sources */,
 				14AED4451BD45460000984E4 /* DemoObjectiveC.xcdatamodeld in Sources */,
 				14AED43F1BD45460000984E4 /* main.m in Sources */,
-				14E50EA41BD4555400B7F17D /* Controller.m in Sources */,
+				14E50EA41BD4555400B7F17D /* ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

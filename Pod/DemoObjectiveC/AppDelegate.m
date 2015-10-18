@@ -1,5 +1,5 @@
 #import "AppDelegate.h"
-#import "Controller.h"
+#import "ViewController.h"
 #import "DemoObjectiveC-Swift.h"
 
 @interface AppDelegate ()
@@ -25,7 +25,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    Controller *mainController = [[Controller alloc] initWithDataStack:self.dataStack];
+    ViewController *mainController = [[ViewController alloc] initWithDataStack:self.dataStack];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:mainController];
     self.window.rootViewController = navController;
 
