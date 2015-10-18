@@ -37,17 +37,17 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    [self.dataStack persistWithCompletion:^{}];
+    [self.dataStack persistWithCompletion:nil];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    [self.dataStack persistWithCompletion:^{}];
+    [self.dataStack persistWithCompletion:nil];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [self.dataStack persistWithCompletion:^{}];
+    [self.dataStack persistWithCompletion:nil];
 }
 
 @end

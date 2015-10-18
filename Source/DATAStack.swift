@@ -178,15 +178,15 @@ import TestCheck
         context.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
     }
 
-    public func persistWithCompletion(completion: () -> ()) {
+    public func persistWithCompletion(completion: (() -> ())? = nil) {
         let writerContextBlock: @convention(block) () -> Void = {
             do {
                 try self.writerContext.save()
                 if Test.isRunning() {
-                    completion()
+                    completion?()
                 } else {
                     dispatch_async(dispatch_get_main_queue(), {
-                        completion()
+                        completion?()
                     })
                 }
             } catch let parentError as NSError {
