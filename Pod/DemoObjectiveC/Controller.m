@@ -30,8 +30,8 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 - (DATASource *)dataSource {
     if (_dataSource) return _dataSource;
 
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Task"];
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"User"];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"createdDate" ascending:YES]];
 
     _dataSource = [[DATASource alloc] initWithTableView:self.tableView
                                          cellIdentifier:ANDYCellIdentifier
@@ -39,7 +39,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
                                             mainContext:self.dataStack.mainContext
                                             sectionName:nil
                                           configuration:^(UITableViewCell * _Nonnull cell, NSManagedObject * _Nonnull item, NSIndexPath * _Nonnull indexPath) {
-                                              cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", [item valueForKey:@"title"], [item valueForKey:@"date"]];
+                                              cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", [item valueForKey:@"name"], [item valueForKey:@"createdDate"]];
                                           }];
 
     return _dataSource;
@@ -64,20 +64,20 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 
 - (void)createBackground {
     [self.dataStack performInNewBackgroundContext:^(NSManagedObjectContext *backgroundContext) {
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Task" inManagedObjectContext:backgroundContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:backgroundContext];
         NSManagedObject *object = [[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:backgroundContext];
-        [object setValue:@"Background" forKey:@"title"];
-        [object setValue:[NSDate date] forKey:@"date"];
+        [object setValue:@"Background" forKey:@"name"];
+        [object setValue:[NSDate date] forKey:@"createdDate"];
         [backgroundContext save:nil];
     }];
 }
 
 - (void)createMain {
     NSManagedObjectContext *context = [self.dataStack mainContext];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Task" inManagedObjectContext:context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
     NSManagedObject *object = [[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:context];
-    [object setValue:@"Main" forKey:@"title"];
-    [object setValue:[NSDate date] forKey:@"date"];
+    [object setValue:@"Main" forKey:@"name"];
+    [object setValue:[NSDate date] forKey:@"createdDate"];
     [context save:nil];
 }
 
