@@ -95,17 +95,17 @@ self.dataStack.drop()
 You can create a stack that uses in memory store like this if your Core Data model is located in your app bundle:
 
 ```objc
-self.dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"
-                                    bundle:[NSBundle mainBundle]
-                                    storeType:DATAStackInMemoryStoreType];
+DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"
+                                                     bundle:[NSBundle mainBundle]
+                                                  storeType:DATAStackStoreTypeInMemory];
 ```
 
 If your Core Data model is located in your test bundle:
 
 ```objc
-self.dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"
-                                    bundle:[NSBundle bundleForClass:[self class]]
-                                    storeType:DATAStackInMemoryStoreType];
+DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackStoreTypeInMemory];
 ```
 
 _(Hint: Maybe you haven't found the best way to use NSFetchedResultsController, well [here it is](https://github.com/3lvis/DATASource).)_
