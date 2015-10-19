@@ -6,12 +6,12 @@
 
 You can easily initialize a new instance of **DATAStack** with just your Core Data Model name (xcdatamodel).
 
-
+**Swift**
 ``` swift
 let dataStack = DATAStack(modelName:"MyAppModel")
 ```
 
-
+**Objective-C**
 ``` objc
 DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"];
 ```
@@ -20,6 +20,7 @@ DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"];
 
 Is recommendable that **DATAStack** gets persisted when this three methods get called in your `AppDelegate`.
 
+**Swift**
 ```swift
 func applicationDidEnterBackground(application: UIApplication) {
     self.dataStack.persistWithCompletion()
@@ -30,6 +31,7 @@ func applicationWillTerminate(application: UIApplication) {
 }
 ```
 
+**Objective-C**
 ``` objc
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     [self.dataStack persistWithCompletion:nil];
@@ -44,7 +46,7 @@ func applicationWillTerminate(application: UIApplication) {
 
 Getting access to the NSManagedObjectContext attached to the main thread is as simple as using the `mainContext` property.
 
-``` objc
+```objc
 self.dataStack.mainContext
 ```
 
@@ -52,6 +54,7 @@ self.dataStack.mainContext
 
 You can easily create a new background NSManagedObjectContext for data processing. This block is completely asynchronous and will be run on a background thread.
 
+**Swift**
 ```swift
 func createUser() {
     self.dataStack.performInNewBackgroundContext { backgroundContext in
@@ -64,6 +67,7 @@ func createUser() {
 }
 ```
 
+**Objective-C**
 ```objc
 - (void)createUser {
     [self.dataStack performInNewBackgroundContext:^(NSManagedObjectContext *backgroundContext) {
@@ -80,10 +84,12 @@ func createUser() {
 
 Deleting the `.sqlite` file and resetting the state of your **DATAStack** is as simple as just calling `drop`.
 
+**Swift**
 ```swift
 self.dataStack.drop()
 ```
 
+**Objective-C**
 ```objc
 [self.dataStack drop];
 ```
@@ -94,10 +100,12 @@ self.dataStack.drop()
 
 You can create a stack that uses in memory store like this if your Core Data model is located in your app bundle:
 
+**Swift**
 ```swift
 let dataStack = DATAStack(modelName: "MyAppModel", bundle: NSBundle.mainBundle(), storeType: .InMemory)
 ```
 
+**Objective-C**
 ```objc
 DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"
                                                      bundle:[NSBundle mainBundle]
@@ -106,10 +114,12 @@ DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"
 
 If your Core Data model is located in your test bundle:
 
+**Swift**
 ```swift
 let dataStacks = DATAStack(modelName: "MyAppModel", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
 ```
 
+**Objective-C**
 ```objc
 DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"
                                                      bundle:[NSBundle bundleForClass:[self class]]
