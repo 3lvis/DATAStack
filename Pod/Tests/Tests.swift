@@ -2,8 +2,8 @@ import XCTest
 import CoreData
 
 class Tests: XCTestCase {
-    func createDataStack() -> DATAStack {
-        let dataStack = DATAStack(modelName: "Model", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
+    func createDataStack(storeType: DATAStackStoreType = .InMemory) -> DATAStack {
+        let dataStack = DATAStack(modelName: "Model", bundle: NSBundle(forClass: Tests.self), storeType: storeType)
 
         return dataStack
     }
@@ -13,6 +13,13 @@ class Tests: XCTestCase {
         user.setValue(NSNumber(integer: 1), forKey: "remoteID")
         user.setValue("Joshua Ivanof", forKey: "name")
         try! context.save()
+    }
+
+    func fetchObjectsInContext(context: NSManagedObjectContext) -> [NSManagedObject] {
+        let request = NSFetchRequest(entityName: "User")
+        let objects = try! context.executeFetchRequest(request) as! [NSManagedObject]
+
+        return objects
     }
 
     func testSynchronousPersist() {
@@ -43,15 +50,14 @@ class Tests: XCTestCase {
         dataStack.performInNewBackgroundContext { backgroundContext in
             self.insertUserInContext(backgroundContext)
 
-            let request = NSFetchRequest(entityName: "User")
-            let objects = try! backgroundContext.executeFetchRequest(request)
+            let objects = self.fetchObjectsInContext(backgroundContext)
             XCTAssertEqual(objects.count, 1)
-
-            dataStack.persistWithCompletion({
-                let objects = try! dataStack.mainContext.executeFetchRequest(request)
-                XCTAssertEqual(objects.count, 1)
-            })
         }
+
+        dataStack.persistWithCompletion({
+            let objects = self.fetchObjectsInContext(dataStack.mainContext)
+            XCTAssertEqual(objects.count, 1)
+        })
     }
 
     func testRequestWithDictionaryResultType() {
@@ -77,8 +83,30 @@ class Tests: XCTestCase {
         }
     }
 
-    func testDrop() {
+    func testDisposableContextSave() {
         let dataStack = self.createDataStack()
-        self.insertUserInContext(dataStack.mainContext)
+
+        let disposableContext = dataStack.newDisposableMainContext()
+        self.insertUserInContext(disposableContext)
+        let objects = self.fetchObjectsInContext(disposableContext)
+        XCTAssertEqual(objects.count, 0)
+    }
+
+    func testDrop() {
+        let dataStack = self.createDataStack(.SQLite)
+
+        dataStack.performInNewBackgroundContext { backgroundContext in
+            self.insertUserInContext(backgroundContext)
+        }
+
+        dataStack.persistWithCompletion({
+            let objects = self.fetchObjectsInContext(dataStack.mainContext)
+            XCTAssertEqual(objects.count, 1)
+        })
+
+        dataStack.drop()
+
+        let objects = self.fetchObjectsInContext(dataStack.mainContext)
+        XCTAssertEqual(objects.count, 0)
     }
 }
