@@ -73,12 +73,11 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
 }
 
 - (void)createMain {
-    NSManagedObjectContext *context = [self.dataStack mainContext];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
-    NSManagedObject *object = [[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:self.dataStack.mainContext];
+    NSManagedObject *object = [[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:self.dataStack.mainContext];
     [object setValue:@"Main" forKey:@"name"];
     [object setValue:[NSDate date] forKey:@"createdDate"];
-    [context save:nil];
+    [self.dataStack.mainContext save:nil];
 }
 
 @end

@@ -6,13 +6,33 @@
 
 You can easily initialize a new instance of **DATAStack** with just your Core Data Model name (xcdatamodel).
 
+
+``` swift
+let dataStack = DATAStack(modelName:"MyAppModel")
+```
+
+
 ``` objc
-self.dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"];
+DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"];
 ```
 
 ## Set up
 
 Is recommendable that **DATAStack** gets persisted when this three methods get called in your `AppDelegate`.
+
+```swift
+func applicationWillResignActive(application: UIApplication) {
+    self.dataStack.persistWithCompletion()
+}
+
+func applicationDidEnterBackground(application: UIApplication) {
+    self.dataStack.persistWithCompletion()
+}
+
+func applicationWillTerminate(application: UIApplication) {
+    self.dataStack.persistWithCompletion()
+}
+```
 
 ``` objc
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -40,13 +60,25 @@ self.dataStack.mainContext
 
 You can easily create a new background NSManagedObjectContext for data processing. This block is completely asynchronous and will be run on a background thread.
 
-``` objc
-- (void)createTask {
-    [self.dataStack performInNewBackgroundContext:^(NSManagedObjectContext *backgroundContext) {
-        Task *task = [Task insertInManagedObjectContext:backgroundContext];
-        task.title = @"Hello!";
-        task.date = [NSDate date];
+```swift
+func createUser() {
+    self.dataStack.performInNewBackgroundContext { backgroundContext in
+        let entity = NSEntityDescription.entityForName("User", inManagedObjectContext: backgroundContext)!
+        let object = NSManagedObject(entity: entity, insertIntoManagedObjectContext: backgroundContext)
+        object.setValue("Background", forKey: "name")
+        object.setValue(NSDate(), forKey: "createdDate")
+        try! backgroundContext.save()
+    }
+}
+```
 
+```objc
+- (void)createUser {
+    [self.dataStack performInNewBackgroundContext:^(NSManagedObjectContext *backgroundContext) {
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:backgroundContext];
+        NSManagedObject *object = [[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:backgroundContext];
+        [object setValue:@"Background" forKey:@"name"];
+        [object setValue:[NSDate date] forKey:@"createdDate"];
         [backgroundContext save:nil];
     }];
 }
@@ -55,6 +87,10 @@ You can easily create a new background NSManagedObjectContext for data processin
 ## Clean up
 
 Deleting the `.sqlite` file and resetting the state of your **DATAStack** is as simple as just calling `drop`.
+
+```swift
+self.dataStack.drop()
+```
 
 ```objc
 [self.dataStack drop];
@@ -92,7 +128,7 @@ pod 'DATAStack'
 
 ## Be Awesome
 
-If something looks stupid, please create a friendly and constructive issue, getting your feedback would be awesome. 
+If something looks stupid, please create a friendly and constructive issue, getting your feedback would be awesome.
 
 Have a great day.
 
