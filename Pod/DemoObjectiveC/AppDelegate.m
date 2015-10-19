@@ -34,10 +34,6 @@
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    [self.dataStack persistWithCompletion:nil];
-}
-
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     [self.dataStack persistWithCompletion:nil];
 }
