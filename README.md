@@ -21,10 +21,6 @@ DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"];
 Is recommendable that **DATAStack** gets persisted when this three methods get called in your `AppDelegate`.
 
 ```swift
-func applicationWillResignActive(application: UIApplication) {
-    self.dataStack.persistWithCompletion()
-}
-
 func applicationDidEnterBackground(application: UIApplication) {
     self.dataStack.persistWithCompletion()
 }
@@ -35,10 +31,6 @@ func applicationWillTerminate(application: UIApplication) {
 ```
 
 ``` objc
-- (void)applicationWillResignActive:(UIApplication *)application {
-    [self.dataStack persistWithCompletion:nil];
-}
-
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     [self.dataStack persistWithCompletion:nil];
 }
