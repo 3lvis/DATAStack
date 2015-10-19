@@ -26,10 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func applicationWillResignActive(application: UIApplication) {
-        self.dataStack.persistWithCompletion()
-    }
-
     func applicationDidEnterBackground(application: UIApplication) {
         self.dataStack.persistWithCompletion()
     }
