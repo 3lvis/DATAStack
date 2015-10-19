@@ -116,7 +116,7 @@ If your Core Data model is located in your test bundle:
 
 **Swift**
 ```swift
-let dataStacks = DATAStack(modelName: "MyAppModel", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
+let dataStack = DATAStack(modelName: "MyAppModel", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
 ```
 
 **Objective-C**
