@@ -23,11 +23,11 @@ Is recommendable that **DATAStack** gets persisted when this three methods get c
 **Swift**
 ```swift
 func applicationDidEnterBackground(application: UIApplication) {
-    self.dataStack.persistWithCompletion()
+    self.dataStack.persistWithCompletion(nil)
 }
 
 func applicationWillTerminate(application: UIApplication) {
-    self.dataStack.persistWithCompletion()
+    self.dataStack.persistWithCompletion(nil)
 }
 ```
 
