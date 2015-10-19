@@ -133,6 +133,8 @@ _(Hint: Maybe you haven't found the best way to use NSFetchedResultsController, 
 **DATAStack** is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
+use_frameworks!
+
 pod 'DATAStack'
 ```
 
