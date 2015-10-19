@@ -94,6 +94,10 @@ self.dataStack.drop()
 
 You can create a stack that uses in memory store like this if your Core Data model is located in your app bundle:
 
+```swift
+let dataStack = DATAStack(modelName: "MyAppModel", bundle: NSBundle.mainBundle(), storeType: .InMemory)
+```
+
 ```objc
 DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"
                                                      bundle:[NSBundle mainBundle]
@@ -101,6 +105,10 @@ DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"
 ```
 
 If your Core Data model is located in your test bundle:
+
+```swift
+let dataStacks = DATAStack(modelName: "MyAppModel", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
+```
 
 ```objc
 DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"
