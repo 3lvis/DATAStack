@@ -76,4 +76,9 @@ class Tests: XCTestCase {
             XCTAssertEqual(dictionaryObjects.count, 1)
         }
     }
+
+    func testDrop() {
+        let dataStack = self.createDataStack()
+        self.insertUserInContext(dataStack.mainContext)
+    }
 }
