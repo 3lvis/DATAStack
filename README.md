@@ -2,6 +2,14 @@
 
 **DATAStack** helps you to alleviate the Core Data boilerplate. Now you can go to your AppDelegate remove all the Core Data related code and replace it with [an instance of DATAStack](https://github.com/3lvis/DATAStack/blob/master/Demo/Demo/AppDelegate/ANDYAppDelegate.m#L19).
 
+- [x] Safe to use
+- [x] Runs synchronously in testing enviroments
+- [x] No singletons
+- [x] SQLite and InMemory support out of the box
+- [x] Easy database drop method
+- [x] Swift 2.0
+- [x] Free
+
 ## Initialization
 
 You can easily initialize a new instance of **DATAStack** with just your Core Data Model name (xcdatamodel).
