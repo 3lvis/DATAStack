@@ -2,7 +2,7 @@
 
 **DATAStack** helps you to alleviate the Core Data boilerplate. Now you can go to your AppDelegate remove all the Core Data related code and replace it with [an instance of DATAStack](https://github.com/3lvis/DATAStack/blob/master/Demo/Demo/AppDelegate/ANDYAppDelegate.m#L19).
 
-- [x] Safe to use
+- [x] Easier thread safety
 - [x] Runs synchronously in testing enviroments
 - [x] No singletons
 - [x] SQLite and InMemory support out of the box
