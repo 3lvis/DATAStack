@@ -1,6 +1,6 @@
 use_frameworks!
 
-# When using more than one target in your project
-# link_with 'DemoProject', 'Tests'
+link_with 'DemoObjectiveC', 'DemoSwift', 'Tests'
 
 pod 'DATAStack', path: "."
+pod 'DATASource'
