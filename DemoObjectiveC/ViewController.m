@@ -1,6 +1,6 @@
 #import "ViewController.h"
-@import DATASource;
 @import CoreData;
+@import DATASource;
 #import "DemoObjectiveC-Swift.h"
 #import "AppDelegate.h"
 

@@ -42,7 +42,7 @@ class ViewController: UITableViewController {
         self.navigationItem.leftBarButtonItem = mainButton
     }
 
-    func createUser() {
+    func createBackground() {
         self.dataStack.performInNewBackgroundContext { backgroundContext in
             let entity = NSEntityDescription.entityForName("User", inManagedObjectContext: backgroundContext)!
             let object = NSManagedObject(entity: entity, insertIntoManagedObjectContext: backgroundContext)
