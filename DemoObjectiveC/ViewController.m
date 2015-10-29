@@ -1,7 +1,7 @@
 #import "ViewController.h"
 @import CoreData;
 @import DATASource;
-#import "DemoObjectiveC-Swift.h"
+@import DATAStack;
 #import "AppDelegate.h"
 
 static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";

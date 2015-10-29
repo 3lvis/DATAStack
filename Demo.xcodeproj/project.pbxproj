@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		148C33451BD7CAF9009701BF /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148C33441BD7CAF9009701BF /* DATAStack.swift */; };
 		148C33481BD7CB18009701BF /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 148C33461BD7CB18009701BF /* Model.xcdatamodeld */; };
 		148C33511BD7CB67009701BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 148C33501BD7CB67009701BF /* main.m */; };
 		148C33541BD7CB67009701BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 148C33531BD7CB67009701BF /* AppDelegate.m */; };
@@ -20,8 +19,6 @@
 		148C33701BD7CB74009701BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 148C336E1BD7CB74009701BF /* LaunchScreen.storyboard */; };
 		148C33771BD7CB98009701BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 148C33761BD7CB98009701BF /* ViewController.m */; };
 		148C33791BD7CBAC009701BF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148C33781BD7CBAC009701BF /* ViewController.swift */; };
-		148C337A1BD7CBB0009701BF /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148C33441BD7CAF9009701BF /* DATAStack.swift */; };
-		148C337B1BD7CBB0009701BF /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148C33441BD7CAF9009701BF /* DATAStack.swift */; };
 		14A139B41AEFC72B00AD732F /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A139B31AEFC72B00AD732F /* Tests.swift */; };
 		6C0D1C4D923482D8CC425C66 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBB587921D76B8A7F65DC957 /* Pods.framework */; };
 		BED004CEDCD000B514EBE836 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBB587921D76B8A7F65DC957 /* Pods.framework */; };
@@ -31,7 +28,6 @@
 /* Begin PBXFileReference section */
 		146D72AC1AB782920058798C /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		146D72B11AB782920058798C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		148C33441BD7CAF9009701BF /* DATAStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DATAStack.swift; sourceTree = "<group>"; };
 		148C33471BD7CB18009701BF /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		148C334D1BD7CB67009701BF /* DemoObjectiveC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoObjectiveC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		148C33501BD7CB67009701BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -93,7 +89,6 @@
 			isa = PBXGroup;
 			children = (
 				14C136501AB7849300B7B07A /* Metadata */,
-				14C0AF841BD6D4370009ECBE /* Source */,
 				146D72AF1AB782920058798C /* Tests */,
 				148C334E1BD7CB67009701BF /* DemoObjectiveC */,
 				148C33661BD7CB74009701BF /* DemoSwift */,
@@ -168,14 +163,6 @@
 				148C33691BD7CB74009701BF /* DemoSwift.xcdatamodeld */,
 			);
 			path = DemoSwift;
-			sourceTree = "<group>";
-		};
-		14C0AF841BD6D4370009ECBE /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				148C33441BD7CAF9009701BF /* DATAStack.swift */,
-			);
-			path = Source;
 			sourceTree = "<group>";
 		};
 		14C136501AB7849300B7B07A /* Metadata */ = {
@@ -483,7 +470,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				148C33451BD7CAF9009701BF /* DATAStack.swift in Sources */,
 				14A139B41AEFC72B00AD732F /* Tests.swift in Sources */,
 				148C33481BD7CB18009701BF /* Model.xcdatamodeld in Sources */,
 			);
@@ -494,7 +480,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				148C33541BD7CB67009701BF /* AppDelegate.m in Sources */,
-				148C337A1BD7CBB0009701BF /* DATAStack.swift in Sources */,
 				148C33571BD7CB67009701BF /* DemoObjectiveC.xcdatamodeld in Sources */,
 				148C33771BD7CB98009701BF /* ViewController.m in Sources */,
 				148C33511BD7CB67009701BF /* main.m in Sources */,
@@ -507,7 +492,6 @@
 			files = (
 				148C33791BD7CBAC009701BF /* ViewController.swift in Sources */,
 				148C336B1BD7CB74009701BF /* DemoSwift.xcdatamodeld in Sources */,
-				148C337B1BD7CBB0009701BF /* DATAStack.swift in Sources */,
 				148C33681BD7CB74009701BF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
