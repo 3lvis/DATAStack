@@ -279,7 +279,11 @@ import TestCheck
     }
 
     private func applicationDocumentsDirectory() -> NSURL {
-        return NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).last!
+        #if os(tvOS)
+            return NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask).last!
+        #else
+            return NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).last!
+        #endif
     }
 
     private static func backgroundConcurrencyType() -> NSManagedObjectContextConcurrencyType {
