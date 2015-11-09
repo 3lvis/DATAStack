@@ -27,7 +27,7 @@ DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"];
 
 ## Set up
 
-Is recommendable that **DATAStack** gets persisted when these two methods get called in your `AppDelegate`.
+It is recommended that **DATAStack** gets persisted when these two methods are called in your `AppDelegate`.
 
 **Swift**
 ```swift
