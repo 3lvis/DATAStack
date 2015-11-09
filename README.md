@@ -7,7 +7,7 @@
 - [x] No singletons
 - [x] SQLite and InMemory support out of the box
 - [x] Easy database drop method
-- [x] Swift 2.0
+- [x] Swift
 - [x] Objective-C support
 - [x] Free
 
