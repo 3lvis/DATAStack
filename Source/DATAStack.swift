@@ -107,7 +107,7 @@ import TestCheck
                         }
                     }
 
-                    let shouldExcludeSQLiteFromBackup = self.storeType == .SQLite && !Test.isRunning()
+                    let shouldExcludeSQLiteFromBackup = self.storeType == .SQLite && TestCheck.isTesting == false
                     if shouldExcludeSQLiteFromBackup {
                         do {
                             try storeURL.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
@@ -182,7 +182,7 @@ import TestCheck
     }
 
     internal func backgroundContextDidSave(notification: NSNotification) {
-        if NSThread.isMainThread() && !Test.isRunning() {
+        if NSThread.isMainThread() && TestCheck.isTesting == false {
             fatalError("Background context saved in the main thread. Use context's `performBlock`")
         } else {
             let contextBlock: @convention(block) () -> Void = {
@@ -214,7 +214,7 @@ import TestCheck
         let writerContextBlock: @convention(block) () -> Void = {
             do {
                 try self.writerContext.save()
-                if Test.isRunning() {
+                if TestCheck.isTesting {
                     completion?()
                 } else {
                     dispatch_async(dispatch_get_main_queue(), {
@@ -287,10 +287,10 @@ import TestCheck
     }
 
     private static func backgroundConcurrencyType() -> NSManagedObjectContextConcurrencyType {
-        return Test.isRunning() ? .MainQueueConcurrencyType : .PrivateQueueConcurrencyType
+        return TestCheck.isTesting ? .MainQueueConcurrencyType : .PrivateQueueConcurrencyType
     }
 
     private static func performSelectorForBackgroundContext() -> Selector {
-        return Test.isRunning() ? NSSelectorFromString("performBlockAndWait:") : NSSelectorFromString("performBlock:")
+        return TestCheck.isTesting ? NSSelectorFromString("performBlockAndWait:") : NSSelectorFromString("performBlock:")
     }
 }
