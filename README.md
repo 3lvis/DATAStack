@@ -137,6 +137,10 @@ DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"
 
 _(Hint: Maybe you haven't found the best way to use NSFetchedResultsController, well [here it is](https://github.com/3lvis/DATASource).)_
 
+## Migrations
+
+If `DATAStack` has troubles creating your persistent coordinator because a migration wasn't properly handled it will destroy your data and create a new sqlite file. The normal Core Data behaviour for this is making your app crash on start. This is not fun.
+
 ## Installation
 
 **DATAStack** is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
