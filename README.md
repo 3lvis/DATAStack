@@ -88,6 +88,8 @@ func createUser() {
     }];
 }
 ```
+(Notice: If you are using Objective-C, there is a inconsistency in the bridging header causing a error. The error is caused because the parameter name "backgroundContext" in the block is missing. Please see issue:[#30](//github.com/3lvis/DATAStack/issues/30) for a temporarily fix. 
+
 
 ## Clean up
 
