@@ -79,7 +79,7 @@ func createUser() {
 **Objective-C**
 ```objc
 - (void)createUser {
-    [self.dataStack performInNewBackgroundContext:^(NSManagedObjectContext *backgroundContext) {
+    [self.dataStack performInNewBackgroundContext:^(NSManagedObjectContext * _Nonnull backgroundContext) {
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:backgroundContext];
         NSManagedObject *object = [[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:backgroundContext];
         [object setValue:@"Background" forKey:@"name"];
@@ -88,8 +88,8 @@ func createUser() {
     }];
 }
 ```
-(Notice: If you are using Objective-C, there is a inconsistency in the bridging header causing a error. The error is caused because the parameter name "backgroundContext" in the block is missing. Please see issue:[#30](//github.com/3lvis/DATAStack/issues/30) for a temporarily fix. 
 
+When using Xcode's autocompletion the `backgroundContext` parameter name doesn't get included. Make sure to add it.
 
 ## Clean up
 
