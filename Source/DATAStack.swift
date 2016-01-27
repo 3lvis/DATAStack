@@ -13,6 +13,8 @@ import TestCheck
 
     private var storeType: DATAStackStoreType = .SQLite
 
+    private var storeName: String?
+
     private var modelName: String = ""
 
     private var modelBundle: NSBundle = NSBundle.mainBundle()
@@ -56,7 +58,7 @@ import TestCheck
     private var persistentStoreCoordinator: NSPersistentStoreCoordinator {
         get {
             if _persistentStoreCoordinator == nil {
-                let filePath = self.modelName + ".sqlite"
+                let filePath = (self.storeName ?? self.modelName) + ".sqlite"
 
                 guard let modelURL = self.modelBundle.URLForResource(self.modelName, withExtension: "momd"), model = NSManagedObjectModel(contentsOfURL: modelURL)
                     else { fatalError("Model with model name \(self.modelName) not found in bundle \(self.modelBundle)") }
@@ -159,10 +161,11 @@ import TestCheck
         self.modelName = bundleName
     }
 
-    public init(modelName: String, bundle: NSBundle = NSBundle.mainBundle(), storeType: DATAStackStoreType = .SQLite) {
+    public init(modelName: String, bundle: NSBundle = NSBundle.mainBundle(), storeType: DATAStackStoreType = .SQLite, storeName: String? = nil) {
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
+        self.storeName = storeName
     }
 
     deinit {
