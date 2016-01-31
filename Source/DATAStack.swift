@@ -58,10 +58,8 @@ import TestCheck
     private var persistentStoreCoordinator: NSPersistentStoreCoordinator {
         get {
             if _persistentStoreCoordinator == nil {
-                let filePath = (self.storeName ?? self.modelName) + ".sqlite"
-
-                guard let modelURL = self.modelBundle.URLForResource(self.modelName, withExtension: "momd"), model = NSManagedObjectModel(contentsOfURL: modelURL)
-                    else { fatalError("Model with model name \(self.modelName) not found in bundle \(self.modelBundle)") }
+                guard let model = NSManagedObjectModel.mergedModelFromBundles([self.modelBundle])
+                    else { fatalError("No model found in bundle \(self.modelBundle)") }
 
                 let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
 
@@ -75,6 +73,7 @@ import TestCheck
 
                     break
                 case .SQLite:
+                    let filePath = (self.storeName ?? self.modelName) + ".sqlite"
                     let storeURL = self.applicationDocumentsDirectory().URLByAppendingPathComponent(filePath)
                     guard let storePath = storeURL.path else { fatalError("Store path not found: \(storeURL)") }
 
@@ -139,8 +138,8 @@ import TestCheck
     }
 
     private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
-        guard let modelURL = self.modelBundle.URLForResource(self.modelName, withExtension: "momd"), model = NSManagedObjectModel(contentsOfURL: modelURL)
-            else { fatalError("Model named \(self.modelName) not found in bundle \(self.modelBundle)") }
+        guard let model = NSManagedObjectModel.mergedModelFromBundles([self.modelBundle])
+            else { fatalError("No model found in bundle \(self.modelBundle)") }
 
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
         do {
@@ -150,7 +149,7 @@ import TestCheck
         }
         
         return persistentStoreCoordinator
-        }()
+    }()
 
     // MARK: - Initalizers
 
