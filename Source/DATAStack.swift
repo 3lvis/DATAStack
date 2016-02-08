@@ -160,7 +160,17 @@ import TestCheck
         self.modelName = bundleName
     }
 
-    public init(modelName: String, bundle: NSBundle = NSBundle.mainBundle(), storeType: DATAStackStoreType = .SQLite, storeName: String? = nil) {
+    public init(modelName: String) {
+        self.modelName = modelName
+    }
+
+    public init(modelName: String, bundle: NSBundle, storeType: DATAStackStoreType) {
+        self.modelName = modelName
+        self.modelBundle = bundle
+        self.storeType = storeType
+    }
+
+    public init(modelName: String, bundle: NSBundle, storeType: DATAStackStoreType, storeName: String) {
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
