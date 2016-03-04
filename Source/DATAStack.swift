@@ -60,10 +60,21 @@ import TestCheck
             if _persistentStoreCoordinator == nil {
                 let filePath = (self.storeName ?? self.modelName) + ".sqlite"
 
-                guard let modelURL = self.modelBundle.URLForResource(self.modelName, withExtension: "momd"), model = NSManagedObjectModel(contentsOfURL: modelURL)
-                    else { fatalError("Model with model name \(self.modelName) not found in bundle \(self.modelBundle)") }
+                var model: NSManagedObjectModel?
 
-                let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
+                if let momdModelURL = self.modelBundle.URLForResource(self.modelName, withExtension: "momd") {
+                    model = NSManagedObjectModel(contentsOfURL: momdModelURL)
+                }
+
+                if let momModelURL = self.modelBundle.URLForResource(self.modelName, withExtension: "mom") {
+                    model = NSManagedObjectModel(contentsOfURL: momModelURL)
+                }
+
+                if model == nil {
+                    fatalError("Model with model name \(self.modelName) not found in bundle \(self.modelBundle)")
+                }
+
+                let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model!)
 
                 switch self.storeType {
                 case .InMemory:
