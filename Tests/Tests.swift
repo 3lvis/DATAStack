@@ -110,4 +110,9 @@ class Tests: XCTestCase {
         let objects = self.fetchObjectsInContext(dataStack.mainContext)
         XCTAssertEqual(objects.count, 0)
     }
+
+    func testAlternativeModel() {
+        let dataStack = DATAStack(modelName: "DataModelTest", bundle: NSBundle(forClass: Tests.self), storeType: .SQLite)
+        XCTAssertNotNil(dataStack)
+    }
 }
