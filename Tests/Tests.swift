@@ -1,6 +1,5 @@
 import XCTest
 import CoreData
-import DATAStack
 
 class Tests: XCTestCase {
     func createDataStack(storeType: DATAStackStoreType = .InMemory) -> DATAStack {
