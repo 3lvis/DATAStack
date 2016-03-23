@@ -144,7 +144,7 @@ import TestCheck
         context.persistentStoreCoordinator = self.disposablePersistentStoreCoordinator
         context.undoManager = nil
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newDisposableMainContextWillSave:", name: NSManagedObjectContextWillSaveNotification, object: context)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.newDisposableMainContextWillSave(_:)), name: NSManagedObjectContextWillSaveNotification, object: context)
 
         return context
     }
@@ -221,7 +221,7 @@ import TestCheck
         context.undoManager = nil
         context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "backgroundContextDidSave:", name: NSManagedObjectContextDidSaveNotification, object: context)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.backgroundContextDidSave(_:)), name: NSManagedObjectContextDidSaveNotification, object: context)
 
         let contextBlock: @convention(block) () -> Void = {
             operation(backgroundContext: context)
