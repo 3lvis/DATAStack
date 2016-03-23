@@ -1,6 +1,6 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
-@import DATAStack;
+#import "DemoObjectiveC-Swift.h"
 
 @interface AppDelegate ()
 

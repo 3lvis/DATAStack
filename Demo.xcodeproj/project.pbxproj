@@ -21,6 +21,9 @@
 		148C33771BD7CB98009701BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 148C33761BD7CB98009701BF /* ViewController.m */; };
 		148C33791BD7CBAC009701BF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148C33781BD7CBAC009701BF /* ViewController.swift */; };
 		14A139B41AEFC72B00AD732F /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A139B31AEFC72B00AD732F /* Tests.swift */; };
+		14BF83471CA28A5A003E50BA /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BF83461CA28A5A003E50BA /* DATAStack.swift */; };
+		14BF83481CA28A5A003E50BA /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BF83461CA28A5A003E50BA /* DATAStack.swift */; };
+		14BF83491CA28A5A003E50BA /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BF83461CA28A5A003E50BA /* DATAStack.swift */; };
 		6C0D1C4D923482D8CC425C66 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBB587921D76B8A7F65DC957 /* Pods.framework */; };
 		BED004CEDCD000B514EBE836 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBB587921D76B8A7F65DC957 /* Pods.framework */; };
 		D91285DDE6B6DFD037A13060 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBB587921D76B8A7F65DC957 /* Pods.framework */; };
@@ -49,6 +52,7 @@
 		148C33761BD7CB98009701BF /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		148C33781BD7CBAC009701BF /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		14A139B31AEFC72B00AD732F /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		14BF83461CA28A5A003E50BA /* DATAStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DATAStack.swift; sourceTree = "<group>"; };
 		14C0AF7F1BD6D4230009ECBE /* .slather.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .slather.yml; sourceTree = "<group>"; };
 		14C0AF801BD6D4230009ECBE /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		14C0AF811BD6D4230009ECBE /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
@@ -92,6 +96,7 @@
 			children = (
 				14C136501AB7849300B7B07A /* Metadata */,
 				146D72AF1AB782920058798C /* Tests */,
+				14BF83451CA28A5A003E50BA /* Source */,
 				148C334E1BD7CB67009701BF /* DemoObjectiveC */,
 				148C33661BD7CB74009701BF /* DemoSwift */,
 				146D72941AB782920058798C /* Products */,
@@ -166,6 +171,14 @@
 				148C33691BD7CB74009701BF /* DemoSwift.xcdatamodeld */,
 			);
 			path = DemoSwift;
+			sourceTree = "<group>";
+		};
+		14BF83451CA28A5A003E50BA /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				14BF83461CA28A5A003E50BA /* DATAStack.swift */,
+			);
+			path = Source;
 			sourceTree = "<group>";
 		};
 		14C136501AB7849300B7B07A /* Metadata */ = {
@@ -475,6 +488,7 @@
 			files = (
 				14A139B41AEFC72B00AD732F /* Tests.swift in Sources */,
 				148C33481BD7CB18009701BF /* Model.xcdatamodeld in Sources */,
+				14BF83471CA28A5A003E50BA /* DATAStack.swift in Sources */,
 				146E61941C89903200BDAC73 /* DataModelTest.xcdatamodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -484,6 +498,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				148C33541BD7CB67009701BF /* AppDelegate.m in Sources */,
+				14BF83481CA28A5A003E50BA /* DATAStack.swift in Sources */,
 				148C33571BD7CB67009701BF /* DemoObjectiveC.xcdatamodeld in Sources */,
 				148C33771BD7CB98009701BF /* ViewController.m in Sources */,
 				148C33511BD7CB67009701BF /* main.m in Sources */,
@@ -496,6 +511,7 @@
 			files = (
 				148C33791BD7CBAC009701BF /* ViewController.swift in Sources */,
 				148C336B1BD7CB74009701BF /* DemoSwift.xcdatamodeld in Sources */,
+				14BF83491CA28A5A003E50BA /* DATAStack.swift in Sources */,
 				148C33681BD7CB74009701BF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

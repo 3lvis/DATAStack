@@ -36,10 +36,10 @@ class ViewController: UITableViewController {
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         self.tableView.dataSource = self.dataSource
 
-        let backgroundButton = UIBarButtonItem(title: "Background", style: .Done, target: self, action: "createBackground")
+        let backgroundButton = UIBarButtonItem(title: "Background", style: .Done, target: self, action: #selector(ViewController.createBackground))
         self.navigationItem.rightBarButtonItem = backgroundButton
 
-        let mainButton = UIBarButtonItem(title: "Main", style: .Done, target: self, action: "createMain")
+        let mainButton = UIBarButtonItem(title: "Main", style: .Done, target: self, action: #selector(ViewController.createMain))
         self.navigationItem.leftBarButtonItem = mainButton
     }
 
