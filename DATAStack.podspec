@@ -25,5 +25,4 @@ Pod::Spec.new do |s|
   s.source_files = 'Source/'
   s.frameworks = 'Foundation', 'CoreData'
   s.requires_arc = true
-  s.dependency 'TestCheck', '~> 0.3.0'
 end
