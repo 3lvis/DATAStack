@@ -22,14 +22,17 @@
 		148C33791BD7CBAC009701BF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148C33781BD7CBAC009701BF /* ViewController.swift */; };
 		14A139B41AEFC72B00AD732F /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A139B31AEFC72B00AD732F /* Tests.swift */; };
 		14B46FA31CBF90D2004779E2 /* DATAStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B3898D1CBF8166001123DC /* DATAStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		14B46FAA1CBF957E004779E2 /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B46FA81CBF957E004779E2 /* DATAStack.swift */; };
-		14B46FAB1CBF957E004779E2 /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B46FA91CBF957E004779E2 /* TestCheck.swift */; };
 		14BC053A1CBEF21C006278EA /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
 		14BC053B1CBEF21C006278EA /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
 		14BC053C1CBEF21C006278EA /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
 		14BC053D1CBEF21C006278EA /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
 		14BC053E1CBEF21C006278EA /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
 		14BC053F1CBEF21C006278EA /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
+		14EEAC381CBFAD96002E495A /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
+		14EEAC391CBFAD96002E495A /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
+		14EEAC3B1CBFADA1002E495A /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
+		14EEAC3C1CBFADA1002E495A /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
+		14EEAC3D1CBFADD6002E495A /* DATAStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B3898D1CBF8166001123DC /* DATAStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6C0D1C4D923482D8CC425C66 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBB587921D76B8A7F65DC957 /* Pods.framework */; };
 		BED004CEDCD000B514EBE836 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBB587921D76B8A7F65DC957 /* Pods.framework */; };
 		D91285DDE6B6DFD037A13060 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBB587921D76B8A7F65DC957 /* Pods.framework */; };
@@ -74,8 +77,6 @@
 		14B3898D1CBF8166001123DC /* DATAStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATAStack.h; sourceTree = "<group>"; };
 		14B389A31CBF830D001123DC /* DATAStack_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DATAStack_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B46FA61CBF93FD004779E2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		14B46FA81CBF957E004779E2 /* DATAStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DATAStack.swift; path = Source/DATAStack.swift; sourceTree = "<group>"; };
-		14B46FA91CBF957E004779E2 /* TestCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestCheck.swift; path = Source/TestCheck.swift; sourceTree = "<group>"; };
 		14BC05381CBEF21C006278EA /* DATAStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DATAStack.swift; sourceTree = "<group>"; };
 		14BC05391CBEF21C006278EA /* TestCheck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCheck.swift; sourceTree = "<group>"; };
 		14C0AF7F1BD6D4230009ECBE /* .slather.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .slather.yml; sourceTree = "<group>"; };
@@ -83,6 +84,7 @@
 		14C0AF811BD6D4230009ECBE /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		14C0AF821BD6D4230009ECBE /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		14C0AF831BD6D4230009ECBE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		14EEAC2F1CBFAD61002E495A /* DATAStack_watchOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DATAStack_watchOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CA417EA4A237636CCE62AB4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D0E83C01A108D412DE10B2BC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		FBB587921D76B8A7F65DC957 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,14 +122,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		14EEAC2B1CBFAD61002E495A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		146D728A1AB782920058798C = {
 			isa = PBXGroup;
 			children = (
-				14B46FA81CBF957E004779E2 /* DATAStack.swift */,
-				14B46FA91CBF957E004779E2 /* TestCheck.swift */,
 				14C136501AB7849300B7B07A /* Metadata */,
 				14BC05371CBEF21C006278EA /* Source */,
 				146D72AF1AB782920058798C /* Tests */,
@@ -148,6 +155,7 @@
 				148C334D1BD7CB67009701BF /* DemoObjectiveC.app */,
 				148C33651BD7CB74009701BF /* DemoSwift.app */,
 				14B389A31CBF830D001123DC /* DATAStack_iOS.framework */,
+				14EEAC2F1CBFAD61002E495A /* DATAStack_watchOS.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -259,6 +267,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		14EEAC2C1CBFAD61002E495A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14EEAC3D1CBFADD6002E495A /* DATAStack.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -341,6 +357,24 @@
 			productReference = 14B389A31CBF830D001123DC /* DATAStack_iOS.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		14EEAC2E1CBFAD61002E495A /* DATAStack-watchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 14EEAC361CBFAD61002E495A /* Build configuration list for PBXNativeTarget "DATAStack-watchOS" */;
+			buildPhases = (
+				14EEAC2A1CBFAD61002E495A /* Sources */,
+				14EEAC2B1CBFAD61002E495A /* Frameworks */,
+				14EEAC2C1CBFAD61002E495A /* Headers */,
+				14EEAC2D1CBFAD61002E495A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DATAStack-watchOS";
+			productName = "DATAStack-watchOS";
+			productReference = 14EEAC2F1CBFAD61002E495A /* DATAStack_watchOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -364,6 +398,9 @@
 					14B389A21CBF830D001123DC = {
 						CreatedOnToolsVersion = 7.3;
 					};
+					14EEAC2E1CBFAD61002E495A = {
+						CreatedOnToolsVersion = 7.3;
+					};
 				};
 			};
 			buildConfigurationList = 146D728E1AB782920058798C /* Build configuration list for PBXProject "Demo" */;
@@ -383,6 +420,7 @@
 				148C334C1BD7CB67009701BF /* DemoObjectiveC */,
 				148C33641BD7CB74009701BF /* DemoSwift */,
 				14B389A21CBF830D001123DC /* DATAStack-iOS */,
+				14EEAC2E1CBFAD61002E495A /* DATAStack-watchOS */,
 			);
 		};
 /* End PBXProject section */
@@ -414,6 +452,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		14B389A11CBF830D001123DC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14EEAC2D1CBFAD61002E495A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -602,8 +647,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14B46FAA1CBF957E004779E2 /* DATAStack.swift in Sources */,
-				14B46FAB1CBF957E004779E2 /* TestCheck.swift in Sources */,
+				14EEAC381CBFAD96002E495A /* DATAStack.swift in Sources */,
+				14EEAC391CBFAD96002E495A /* TestCheck.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14EEAC2A1CBFAD61002E495A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14EEAC3B1CBFADA1002E495A /* DATAStack.swift in Sources */,
+				14EEAC3C1CBFADA1002E495A /* TestCheck.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -847,6 +901,59 @@
 			};
 			name = Release;
 		};
+		14EEAC341CBFAD61002E495A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.3lvis.DATAStack;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		14EEAC351CBFAD61002E495A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.3lvis.DATAStack;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -894,6 +1001,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		14EEAC361CBFAD61002E495A /* Build configuration list for PBXNativeTarget "DATAStack-watchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14EEAC341CBFAD61002E495A /* Debug */,
+				14EEAC351CBFAD61002E495A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 
