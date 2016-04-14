@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "14EEAC2E1CBFAD61002E495A"
-               BuildableName = "DATAStack-watchOS.framework"
+               BuildableName = "DATAStack_watchOS.framework"
                BlueprintName = "DATAStack-watchOS"
                ReferencedContainer = "container:Demo.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "14EEAC2E1CBFAD61002E495A"
-            BuildableName = "DATAStack-watchOS.framework"
+            BuildableName = "DATAStack_watchOS.framework"
             BlueprintName = "DATAStack-watchOS"
             ReferencedContainer = "container:Demo.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "14EEAC2E1CBFAD61002E495A"
-            BuildableName = "DATAStack-watchOS.framework"
+            BuildableName = "DATAStack_watchOS.framework"
             BlueprintName = "DATAStack-watchOS"
             ReferencedContainer = "container:Demo.xcodeproj">
          </BuildableReference>
