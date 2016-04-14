@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		144B662F1CBFBF7D009FB7F3 /* DATAStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B3898D1CBF8166001123DC /* DATAStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		144B66301CBFBF86009FB7F3 /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
+		144B66311CBFBF86009FB7F3 /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
 		146E61941C89903200BDAC73 /* DataModelTest.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 146E61931C89903200BDAC73 /* DataModelTest.xcdatamodel */; };
 		147619C81CBFBB80004BA70B /* DATAStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B3898D1CBF8166001123DC /* DATAStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		147619C91CBFBB87004BA70B /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
@@ -292,6 +295,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				144B662F1CBFBF7D009FB7F3 /* DATAStack.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -725,6 +729,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				144B66301CBFBF86009FB7F3 /* DATAStack.swift in Sources */,
+				144B66311CBFBF86009FB7F3 /* TestCheck.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1198,6 +1204,7 @@
 				147619C61CBFBB2B004BA70B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		147619D51CBFBBA6004BA70B /* Build configuration list for PBXNativeTarget "DATAStack-OSX" */ = {
 			isa = XCConfigurationList;
@@ -1206,6 +1213,7 @@
 				147619D71CBFBBA6004BA70B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		148C335E1BD7CB67009701BF /* Build configuration list for PBXNativeTarget "DemoObjectiveC" */ = {
 			isa = XCConfigurationList;
