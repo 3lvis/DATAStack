@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "14B389A21CBF830D001123DC"
+               BlueprintIdentifier = "147619CF1CBFBBA6004BA70B"
                BuildableName = "DATAStack.framework"
-               BlueprintName = "DATAStack-iOS"
+               BlueprintName = "DATAStack-OSX"
                ReferencedContainer = "container:Demo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "14B389A21CBF830D001123DC"
+            BlueprintIdentifier = "147619CF1CBFBBA6004BA70B"
             BuildableName = "DATAStack.framework"
-            BlueprintName = "DATAStack-iOS"
+            BlueprintName = "DATAStack-OSX"
             ReferencedContainer = "container:Demo.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "14B389A21CBF830D001123DC"
+            BlueprintIdentifier = "147619CF1CBFBBA6004BA70B"
             BuildableName = "DATAStack.framework"
-            BlueprintName = "DATAStack-iOS"
+            BlueprintName = "DATAStack-OSX"
             ReferencedContainer = "container:Demo.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

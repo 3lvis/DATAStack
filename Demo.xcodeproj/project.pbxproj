@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		146E61941C89903200BDAC73 /* DataModelTest.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 146E61931C89903200BDAC73 /* DataModelTest.xcdatamodel */; };
+		147619C81CBFBB80004BA70B /* DATAStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B3898D1CBF8166001123DC /* DATAStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		147619C91CBFBB87004BA70B /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
+		147619CA1CBFBB87004BA70B /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
 		148C33481BD7CB18009701BF /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 148C33461BD7CB18009701BF /* Model.xcdatamodeld */; };
 		148C33511BD7CB67009701BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 148C33501BD7CB67009701BF /* main.m */; };
 		148C33541BD7CB67009701BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 148C33531BD7CB67009701BF /* AppDelegate.m */; };
@@ -55,6 +58,8 @@
 		146D72AC1AB782920058798C /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		146D72B11AB782920058798C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		146E61931C89903200BDAC73 /* DataModelTest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModelTest.xcdatamodel; sourceTree = "<group>"; };
+		147619C01CBFBB2A004BA70B /* DATAStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DATAStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		147619D01CBFBBA6004BA70B /* DATAStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DATAStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		148C33471BD7CB18009701BF /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		148C334D1BD7CB67009701BF /* DemoObjectiveC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoObjectiveC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		148C33501BD7CB67009701BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -96,6 +101,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				D91285DDE6B6DFD037A13060 /* Pods.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		147619BC1CBFBB2A004BA70B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		147619CC1CBFBBA6004BA70B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +175,8 @@
 				148C33651BD7CB74009701BF /* DemoSwift.app */,
 				14B389A31CBF830D001123DC /* DATAStack.framework */,
 				14EEAC2F1CBFAD61002E495A /* DATAStack.framework */,
+				147619C01CBFBB2A004BA70B /* DATAStack.framework */,
+				147619D01CBFBBA6004BA70B /* DATAStack.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -259,6 +280,21 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		147619BD1CBFBB2A004BA70B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				147619C81CBFBB80004BA70B /* DATAStack.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		147619CD1CBFBBA6004BA70B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		14B389A01CBF830D001123DC /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -297,6 +333,42 @@
 			productName = PodTests;
 			productReference = 146D72AC1AB782920058798C /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		147619BF1CBFBB2A004BA70B /* DATAStack-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 147619C71CBFBB2B004BA70B /* Build configuration list for PBXNativeTarget "DATAStack-tvOS" */;
+			buildPhases = (
+				147619BB1CBFBB2A004BA70B /* Sources */,
+				147619BC1CBFBB2A004BA70B /* Frameworks */,
+				147619BD1CBFBB2A004BA70B /* Headers */,
+				147619BE1CBFBB2A004BA70B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DATAStack-tvOS";
+			productName = "DATAStack-tvOS";
+			productReference = 147619C01CBFBB2A004BA70B /* DATAStack.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		147619CF1CBFBBA6004BA70B /* DATAStack-OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 147619D51CBFBBA6004BA70B /* Build configuration list for PBXNativeTarget "DATAStack-OSX" */;
+			buildPhases = (
+				147619CB1CBFBBA6004BA70B /* Sources */,
+				147619CC1CBFBBA6004BA70B /* Frameworks */,
+				147619CD1CBFBBA6004BA70B /* Headers */,
+				147619CE1CBFBBA6004BA70B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DATAStack-OSX";
+			productName = "DATAStack-OSX";
+			productReference = 147619D01CBFBBA6004BA70B /* DATAStack.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 		148C334C1BD7CB67009701BF /* DemoObjectiveC */ = {
 			isa = PBXNativeTarget;
@@ -389,6 +461,12 @@
 					146D72AB1AB782920058798C = {
 						CreatedOnToolsVersion = 6.2;
 					};
+					147619BF1CBFBB2A004BA70B = {
+						CreatedOnToolsVersion = 7.3;
+					};
+					147619CF1CBFBBA6004BA70B = {
+						CreatedOnToolsVersion = 7.3;
+					};
 					148C334C1BD7CB67009701BF = {
 						CreatedOnToolsVersion = 7.0.1;
 					};
@@ -421,12 +499,28 @@
 				148C33641BD7CB74009701BF /* DemoSwift */,
 				14B389A21CBF830D001123DC /* DATAStack-iOS */,
 				14EEAC2E1CBFAD61002E495A /* DATAStack-watchOS */,
+				147619BF1CBFBB2A004BA70B /* DATAStack-tvOS */,
+				147619CF1CBFBBA6004BA70B /* DATAStack-OSX */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		146D72AA1AB782920058798C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		147619BE1CBFBB2A004BA70B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		147619CE1CBFBBA6004BA70B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -618,6 +712,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		147619BB1CBFBB2A004BA70B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				147619C91CBFBB87004BA70B /* DATAStack.swift in Sources */,
+				147619CA1CBFBB87004BA70B /* TestCheck.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		147619CB1CBFBBA6004BA70B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		148C33491BD7CB67009701BF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -788,6 +898,112 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sample.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		147619C51CBFBB2B004BA70B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.3lvis.DATAStack;
+				PRODUCT_NAME = DATAStack;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		147619C61CBFBB2B004BA70B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.3lvis.DATAStack;
+				PRODUCT_NAME = DATAStack;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		147619D61CBFBBA6004BA70B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = net.3lvis.DATAStack;
+				PRODUCT_NAME = DATAStack;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		147619D71CBFBBA6004BA70B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = net.3lvis.DATAStack;
+				PRODUCT_NAME = DATAStack;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
@@ -974,6 +1190,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		147619C71CBFBB2B004BA70B /* Build configuration list for PBXNativeTarget "DATAStack-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				147619C51CBFBB2B004BA70B /* Debug */,
+				147619C61CBFBB2B004BA70B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		147619D51CBFBBA6004BA70B /* Build configuration list for PBXNativeTarget "DATAStack-OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				147619D61CBFBBA6004BA70B /* Debug */,
+				147619D71CBFBBA6004BA70B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		148C335E1BD7CB67009701BF /* Build configuration list for PBXNativeTarget "DemoObjectiveC" */ = {
 			isa = XCConfigurationList;
