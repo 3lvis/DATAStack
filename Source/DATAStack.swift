@@ -69,11 +69,8 @@ import CoreData
                     model = NSManagedObjectModel(contentsOfURL: momModelURL)
                 }
 
-                if model == nil {
-                    fatalError("Model with model name \(self.modelName) not found in bundle \(self.modelBundle)")
-                }
-
-                let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model!)
+                guard let unwrappedModel = model else { fatalError("Model with model name \(self.modelName) not found in bundle \(self.modelBundle)") }
+                let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: unwrappedModel)
 
                 switch self.storeType {
                 case .InMemory:
@@ -166,9 +163,9 @@ import CoreData
 
     public override init() {
         let bundle = NSBundle.mainBundle()
-        let bundleName = bundle.infoDictionary!["CFBundleName"] as! String
-
-        self.modelName = bundleName
+        if let bundleName = bundle.infoDictionary?["CFBundleName"] as? String {
+            self.modelName = bundleName
+        }
     }
 
     public init(modelName: String) {
@@ -196,8 +193,9 @@ import CoreData
     // MARK: - Observers
 
     internal func newDisposableMainContextWillSave(notification: NSNotification) {
-        let context = notification.object as! NSManagedObjectContext
-        context.reset()
+        if let context = notification.object as? NSManagedObjectContext {
+            context.reset()
+        }
     }
 
     internal func backgroundContextDidSave(notification: NSNotification) {
