@@ -212,7 +212,7 @@ import CoreData
 
     // MARK: - Public
 
-    public func performInNewBackgroundContext(operation: (backgroundContext: NSManagedObjectContext) -> ()) {
+    public func performInNewBackgroundContext(operation: (backgroundContext: NSManagedObjectContext) -> Void) {
         let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
         context.persistentStoreCoordinator = self.persistentStoreCoordinator
         context.undoManager = nil
@@ -227,7 +227,7 @@ import CoreData
         context.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
     }
 
-    public func persistWithCompletion(completion: (() -> ())?) {
+    public func persistWithCompletion(completion: (() -> Void)?) {
         let writerContextBlock: @convention(block) () -> Void = {
             do {
                 try self.writerContext.save()
@@ -254,7 +254,6 @@ import CoreData
         }
         let mainContextBlockObject : AnyObject = unsafeBitCast(mainContextBlock, AnyObject.self)
         self.mainContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: mainContextBlockObject)
-
     }
 
     public func drop() {
