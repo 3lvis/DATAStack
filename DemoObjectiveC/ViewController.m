@@ -78,6 +78,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
     [object setValue:@"Main" forKey:@"name"];
     [object setValue:[NSDate date] forKey:@"createdDate"];
     [self.dataStack.mainContext save:nil];
+    [self.dataStack persistWithCompletion:nil];
 }
 
 @end
