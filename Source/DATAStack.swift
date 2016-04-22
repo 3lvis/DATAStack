@@ -1,6 +1,11 @@
 import Foundation
 import CoreData
 
+// MARK: - Notifications
+
+public let DATAStackDidPersistNotification = "net.3lvis.DATAStack.DidPersistNotification"
+public let DATAStackDidFailToPersistNotification = "net.3lvis.DATAStack.DidFailToPersistNotification"
+
 // MARK: - Enums
 
 @objc public enum DATAStackStoreType: Int {
@@ -242,18 +247,29 @@ import CoreData
     /// This will not save child context's. They must be saved before invoking this method
     /// for their changes to persist.
     public func persistWithCompletion(completion: ((ErrorType?) -> Void)? = nil) {
+        let innerCompletion: ErrorType? -> Void = { error in
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            if let error = error as? NSError {
+                notificationCenter.postNotificationName(DATAStackDidFailToPersistNotification, object: error)
+            } else {
+                notificationCenter.postNotificationName(DATAStackDidPersistNotification, object: self)
+            }
+            
+            completion?(error)
+        }
+        
         let writerContextBlock: @convention(block) Void -> Void = {
             do {
                 try self.writerContext.save()
                 if TestCheck.isTesting {
-                    completion?(nil)
+                    innerCompletion(nil)
                 } else {
                     dispatch_async(dispatch_get_main_queue()) {
-                        completion?(nil)
+                        innerCompletion(nil)
                     }
                 }
             } catch {
-                completion?(error)
+                innerCompletion(error)
             }
         }
         let writerContextBlockObject: AnyObject = unsafeBitCast(writerContextBlock, AnyObject.self)
@@ -263,7 +279,7 @@ import CoreData
                 try self.mainContext.save()
                 self.writerContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: writerContextBlockObject)
             } catch {
-                completion?(error)
+                innerCompletion(error)
             }
         }
         let mainContextBlockObject: AnyObject = unsafeBitCast(mainContextBlock, AnyObject.self)
