@@ -276,7 +276,7 @@ import CoreData
     public func dropEntityCollection(entityName: String) -> Bool {
         let fetchRequest = NSFetchRequest(entityName: entityName)
         
-        if #available(iOS 9.0, *) {
+        if #available(iOS 9.0, OSX 10.11, *) {
             return batchDeleteCollection(fetchRequest)
         } else {
             // Fallback on earlier versions
@@ -286,7 +286,7 @@ import CoreData
     }
     
     /// Utilizes `NSBatchDeleteRequest` to delete objects matching `fetchRequest`
-    @available(iOS 9.0, *)
+    @available(iOS 9.0, OSX 10.11, *)
     private func batchDeleteCollection(fetchRequest: NSFetchRequest) -> Bool {
         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         
