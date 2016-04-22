@@ -221,11 +221,12 @@ public let DATAStackDidFailToPersistNotification = "net.3lvis.DATAStack.DidFailT
     }
     
     /// Creates a new context which can be used on a background thread.
-    public func newBackgroundContext() -> NSManagedObjectContext {
+    public func newBackgroundContext(name: String? = nil) -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
         context.persistentStoreCoordinator = self.persistentStoreCoordinator
         context.undoManager = nil
         context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        context.name = name
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.backgroundContextDidSave(_:)), name: NSManagedObjectContextDidSaveNotification, object: context)
         
