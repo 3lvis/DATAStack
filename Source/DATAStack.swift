@@ -30,7 +30,7 @@ public let DATAStackDidFailToPersistNotification = "net.3lvis.DATAStack.DidFailT
             if _mainContext == nil {
                 let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
                 context.undoManager = nil
-                context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                 context.parentContext = self.writerContext
 
                 _mainContext = context
