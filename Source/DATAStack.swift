@@ -324,6 +324,47 @@ import CoreData
         }
     }
 
+    /**
+     Drops the elements in an entity.
+     - parameter entityName: The name of your Core Data model (xcdatamodeld).
+     */
+
+    public func dropEntityCollection(entityName: String, predicate: NSPredicate? = nil, completion: ((error: NSError?) -> Void)?) {
+        self.performInNewBackgroundContext { backgroundContext in
+            let request = NSFetchRequest(entityName: entityName)
+            request.predicate = predicate
+
+            if #available(iOS 9.0, OSX 10.11, *) {
+                let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+
+                do {
+                    try backgroundContext.executeRequest(batchDeleteRequest)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion?(error: nil)
+                    }
+                } catch let error as NSError {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion?(error: error)
+                    }
+                }
+            } else {
+                do {
+                    let objects = try backgroundContext.executeFetchRequest(request) as? [NSManagedObject] ?? [NSManagedObject]()
+                    for object in objects {
+                        backgroundContext.deleteObject(object)
+                    }
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion?(error: nil)
+                    }
+                } catch let error as NSError {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion?(error: error)
+                    }
+                }
+            }
+        }
+    }
+
     // Can't be private, has to be internal in order to be used as a selector.
     func newDisposableMainContextWillSave(notification: NSNotification) {
         if let context = notification.object as? NSManagedObjectContext {
