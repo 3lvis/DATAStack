@@ -32,6 +32,7 @@ public let DATAStackDidFailToPersistNotification = "net.3lvis.DATAStack.DidFailT
                 context.undoManager = nil
                 context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                 context.parentContext = self.writerContext
+                context.name = "DATAStack Main Context"
 
                 _mainContext = context
             }
@@ -49,6 +50,7 @@ public let DATAStackDidFailToPersistNotification = "net.3lvis.DATAStack.DidFailT
                 context.undoManager = nil
                 context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
                 context.persistentStoreCoordinator = self.persistentStoreCoordinator
+                context.name = "DATAStack Writer Context"
 
                 _writerContext = context
             }
