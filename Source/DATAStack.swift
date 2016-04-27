@@ -240,9 +240,19 @@ import CoreData
     }
 
     /**
+     Saves all data to disk in a safe way. Deprecated in 4.3.0, use `persist(completion: ((error: NSError?) -> Void)?)` 
+     instead.
+     */
+    @available(*, deprecated=4.3.0, message="Use `persist(completion: ((error: NSError?) -> Void)?)` instead") public func persistWithCompletion(completion: (() -> Void)?) {
+        self.persist { _ in
+            completion?()
+        }
+    }
+
+    /**
      Saves all data to disk in a safe way.
      */
-    public func persistWithCompletion(completion: ((error: NSError?) -> Void)?) {
+    public func persist(completion: ((error: NSError?) -> Void)?) {
         var writerContextError: NSError?
         let writerContextBlock: @convention(block) Void -> Void = {
             do {
