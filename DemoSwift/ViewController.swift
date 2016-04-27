@@ -23,17 +23,12 @@ class ViewController: UITableViewController {
 
     init(dataStack: DATAStack) {
         self.dataStack = dataStack
+        
         self.backgroundContext = dataStack.newBackgroundContext("ViewController Background Context")
 
         super.init(style: .Plain)
         
-        let mainContext = self.dataStack.mainContext
-        NSNotificationCenter.defaultCenter().addObserverForName(NSManagedObjectContextDidSaveNotification, object: mainContext, queue: nil) { notification in
-            print("Main context did save. Merge changes into background context")
-            self.backgroundContext.performBlock {
-                self.backgroundContext.mergeChangesFromContextDidSaveNotification(notification)
-            }
-        }
+        setup()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -103,11 +98,11 @@ class ViewController: UITableViewController {
     
     private func editUsersInContext(context: NSManagedObjectContext) {
         context.performBlock {
-            /// Get all users who have a name
+            /// Get all users
             let fetchRequest = NSFetchRequest(entityName: "User")
-            fetchRequest.predicate = NSPredicate(format: "%K != NULL", "name")
-            
             let users = try! context.executeFetchRequest(fetchRequest)
+            
+            print("Editing", users.count, "users")
             
             /// Update their scores
             for user in users {
@@ -118,6 +113,26 @@ class ViewController: UITableViewController {
             }
             
             try! context.save()
+        }
+    }
+}
+
+private extension ViewController {
+    func setup() {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let mainContext = self.dataStack.mainContext
+        
+        notificationCenter.addObserverForName(NSManagedObjectContextObjectsDidChangeNotification, object: mainContext, queue: nil) { notification in
+            print("Main context objects did change!")
+        }
+        
+        if let writerContext = mainContext.parentContext {
+            notificationCenter.addObserverForName(NSManagedObjectContextDidSaveNotification, object: writerContext, queue: nil) { notification in
+                print("Main context did save. Merge changes into background context")
+                self.backgroundContext.performBlock {
+                    self.backgroundContext.mergeChangesFromContextDidSaveNotification(notification)
+                }
+            }
         }
     }
 }

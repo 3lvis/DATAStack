@@ -30,7 +30,7 @@ public let DATAStackDidFailToPersistNotification = "net.3lvis.DATAStack.DidFailT
             if _mainContext == nil {
                 let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
                 context.undoManager = nil
-                context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                 context.parentContext = self.writerContext
                 context.name = "DATAStack Main Context"
 
@@ -48,7 +48,7 @@ public let DATAStackDidFailToPersistNotification = "net.3lvis.DATAStack.DidFailT
             if _writerContext == nil {
                 let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
                 context.undoManager = nil
-                context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                 context.persistentStoreCoordinator = self.persistentStoreCoordinator
                 context.name = "DATAStack Writer Context"
 
@@ -228,7 +228,7 @@ public let DATAStackDidFailToPersistNotification = "net.3lvis.DATAStack.DidFailT
         let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
         context.persistentStoreCoordinator = self.persistentStoreCoordinator
         context.undoManager = nil
-        context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         context.name = name
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.backgroundContextDidSave(_:)), name: NSManagedObjectContextDidSaveNotification, object: context)
@@ -243,7 +243,7 @@ public let DATAStackDidFailToPersistNotification = "net.3lvis.DATAStack.DidFailT
         let contextBlock: @convention(block) () -> Void = {
             operation(backgroundContext: context)
         }
-        let blockObject : AnyObject = unsafeBitCast(contextBlock, AnyObject.self)
+        let blockObject: AnyObject = unsafeBitCast(contextBlock, AnyObject.self)
         context.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
     }
     
