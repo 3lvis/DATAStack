@@ -240,31 +240,43 @@ import CoreData
     }
 
     /**
+     Saves all data to disk in a safe way. Deprecated in 4.3.0, use `persist(completion: ((error: NSError?) -> Void)?)` 
+     instead.
+     */
+    @available(*, deprecated=4.3.0, message="Use `persist(completion: ((error: NSError?) -> Void)?)` instead") public func persistWithCompletion(completion: (() -> Void)?) {
+        self.persist { _ in
+            completion?()
+        }
+    }
+
+    /**
      Saves all data to disk in a safe way.
      */
-    public func persistWithCompletion(completion: (() -> Void)?) {
-        let writerContextBlock: @convention(block) () -> Void = {
+    public func persist(completion: ((error: NSError?) -> Void)?) {
+        var writerContextError: NSError?
+        let writerContextBlock: @convention(block) Void -> Void = {
             do {
                 try self.writerContext.save()
                 if TestCheck.isTesting {
-                    completion?()
-                } else {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        completion?()
-                    })
+                    completion?(error: nil)
                 }
             } catch let parentError as NSError {
-                fatalError("Unresolved error saving parent managed object context \(parentError)");
+                writerContextError = parentError
             }
         }
         let writerContextBlockObject : AnyObject = unsafeBitCast(writerContextBlock, AnyObject.self)
 
-        let mainContextBlock: @convention(block) () -> Void = {
+        let mainContextBlock: @convention(block) Void -> Void = {
             do {
                 try self.mainContext.save()
                 self.writerContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: writerContextBlockObject)
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion?(error: writerContextError)
+                }
             } catch let error as NSError {
-                fatalError("Unresolved error saving managed object context \(error)")
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion?(error: error)
+                }
             }
         }
         let mainContextBlockObject : AnyObject = unsafeBitCast(mainContextBlock, AnyObject.self)

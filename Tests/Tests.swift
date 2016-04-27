@@ -26,7 +26,7 @@ class Tests: XCTestCase {
         let dataStack = self.createDataStack()
 
         var synchronous = false
-        dataStack.persistWithCompletion {
+        dataStack.persist { _ in
             synchronous = true
         }
 
@@ -54,17 +54,17 @@ class Tests: XCTestCase {
             XCTAssertEqual(objects.count, 1)
         }
 
-        dataStack.persistWithCompletion({
+        dataStack.persist { _ in
             let objects = self.fetchObjectsInContext(dataStack.mainContext)
             XCTAssertEqual(objects.count, 1)
-        })
+        }
     }
 
     func testRequestWithDictionaryResultType() {
         let dataStack = self.createDataStack()
         self.insertUserInContext(dataStack.mainContext)
 
-        dataStack.persistWithCompletion {
+        dataStack.persist { _ in
             let request = NSFetchRequest(entityName: "User")
             let objects = try! dataStack.mainContext.executeFetchRequest(request)
             XCTAssertEqual(objects.count, 1)
@@ -99,10 +99,10 @@ class Tests: XCTestCase {
             self.insertUserInContext(backgroundContext)
         }
 
-        dataStack.persistWithCompletion({
+        dataStack.persist { _ in
             let objects = self.fetchObjectsInContext(dataStack.mainContext)
             XCTAssertEqual(objects.count, 1)
-        })
+        }
 
         dataStack.drop()
 
