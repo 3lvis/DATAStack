@@ -1,6 +1,11 @@
 import Foundation
 import CoreData
 
+// MARK: - Notifications
+
+public let DATAStackDidPersistNotification = "net.3lvis.DATAStack.DidPersistNotification"
+public let DATAStackDidFailToPersistNotification = "net.3lvis.DATAStack.DidFailToPersistNotification"
+
 // MARK: - Enums
 
 @objc public enum DATAStackStoreType: Int {
@@ -18,15 +23,16 @@ import CoreData
 
     private var modelBundle: NSBundle = NSBundle.mainBundle()
 
+    /// The context for the main queue
     private var _mainContext: NSManagedObjectContext?
-
     public var mainContext: NSManagedObjectContext {
         get {
             if _mainContext == nil {
                 let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
                 context.undoManager = nil
-                context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                 context.parentContext = self.writerContext
+                context.name = "DATAStack Main Context"
 
                 _mainContext = context
             }
@@ -35,15 +41,16 @@ import CoreData
         }
     }
 
+    /// The parent context of all `NSManagedObjectContext` instances.
     private var _writerContext: NSManagedObjectContext?
-
     private var writerContext: NSManagedObjectContext {
         get {
             if _writerContext == nil {
                 let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
                 context.undoManager = nil
-                context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                 context.persistentStoreCoordinator = self.persistentStoreCoordinator
+                context.name = "DATAStack Writer Context"
 
                 _writerContext = context
             }
@@ -52,8 +59,9 @@ import CoreData
         }
     }
 
+    /// The persistent store coordinator shared across all `NSManagedObjectContext` instances
+    /// created by this instance
     private var _persistentStoreCoordinator: NSPersistentStoreCoordinator?
-
     private var persistentStoreCoordinator: NSPersistentStoreCoordinator {
         get {
             if _persistentStoreCoordinator == nil {
@@ -135,16 +143,6 @@ import CoreData
         }
     }
 
-    public func newDisposableMainContext() -> NSManagedObjectContext {
-        let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
-        context.persistentStoreCoordinator = self.disposablePersistentStoreCoordinator
-        context.undoManager = nil
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.newDisposableMainContextWillSave(_:)), name: NSManagedObjectContextWillSaveNotification, object: context)
-
-        return context
-    }
-
     private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
         guard let modelURL = self.modelBundle.URLForResource(self.modelName, withExtension: "momd"), model = NSManagedObjectModel(contentsOfURL: modelURL)
             else { fatalError("Model named \(self.modelName) not found in bundle \(self.modelBundle)") }
@@ -203,59 +201,150 @@ import CoreData
             fatalError("Background context saved in the main thread. Use context's `performBlock`")
         } else {
             let contextBlock: @convention(block) () -> Void = {
+                print("Merging changes into main context")
                 self.mainContext.mergeChangesFromContextDidSaveNotification(notification)
             }
-            let blockObject : AnyObject = unsafeBitCast(contextBlock, AnyObject.self)
+            
+            let blockObject: AnyObject = unsafeBitCast(contextBlock, AnyObject.self)
             self.mainContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
         }
     }
 
     // MARK: - Public
-
-    public func performInNewBackgroundContext(operation: (backgroundContext: NSManagedObjectContext) -> Void) {
-        let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
-        context.persistentStoreCoordinator = self.persistentStoreCoordinator
+    
+    /// Creates a new disposable main context, which resets on save
+    public func newDisposableMainContext() -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        context.persistentStoreCoordinator = self.disposablePersistentStoreCoordinator
         context.undoManager = nil
-        context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.newDisposableMainContextWillSave(_:)), name: NSManagedObjectContextWillSaveNotification, object: context)
+        
+        return context
+    }
+    
+    /// Creates a new context which can be used on a background thread.
+    public func newBackgroundContext(name: String? = nil, parentContext: NSManagedObjectContext? = nil) -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
+        
+        if let parentContext = parentContext {
+            context.parentContext = parentContext
+        } else {
+            context.persistentStoreCoordinator = self.persistentStoreCoordinator
+        }
+        
+        context.undoManager = nil
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        context.name = name
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.backgroundContextDidSave(_:)), name: NSManagedObjectContextDidSaveNotification, object: context)
+        
+        return context
+    }
+
+    /// Creates a new background context, performs `operation` within the context, and then merges changes to the `mainContext`
+    public func performInNewBackgroundContext(operation: (backgroundContext: NSManagedObjectContext) -> ()) {
+        let context = newBackgroundContext()
 
         let contextBlock: @convention(block) () -> Void = {
             operation(backgroundContext: context)
         }
-        let blockObject : AnyObject = unsafeBitCast(contextBlock, AnyObject.self)
+        let blockObject: AnyObject = unsafeBitCast(contextBlock, AnyObject.self)
         context.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
     }
-
-    public func persistWithCompletion(completion: (() -> Void)?) {
-        let writerContextBlock: @convention(block) () -> Void = {
+    
+    /// Persists the stack. Calls `completion` with an error if something fails.
+    /// This will not save child context's. They must be saved before invoking this method
+    /// for their changes to persist.
+    public func persistWithCompletion(completion: ((ErrorType?) -> Void)? = nil) {
+        let innerCompletion: ErrorType? -> Void = { error in
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            if let error = error as? NSError {
+                notificationCenter.postNotificationName(DATAStackDidFailToPersistNotification, object: error)
+            } else {
+                notificationCenter.postNotificationName(DATAStackDidPersistNotification, object: self)
+            }
+            
+            completion?(error)
+        }
+        
+        let writerContextBlock: @convention(block) Void -> Void = {
             do {
                 try self.writerContext.save()
                 if TestCheck.isTesting {
-                    completion?()
+                    innerCompletion(nil)
                 } else {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        completion?()
-                    })
+                    dispatch_async(dispatch_get_main_queue()) {
+                        innerCompletion(nil)
+                    }
                 }
-            } catch let parentError as NSError {
-                fatalError("Unresolved error saving parent managed object context \(parentError)");
+            } catch {
+                innerCompletion(error)
             }
         }
-        let writerContextBlockObject : AnyObject = unsafeBitCast(writerContextBlock, AnyObject.self)
-
-        let mainContextBlock: @convention(block) () -> Void = {
+        let writerContextBlockObject: AnyObject = unsafeBitCast(writerContextBlock, AnyObject.self)
+        
+        let mainContextBlock: @convention(block) Void -> Void = {
             do {
                 try self.mainContext.save()
                 self.writerContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: writerContextBlockObject)
-            } catch let error as NSError {
-                fatalError("Unresolved error saving managed object context \(error)")
+            } catch {
+                innerCompletion(error)
             }
         }
-        let mainContextBlockObject : AnyObject = unsafeBitCast(mainContextBlock, AnyObject.self)
+        let mainContextBlockObject: AnyObject = unsafeBitCast(mainContextBlock, AnyObject.self)
         self.mainContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: mainContextBlockObject)
     }
+    
+    /// Drops a collection for an `entity`. This is not object-graph safe, and
+    /// mostly for development purposes. Deletes in production should respect
+    /// the object graph
+    public func dropEntityCollection(entityName: String) -> Bool {
+        let fetchRequest = NSFetchRequest(entityName: entityName)
+        
+        if #available(iOS 9.0, OSX 10.11, *) {
+            return batchDeleteCollection(fetchRequest)
+        } else {
+            // Fallback on earlier versions
+            return fetchAndDeleteCollection(fetchRequest)
+        }
+        
+    }
+    
+    /// Utilizes `NSBatchDeleteRequest` to delete objects matching `fetchRequest`
+    @available(iOS 9.0, OSX 10.11, *)
+    private func batchDeleteCollection(fetchRequest: NSFetchRequest) -> Bool {
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+        do {
+            try self._persistentStoreCoordinator?.executeRequest(batchDeleteRequest, withContext: mainContext)
+            return true
+        } catch {
+            return false
+        }
+    }
+    
+    /// Loads objects matching `fetchRequest` into memory, and then deletes them.
+    private func fetchAndDeleteCollection(fetchRequest: NSFetchRequest) -> Bool {
+        fetchRequest.includesPropertyValues = false
+        
+        do {
+            guard let objects = try mainContext.executeFetchRequest(fetchRequest) as? [NSManagedObject]
+            else {
+                return false
+            }
+            
+            for object in objects {
+                mainContext.deleteObject(object)
+            }
+            
+            return true
+        } catch {
+            return false
+        }
+    }
 
+    /// Drops the entire stack.
     public func drop() {
         guard let store = self.persistentStoreCoordinator.persistentStores.last, storeURL = store.URL, storePath = storeURL.path
             else { fatalError("Persistent store coordinator not found") }

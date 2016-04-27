@@ -12,12 +12,6 @@ struct TestCheck {
         var isRunning = (enviroment["TRAVIS"] != nil || enviroment["XCTestConfigurationFilePath"] != nil)
 
         if !isRunning {
-            if let serviceName = serviceName {
-                isRunning = (serviceName as NSString).pathExtension == "xctest"
-            }
-        }
-
-        if !isRunning {
             if let injectBundle = injectBundle {
                 isRunning = (injectBundle as NSString).pathExtension == "xctest"
             }
