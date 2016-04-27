@@ -38,22 +38,22 @@ It is recommended that **DATAStack** gets persisted when these two methods are c
 **Swift**
 ```swift
 func applicationDidEnterBackground(application: UIApplication) {
-    self.dataStack.persistWithCompletion(nil)
+    self.dataStack.persist(nil)
 }
 
 func applicationWillTerminate(application: UIApplication) {
-    self.dataStack.persistWithCompletion(nil)
+    self.dataStack.persist(nil)
 }
 ```
 
 **Objective-C**
 ``` objc
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    [self.dataStack persistWithCompletion:nil];
+    [self.dataStack persist:nil];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    [self.dataStack persistWithCompletion:nil];
+    [self.dataStack persist:nil];
 }
 ```
 
