@@ -1,15 +1,11 @@
 import Foundation
 import CoreData
 
-// MARK: - Enums
-
 @objc public enum DATAStackStoreType: Int {
     case InMemory, SQLite
 }
 
 @objc public class DATAStack: NSObject {
-    // MARK: - Variables
-
     private var storeType: DATAStackStoreType = .SQLite
 
     private var storeName: String?
@@ -20,6 +16,10 @@ import CoreData
 
     private var _mainContext: NSManagedObjectContext?
 
+    /**
+     The context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext`
+     instead.
+     */
     public var mainContext: NSManagedObjectContext {
         get {
             if _mainContext == nil {
@@ -135,16 +135,6 @@ import CoreData
         }
     }
 
-    public func newDisposableMainContext() -> NSManagedObjectContext {
-        let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
-        context.persistentStoreCoordinator = self.disposablePersistentStoreCoordinator
-        context.undoManager = nil
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.newDisposableMainContextWillSave(_:)), name: NSManagedObjectContextWillSaveNotification, object: context)
-
-        return context
-    }
-
     private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
         guard let modelURL = self.modelBundle.URLForResource(self.modelName, withExtension: "momd"), model = NSManagedObjectModel(contentsOfURL: modelURL)
             else { fatalError("Model named \(self.modelName) not found in bundle \(self.modelBundle)") }
@@ -159,8 +149,10 @@ import CoreData
         return persistentStoreCoordinator
     }()
 
-    // MARK: - Initalizers
-
+    /**
+     Initializes a DATAStack using the bundle name as the model name, so if your target is called ModernApp,
+     it will look for a ModernApp.xcdatamodeld.
+     */
     public override init() {
         let bundle = NSBundle.mainBundle()
         if let bundleName = bundle.infoDictionary?["CFBundleName"] as? String {
@@ -168,16 +160,41 @@ import CoreData
         }
     }
 
+    /**
+     Initializes a DATAStack using the provided model name.
+     - parameter modelName: The name of your Core Data model (xcdatamodeld).
+     */
     public init(modelName: String) {
         self.modelName = modelName
     }
 
+    /**
+     Initializes a DATAStack using the provided model name, bundle and storeType.
+     - parameter modelName: The name of your Core Data model (xcdatamodeld).
+     - parameter bundle: The bundle where your Core Data model is located, normally your Core Data model is in
+     the main bundle but when using unit tests sometimes your Core Data model could be located where your tests
+     are located.
+     - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
+     based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
+     */
     public init(modelName: String, bundle: NSBundle, storeType: DATAStackStoreType) {
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
     }
 
+    /**
+     Initializes a DATAStack using the provided model name, bundle, storeType and store name.
+     - parameter modelName: The name of your Core Data model (xcdatamodeld).
+     - parameter bundle: The bundle where your Core Data model is located, normally your Core Data model is in
+     the main bundle but when using unit tests sometimes your Core Data model could be located where your tests
+     are located.
+     - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
+     based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
+     - parameter storeName: Normally your file would be named as your model name is named, so if your model 
+     name is AwesomeApp then the .sqlite file will be named AwesomeApp.sqlite, this attribute allows your to
+     change that.
+     */
     public init(modelName: String, bundle: NSBundle, storeType: DATAStackStoreType, storeName: String) {
         self.modelName = modelName
         self.modelBundle = bundle
@@ -190,28 +207,23 @@ import CoreData
         NSNotificationCenter.defaultCenter().removeObserver(self, name: NSManagedObjectContextDidSaveNotification, object: nil)
     }
 
-    // MARK: - Observers
+    /**
+     Returns a new main context that is detached from saving to disk.
+     */
+    public func newDisposableMainContext() -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        context.persistentStoreCoordinator = self.disposablePersistentStoreCoordinator
+        context.undoManager = nil
 
-    internal func newDisposableMainContextWillSave(notification: NSNotification) {
-        if let context = notification.object as? NSManagedObjectContext {
-            context.reset()
-        }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.newDisposableMainContextWillSave(_:)), name: NSManagedObjectContextWillSaveNotification, object: context)
+
+        return context
     }
 
-    internal func backgroundContextDidSave(notification: NSNotification) {
-        if NSThread.isMainThread() && TestCheck.isTesting == false {
-            fatalError("Background context saved in the main thread. Use context's `performBlock`")
-        } else {
-            let contextBlock: @convention(block) () -> Void = {
-                self.mainContext.mergeChangesFromContextDidSaveNotification(notification)
-            }
-            let blockObject : AnyObject = unsafeBitCast(contextBlock, AnyObject.self)
-            self.mainContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
-        }
-    }
-
-    // MARK: - Public
-
+    /**
+     Returns a background context perfect for data mutability operations.
+     - parameter operation: The block that contains the created background context.
+     */
     public func performInNewBackgroundContext(operation: (backgroundContext: NSManagedObjectContext) -> Void) {
         let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
         context.persistentStoreCoordinator = self.persistentStoreCoordinator
@@ -227,6 +239,9 @@ import CoreData
         context.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
     }
 
+    /**
+     Saves all data to disk in a safe way.
+     */
     public func persistWithCompletion(completion: (() -> Void)?) {
         let writerContextBlock: @convention(block) () -> Void = {
             do {
@@ -256,6 +271,9 @@ import CoreData
         self.mainContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: mainContextBlockObject)
     }
 
+    /**
+     Drops the database.
+     */
     public func drop() {
         guard let store = self.persistentStoreCoordinator.persistentStores.last, storeURL = store.URL, storePath = storeURL.path
             else { fatalError("Persistent store coordinator not found") }
@@ -284,13 +302,33 @@ import CoreData
                 print("Could not delete persistent store wal: \(error)")
             }
         }
-
+        
         if fileManager.fileExistsAtPath(storePath) {
             do {
                 try fileManager.removeItemAtURL(storeURL)
             } catch let error as NSError {
                 print("Could not delete sqlite file: \(error)")
             }
+        }
+    }
+
+    // Can't be private, has to be internal in order to be used as a selector.
+    func newDisposableMainContextWillSave(notification: NSNotification) {
+        if let context = notification.object as? NSManagedObjectContext {
+            context.reset()
+        }
+    }
+
+    // Can't be private, has to be internal in order to be used as a selector.
+    func backgroundContextDidSave(notification: NSNotification) {
+        if NSThread.isMainThread() && TestCheck.isTesting == false {
+            fatalError("Background context saved in the main thread. Use context's `performBlock`")
+        } else {
+            let contextBlock: @convention(block) () -> Void = {
+                self.mainContext.mergeChangesFromContextDidSaveNotification(notification)
+            }
+            let blockObject : AnyObject = unsafeBitCast(contextBlock, AnyObject.self)
+            self.mainContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
         }
     }
 
