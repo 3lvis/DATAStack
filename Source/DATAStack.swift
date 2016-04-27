@@ -30,7 +30,7 @@ public let DATAStackDidFailToPersistNotification = "net.3lvis.DATAStack.DidFailT
             if _mainContext == nil {
                 let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
                 context.undoManager = nil
-                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+                context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
                 context.parentContext = self.writerContext
                 context.name = "DATAStack Main Context"
 
@@ -201,6 +201,7 @@ public let DATAStackDidFailToPersistNotification = "net.3lvis.DATAStack.DidFailT
             fatalError("Background context saved in the main thread. Use context's `performBlock`")
         } else {
             let contextBlock: @convention(block) () -> Void = {
+                print("Merging changes into main context")
                 self.mainContext.mergeChangesFromContextDidSaveNotification(notification)
             }
             

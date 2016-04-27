@@ -23,11 +23,17 @@ class ViewController: UITableViewController {
 
     init(dataStack: DATAStack) {
         self.dataStack = dataStack
-        self.dataStack.mainContext.stalenessInterval = 0.0
-        
         self.backgroundContext = dataStack.newBackgroundContext("ViewController Background Context")
 
         super.init(style: .Plain)
+        
+        let mainContext = self.dataStack.mainContext
+        NSNotificationCenter.defaultCenter().addObserverForName(NSManagedObjectContextDidSaveNotification, object: mainContext, queue: nil) { notification in
+            print("Main context did save. Merge changes into background context")
+            self.backgroundContext.performBlock {
+                self.backgroundContext.mergeChangesFromContextDidSaveNotification(notification)
+            }
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -54,14 +60,17 @@ class ViewController: UITableViewController {
     }
 
     func createBackground() {
-        self.dataStack.performInNewBackgroundContext { backgroundContext in
-            let entity = NSEntityDescription.entityForName("User", inManagedObjectContext: backgroundContext)!
-            let object = NSManagedObject(entity: entity, insertIntoManagedObjectContext: backgroundContext)
+        //self.dataStack.performInNewBackgroundContext { _backgroundContext in
+        let _backgroundContext = self.backgroundContext
+        self.backgroundContext.performBlock {
+            let entity = NSEntityDescription.entityForName("User", inManagedObjectContext: _backgroundContext)!
+            let object = NSManagedObject(entity: entity, insertIntoManagedObjectContext: _backgroundContext)
             object.setValue("Background", forKey: "name")
             object.setValue(NSDate(), forKey: "createdDate")
             object.setValue(0, forKey: "score")
-            try! backgroundContext.save()
+            try! _backgroundContext.save()
         }
+        //}
     }
 
     func createMain() {
@@ -71,7 +80,6 @@ class ViewController: UITableViewController {
         object.setValue(NSDate(), forKey: "createdDate")
         object.setValue(0, forKey: "score")
         try! self.dataStack.mainContext.save()
-        self.dataStack.persistWithCompletion(nil)
     }
     
     func editUsers() {
@@ -95,9 +103,9 @@ class ViewController: UITableViewController {
     
     private func editUsersInContext(context: NSManagedObjectContext) {
         context.performBlock {
-            /// Get all users created on the main context
+            /// Get all users who have a name
             let fetchRequest = NSFetchRequest(entityName: "User")
-            fetchRequest.predicate = NSPredicate(format: "%K contains[c] %@", "name", "main")
+            fetchRequest.predicate = NSPredicate(format: "%K != NULL", "name")
             
             let users = try! context.executeFetchRequest(fetchRequest)
             
