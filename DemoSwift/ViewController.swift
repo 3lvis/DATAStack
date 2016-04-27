@@ -71,6 +71,7 @@ class ViewController: UITableViewController {
         object.setValue(NSDate(), forKey: "createdDate")
         object.setValue(0, forKey: "score")
         try! self.dataStack.mainContext.save()
+        self.dataStack.persistWithCompletion(nil)
     }
     
     func editUsers() {
