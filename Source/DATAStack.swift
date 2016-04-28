@@ -191,7 +191,7 @@ import CoreData
      are located.
      - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
      based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
-     - parameter storeName: Normally your file would be named as your model name is named, so if your model 
+     - parameter storeName: Normally your file would be named as your model name is named, so if your model
      name is AwesomeApp then the .sqlite file will be named AwesomeApp.sqlite, this attribute allows your to
      change that.
      */
@@ -240,7 +240,7 @@ import CoreData
     }
 
     /**
-     Saves all data to disk in a safe way. Deprecated in 4.3.0, use `persist(completion: ((error: NSError?) -> Void)?)` 
+     Saves all data to disk in a safe way. Deprecated in 4.3.0, use `persist(completion: ((error: NSError?) -> Void)?)`
      instead.
      */
     @available(*, deprecated=4.3.0, message="Use `persist(completion: ((error: NSError?) -> Void)?)` instead") public func persistWithCompletion(completion: (() -> Void)?) {
@@ -314,12 +314,36 @@ import CoreData
                 print("Could not delete persistent store wal: \(error)")
             }
         }
-        
+
         if fileManager.fileExistsAtPath(storePath) {
             do {
                 try fileManager.removeItemAtURL(storeURL)
             } catch let error as NSError {
                 print("Could not delete sqlite file: \(error)")
+            }
+        }
+    }
+
+    /**
+     Drops the elements in an entity.
+     - parameter entityName: The name of the entity to be dropped.
+     - parameter predicate: The predicate to be used to filter out removed objects (optional).
+     - parameter context: The managed object context to be used.
+     */
+    public func dropEntity(entityName: String, predicate: NSPredicate? = nil, context: NSManagedObjectContext) throws {
+        let request = NSFetchRequest(entityName: entityName)
+        request.predicate = predicate
+
+        if #available(iOS 9.0, OSX 10.11, *) {
+            let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+            try context.executeRequest(batchDeleteRequest)
+        } else {
+            let objects = try context.executeFetchRequest(request) as? [NSManagedObject] ?? [NSManagedObject]()
+            for object in objects {
+                context.deleteObject(object)
+            }
+            if context.hasChanges {
+                try context.save()
             }
         }
     }
