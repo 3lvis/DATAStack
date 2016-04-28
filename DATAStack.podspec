@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "DATAStack"
-  s.version = "4.2.4"
+  s.version = "4.3.0"
   s.summary = "Core Data stack boilerplate"
   s.description = <<-DESC
                    * Feeling tired of having Core Data boilerplate in your AppDelegate?
@@ -17,7 +17,6 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = '10.9'
   s.watchos.deployment_target = '2.0'
   s.tvos.deployment_target = '9.0'
-
   s.source = {
     :git => 'https://github.com/3lvis/DATAStack.git',
     :tag => s.version.to_s
