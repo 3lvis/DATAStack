@@ -78,7 +78,7 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
     [object setValue:@"Main" forKey:@"name"];
     [object setValue:[NSDate date] forKey:@"createdDate"];
 
-    // This is meant to fail, since saving in the main context is awful. Never do it.
+    // This is meant to fail, don't mutate data on the main thread. Use a background thread for this.
     [self.dataStack.mainContext save:nil];
 }
 
