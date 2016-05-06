@@ -180,12 +180,14 @@ import CoreData
      instead.
      */
     @available(*, deprecated=4.3.0, message="Calling this method is no longer needed. Data will get persisted after calling `try mainContext.save()`") public func persistWithCompletion(completion: (() -> Void)?) {
+        completion?()
     }
 
     /**
      Saves all data to disk in a safe way.
      */
     @available(*, deprecated=4.4.0, message="Calling this method is no longer needed. Data will get persisted after calling `try mainContext.save()`") public func persist(completion: ((error: NSError?) -> Void)?) {
+        completion?(error: nil)
     }
 
     func saveMainThread(completion: ((error: NSError?) -> Void)?) {
