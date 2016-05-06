@@ -81,7 +81,9 @@ class Tests: XCTestCase {
 
     func testRequestWithDictionaryResultType() {
         let dataStack = self.createDataStack()
-        self.insertUserInContext(dataStack.mainContext)
+        dataStack.performInNewBackgroundContext { backgroundContext in
+            self.insertUserInContext(backgroundContext)
+        }
 
         dataStack.persist { _ in
             let request = NSFetchRequest(entityName: "User")
@@ -131,7 +133,9 @@ class Tests: XCTestCase {
 
     func testAlternativeModel() {
         let dataStack = DATAStack(modelName: "DataModelTest", bundle: NSBundle(forClass: Tests.self), storeType: .SQLite)
-        self.insertUserInContext(dataStack.mainContext)
-        XCTAssertNotNil(dataStack)
+        dataStack.performInNewBackgroundContext { backgroundContext in
+            self.insertUserInContext(backgroundContext)
+            XCTAssertNotNil(dataStack)
+        }
     }
 }
