@@ -176,15 +176,14 @@ import CoreData
     }
 
     /**
-     Saves all data to disk in a safe way. Deprecated in 4.3.0, use `persist(completion: ((error: NSError?) -> Void)?)` 
-     instead.
+     Calling this method is no longer needed. Data will get persisted after calling `try mainContext.save()`
      */
     @available(*, deprecated=4.3.0, message="Calling this method is no longer needed. Data will get persisted after calling `try mainContext.save()`") public func persistWithCompletion(completion: (() -> Void)?) {
         completion?()
     }
 
     /**
-     Saves all data to disk in a safe way.
+     Calling this method is no longer needed. Data will get persisted after calling `try mainContext.save()`
      */
     @available(*, deprecated=4.4.0, message="Calling this method is no longer needed. Data will get persisted after calling `try mainContext.save()`") public func persist(completion: ((error: NSError?) -> Void)?) {
         completion?(error: nil)
