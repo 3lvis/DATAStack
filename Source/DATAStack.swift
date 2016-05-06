@@ -203,15 +203,9 @@ import CoreData
         let writerContextBlockObject : AnyObject = unsafeBitCast(writerContextBlock, AnyObject.self)
 
         let mainContextBlock: @convention(block) Void -> Void = {
-            do {
-                self.writerContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: writerContextBlockObject)
-                dispatch_async(dispatch_get_main_queue()) {
-                    completion?(error: writerContextError)
-                }
-            } catch let error as NSError {
-                dispatch_async(dispatch_get_main_queue()) {
-                    completion?(error: error)
-                }
+            self.writerContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: writerContextBlockObject)
+            dispatch_async(dispatch_get_main_queue()) {
+                completion?(error: writerContextError)
             }
         }
         let mainContextBlockObject : AnyObject = unsafeBitCast(mainContextBlock, AnyObject.self)

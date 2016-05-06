@@ -58,6 +58,5 @@ class ViewController: UITableViewController {
         object.setValue("Main", forKey: "name")
         object.setValue(NSDate(), forKey: "createdDate")
         try! self.dataStack.mainContext.save()
-        self.dataStack.persistWithCompletion(nil)
     }
 }
