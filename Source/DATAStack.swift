@@ -147,10 +147,9 @@ import CoreData
     }
 
     /**
-     Returns a background context perfect for data mutability operations.
-     - parameter operation: The block that contains the created background context.
+     Returns a background context perfect for data mutability operations. Make sure to never use it on the main thread. Use `performBlock` or `performBlockAndWait` to use it.
      */
-    public func performInNewBackgroundContext(operation: (backgroundContext: NSManagedObjectContext) -> Void) {
+    public func newBackgroundContext() -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
         context.persistentStoreCoordinator = self.persistentStoreCoordinator
         context.undoManager = nil
@@ -158,6 +157,15 @@ import CoreData
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.backgroundContextDidSave(_:)), name: NSManagedObjectContextDidSaveNotification, object: context)
 
+        return context
+    }
+
+    /**
+     Returns a background context perfect for data mutability operations.
+     - parameter operation: The block that contains the created background context.
+     */
+    public func performInNewBackgroundContext(operation: (backgroundContext: NSManagedObjectContext) -> Void) {
+        let context = self.newBackgroundContext()
         let contextBlock: @convention(block) () -> Void = {
             operation(backgroundContext: context)
         }

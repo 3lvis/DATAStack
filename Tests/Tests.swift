@@ -60,6 +60,25 @@ class Tests: XCTestCase {
         }
     }
 
+    func testNewBackgroundContextSave() {
+        var synchronous = false
+        let dataStack = self.createDataStack()
+        let backgroundContext = dataStack.newBackgroundContext()
+        backgroundContext.performBlockAndWait {
+            synchronous = true
+            self.insertUserInContext(backgroundContext)
+            let objects = self.fetchObjectsInContext(backgroundContext)
+            XCTAssertEqual(objects.count, 1)
+        }
+
+        dataStack.persist { _ in
+            let objects = self.fetchObjectsInContext(dataStack.mainContext)
+            XCTAssertEqual(objects.count, 1)
+        }
+
+        XCTAssertTrue(synchronous)
+    }
+
     func testRequestWithDictionaryResultType() {
         let dataStack = self.createDataStack()
         self.insertUserInContext(dataStack.mainContext)
