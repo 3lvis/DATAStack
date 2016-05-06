@@ -104,7 +104,7 @@ class Tests: XCTestCase {
             XCTAssertEqual(objects.count, 1)
         }
 
-        dataStack.drop()
+        try! dataStack.drop()
 
         let objects = self.fetchObjectsInContext(dataStack.mainContext)
         XCTAssertEqual(objects.count, 0)

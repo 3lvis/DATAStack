@@ -57,77 +57,9 @@ import CoreData
     private var persistentStoreCoordinator: NSPersistentStoreCoordinator {
         get {
             if _persistentStoreCoordinator == nil {
-                let filePath = (self.storeName ?? self.modelName) + ".sqlite"
-
-                var model: NSManagedObjectModel?
-
-                if let momdModelURL = self.modelBundle.URLForResource(self.modelName, withExtension: "momd") {
-                    model = NSManagedObjectModel(contentsOfURL: momdModelURL)
-                }
-
-                if let momModelURL = self.modelBundle.URLForResource(self.modelName, withExtension: "mom") {
-                    model = NSManagedObjectModel(contentsOfURL: momModelURL)
-                }
-
-                guard let unwrappedModel = model else { fatalError("Model with model name \(self.modelName) not found in bundle \(self.modelBundle)") }
-                let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: unwrappedModel)
-
-                switch self.storeType {
-                case .InMemory:
-                    do {
-                        try persistentStoreCoordinator.addPersistentStoreWithType(NSInMemoryStoreType, configuration: nil, URL: nil, options: nil)
-                    } catch let error as NSError {
-                        fatalError("There was an error creating the persistentStoreCoordinator: \(error)")
-                    }
-
-                    break
-                case .SQLite:
-                    let storeURL = self.applicationDocumentsDirectory().URLByAppendingPathComponent(filePath)
-                    guard let storePath = storeURL.path else { fatalError("Store path not found: \(storeURL)") }
-
-                    let shouldPreloadDatabase = !NSFileManager.defaultManager().fileExistsAtPath(storePath)
-                    if shouldPreloadDatabase {
-                        if let preloadedPath = self.modelBundle.pathForResource(self.modelName, ofType: "sqlite") {
-                            let preloadURL = NSURL.fileURLWithPath(preloadedPath)
-
-                            do {
-                                try NSFileManager.defaultManager().copyItemAtURL(preloadURL, toURL: storeURL)
-                            } catch let error as NSError {
-                                fatalError("Oops, could not copy preloaded data. Error: \(error)")
-                            }
-                        }
-                    }
-
-                    do {
-                        try persistentStoreCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: [NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true])
-                    } catch {
-                        print("Error encountered while reading the database. Please allow all the data to download again.")
-
-                        do {
-                            try NSFileManager.defaultManager().removeItemAtPath(storePath)
-
-                            do {
-                                try persistentStoreCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: [NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true])
-                            } catch let addPersistentError as NSError {
-                                fatalError("There was an error creating the persistentStoreCoordinator: \(addPersistentError)")
-                            }
-                        } catch let removingError as NSError {
-                            fatalError("There was an error removing the persistentStoreCoordinator: \(removingError)")
-                        }
-                    }
-
-                    let shouldExcludeSQLiteFromBackup = self.storeType == .SQLite && TestCheck.isTesting == false
-                    if shouldExcludeSQLiteFromBackup {
-                        do {
-                            try storeURL.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
-                        } catch let excludingError as NSError {
-                            fatalError("Excluding SQLite file from backup caused an error: \(excludingError)")
-                        }
-                    }
-
-                    break
-                }
-
+                let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
+                let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
+                try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName)
                 _persistentStoreCoordinator = persistentStoreCoordinator
             }
 
@@ -136,15 +68,9 @@ import CoreData
     }
 
     private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
-        guard let modelURL = self.modelBundle.URLForResource(self.modelName, withExtension: "momd"), model = NSManagedObjectModel(contentsOfURL: modelURL)
-            else { fatalError("Model named \(self.modelName) not found in bundle \(self.modelBundle)") }
-
+        let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-        do {
-            try persistentStoreCoordinator.addPersistentStoreWithType(NSInMemoryStoreType, configuration: nil, URL: nil, options: nil)
-        } catch let error as NSError {
-            fatalError("There was an error creating the disposablePersistentStoreCoordinator: \(error)")
-        }
+        try! persistentStoreCoordinator.addPersistentStore(storeType: .InMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName)
 
         return persistentStoreCoordinator
     }()
@@ -286,9 +212,9 @@ import CoreData
     /**
      Drops the database.
      */
-    public func drop() {
+    public func drop() throws {
         guard let store = self.persistentStoreCoordinator.persistentStores.last, storeURL = store.URL, storePath = storeURL.path
-            else { fatalError("Persistent store coordinator not found") }
+            else { throw NSError(info: "Persistent store coordinator not found", previousError: nil) }
 
         let sqliteFile = (storePath as NSString).stringByDeletingPathExtension
         let fileManager = NSFileManager.defaultManager()
@@ -302,7 +228,7 @@ import CoreData
             do {
                 try fileManager.removeItemAtURL(NSURL.fileURLWithPath(shm))
             } catch let error as NSError {
-                print("Could not delete persistent store shm: \(error)")
+                throw NSError(info: "Could not delete persistent store shm", previousError: error)
             }
         }
 
@@ -311,7 +237,7 @@ import CoreData
             do {
                 try fileManager.removeItemAtURL(NSURL.fileURLWithPath(wal))
             } catch let error as NSError {
-                print("Could not delete persistent store wal: \(error)")
+                throw NSError(info: "Could not delete persistent store wal", previousError: error)
             }
         }
         
@@ -319,7 +245,7 @@ import CoreData
             do {
                 try fileManager.removeItemAtURL(storeURL)
             } catch let error as NSError {
-                print("Could not delete sqlite file: \(error)")
+                throw NSError(info: "Could not delete sqlite file", previousError: error)
             }
         }
     }
@@ -332,9 +258,9 @@ import CoreData
     }
 
     // Can't be private, has to be internal in order to be used as a selector.
-    func backgroundContextDidSave(notification: NSNotification) {
+    func backgroundContextDidSave(notification: NSNotification) throws {
         if NSThread.isMainThread() && TestCheck.isTesting == false {
-            fatalError("Background context saved in the main thread. Use context's `performBlock`")
+            throw NSError(info: "Background context saved in the main thread. Use context's `performBlock`", previousError: nil)
         } else {
             let contextBlock: @convention(block) () -> Void = {
                 self.mainContext.mergeChangesFromContextDidSaveNotification(notification)
@@ -344,19 +270,110 @@ import CoreData
         }
     }
 
-    private func applicationDocumentsDirectory() -> NSURL {
-        #if os(tvOS)
-            return NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask).last!
-        #else
-            return NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).last!
-        #endif
-    }
-
     private static func backgroundConcurrencyType() -> NSManagedObjectContextConcurrencyType {
         return TestCheck.isTesting ? .MainQueueConcurrencyType : .PrivateQueueConcurrencyType
     }
 
     private static func performSelectorForBackgroundContext() -> Selector {
         return TestCheck.isTesting ? NSSelectorFromString("performBlockAndWait:") : NSSelectorFromString("performBlock:")
+    }
+}
+
+extension NSPersistentStoreCoordinator {
+    func addPersistentStore(storeType storeType: DATAStackStoreType, bundle: NSBundle, modelName: String, storeName: String?) throws {
+        let filePath = (storeName ?? modelName) + ".sqlite"
+        switch storeType {
+        case .InMemory:
+            do {
+                try self.addPersistentStoreWithType(NSInMemoryStoreType, configuration: nil, URL: nil, options: nil)
+            } catch let error as NSError {
+                throw NSError(info: "There was an error creating the persistentStoreCoordinator for in memory store", previousError: error)
+            }
+
+            break
+        case .SQLite:
+            let storeURL = NSURL.directoryURL().URLByAppendingPathComponent(filePath)
+            guard let storePath = storeURL.path else { throw NSError(info: "Store path not found: \(storeURL)", previousError: nil) }
+
+            let shouldPreloadDatabase = !NSFileManager.defaultManager().fileExistsAtPath(storePath)
+            if shouldPreloadDatabase {
+                if let preloadedPath = bundle.pathForResource(modelName, ofType: "sqlite") {
+                    let preloadURL = NSURL.fileURLWithPath(preloadedPath)
+
+                    do {
+                        try NSFileManager.defaultManager().copyItemAtURL(preloadURL, toURL: storeURL)
+                    } catch let error as NSError {
+                        throw NSError(info: "Oops, could not copy preloaded data", previousError: error)
+                    }
+                }
+            }
+
+            do {
+                try self.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: [NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true])
+            } catch {
+                do {
+                    try NSFileManager.defaultManager().removeItemAtPath(storePath)
+                    do {
+                        try self.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: [NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true])
+                    } catch let addPersistentError as NSError {
+                        throw NSError(info: "There was an error creating the persistentStoreCoordinator", previousError: addPersistentError)
+                    }
+                } catch let removingError as NSError {
+                    throw NSError(info: "There was an error removing the persistentStoreCoordinator", previousError: removingError)
+                }
+            }
+
+            let shouldExcludeSQLiteFromBackup = storeType == .SQLite && TestCheck.isTesting == false
+            if shouldExcludeSQLiteFromBackup {
+                do {
+                    try storeURL.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+                } catch let excludingError as NSError {
+                    throw NSError(info: "Excluding SQLite file from backup caused an error", previousError: excludingError)
+                }
+            }
+
+            break
+        }
+    }
+}
+
+extension NSManagedObjectModel {
+    convenience init(bundle: NSBundle, name: String) {
+        if let momdModelURL = bundle.URLForResource(name, withExtension: "momd") {
+            self.init(contentsOfURL: momdModelURL)!
+        } else if let momModelURL = bundle.URLForResource(name, withExtension: "mom") {
+            self.init(contentsOfURL: momModelURL)!
+        } else {
+            self.init()
+        }
+    }
+}
+
+extension NSError {
+    convenience init(info: String, previousError: NSError?) {
+        if let previousError = previousError {
+            var userInfo = previousError.userInfo
+            if let _ = userInfo[NSLocalizedFailureReasonErrorKey] {
+                userInfo["Additional reason"] = info
+            } else {
+                userInfo[NSLocalizedFailureReasonErrorKey] = info
+            }
+
+            self.init(domain: previousError.domain, code: previousError.code, userInfo: userInfo)
+        } else {
+            var userInfo = [String : AnyObject]()
+            userInfo[NSLocalizedDescriptionKey] = info
+            self.init(domain: "com.3lvis.DATAStack", code: 9999, userInfo: userInfo)
+        }
+    }
+}
+
+extension NSURL {
+    private static func directoryURL() -> NSURL {
+        #if os(tvOS)
+            return NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask).last!
+        #else
+            return NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).last!
+        #endif
     }
 }
