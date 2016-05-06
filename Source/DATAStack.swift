@@ -175,20 +175,6 @@ import CoreData
         context.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
     }
 
-    /**
-     Calling this method is no longer needed. Data will get persisted after calling `try mainContext.save()`
-     */
-    @available(*, deprecated=4.3.0, message="Calling this method is no longer needed. Data will get persisted after calling `try mainContext.save()`") public func persistWithCompletion(completion: (() -> Void)?) {
-        completion?()
-    }
-
-    /**
-     Calling this method is no longer needed. Data will get persisted after calling `try mainContext.save()`
-     */
-    @available(*, deprecated=4.4.0, message="Calling this method is no longer needed. Data will get persisted after calling `try mainContext.save()`") public func persist(completion: ((error: NSError?) -> Void)?) {
-        completion?(error: nil)
-    }
-
     func saveMainThread(completion: ((error: NSError?) -> Void)?) {
         var writerContextError: NSError?
         let writerContextBlock: @convention(block) Void -> Void = {
