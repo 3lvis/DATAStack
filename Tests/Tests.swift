@@ -22,17 +22,6 @@ class Tests: XCTestCase {
         return objects
     }
 
-    func testSynchronousPersist() {
-        let dataStack = self.createDataStack()
-
-        var synchronous = false
-        dataStack.persist { _ in
-            synchronous = true
-        }
-
-        XCTAssertTrue(synchronous)
-    }
-
     func testSynchronousBackgroundContext() {
         let dataStack = self.createDataStack()
 
@@ -54,10 +43,8 @@ class Tests: XCTestCase {
             XCTAssertEqual(objects.count, 1)
         }
 
-        dataStack.persist { _ in
-            let objects = self.fetchObjectsInContext(dataStack.mainContext)
-            XCTAssertEqual(objects.count, 1)
-        }
+        let objects = self.fetchObjectsInContext(dataStack.mainContext)
+        XCTAssertEqual(objects.count, 1)
     }
 
     func testNewBackgroundContextSave() {
@@ -71,10 +58,8 @@ class Tests: XCTestCase {
             XCTAssertEqual(objects.count, 1)
         }
 
-        dataStack.persist { _ in
-            let objects = self.fetchObjectsInContext(dataStack.mainContext)
-            XCTAssertEqual(objects.count, 1)
-        }
+        let objects = self.fetchObjectsInContext(dataStack.mainContext)
+        XCTAssertEqual(objects.count, 1)
 
         XCTAssertTrue(synchronous)
     }
@@ -83,23 +68,21 @@ class Tests: XCTestCase {
         let dataStack = self.createDataStack()
         self.insertUserInContext(dataStack.mainContext)
 
-        dataStack.persist { _ in
-            let request = NSFetchRequest(entityName: "User")
-            let objects = try! dataStack.mainContext.executeFetchRequest(request)
-            XCTAssertEqual(objects.count, 1)
+        let request = NSFetchRequest(entityName: "User")
+        let objects = try! dataStack.mainContext.executeFetchRequest(request)
+        XCTAssertEqual(objects.count, 1)
 
-            let expression = NSExpressionDescription()
-            expression.name = "objectID"
-            expression.expression = NSExpression.expressionForEvaluatedObject()
-            expression.expressionResultType = .ObjectIDAttributeType
+        let expression = NSExpressionDescription()
+        expression.name = "objectID"
+        expression.expression = NSExpression.expressionForEvaluatedObject()
+        expression.expressionResultType = .ObjectIDAttributeType
 
-            let dictionaryRequest = NSFetchRequest(entityName: "User")
-            dictionaryRequest.resultType = .DictionaryResultType
-            dictionaryRequest.propertiesToFetch = [expression, "remoteID"]
+        let dictionaryRequest = NSFetchRequest(entityName: "User")
+        dictionaryRequest.resultType = .DictionaryResultType
+        dictionaryRequest.propertiesToFetch = [expression, "remoteID"]
 
-            let dictionaryObjects = try! dataStack.mainContext.executeFetchRequest(dictionaryRequest)
-            XCTAssertEqual(dictionaryObjects.count, 1)
-        }
+        let dictionaryObjects = try! dataStack.mainContext.executeFetchRequest(dictionaryRequest)
+        XCTAssertEqual(dictionaryObjects.count, 1)
     }
 
     func testDisposableContextSave() {
@@ -118,10 +101,8 @@ class Tests: XCTestCase {
             self.insertUserInContext(backgroundContext)
         }
 
-        dataStack.persist { _ in
-            let objects = self.fetchObjectsInContext(dataStack.mainContext)
-            XCTAssertEqual(objects.count, 1)
-        }
+        let objectsA = self.fetchObjectsInContext(dataStack.mainContext)
+        XCTAssertEqual(objectsA.count, 1)
 
         try! dataStack.drop()
 

@@ -31,32 +31,6 @@ let dataStack = DATAStack(modelName:"MyAppModel")
 DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"];
 ```
 
-## Set up
-
-It is recommended that **DATAStack** gets persisted when these two methods are called in your `AppDelegate`.
-
-**Swift**
-```swift
-func applicationDidEnterBackground(application: UIApplication) {
-    self.dataStack.persist(nil)
-}
-
-func applicationWillTerminate(application: UIApplication) {
-    self.dataStack.persist(nil)
-}
-```
-
-**Objective-C**
-``` objc
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    [self.dataStack persist:nil];
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    [self.dataStack persist:nil];
-}
-```
-
 ## Main Thread NSManagedObjectContext
 
 Getting access to the NSManagedObjectContext attached to the main thread is as simple as using the `mainContext` property.
