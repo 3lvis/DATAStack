@@ -28,6 +28,8 @@ import CoreData
                 context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
                 context.parentContext = self.writerContext
 
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.mainContextWillSave(_:)), name: NSManagedObjectContextWillSaveNotification, object: context)
+
                 _mainContext = context
             }
 
@@ -174,50 +176,6 @@ import CoreData
     }
 
     /**
-     Saves all data to disk in a safe way. Deprecated in 4.3.0, use `persist(completion: ((error: NSError?) -> Void)?)` 
-     instead.
-     */
-    @available(*, deprecated=4.3.0, message="Use `persist(completion: ((error: NSError?) -> Void)?)` instead") public func persistWithCompletion(completion: (() -> Void)?) {
-        self.persist { _ in
-            completion?()
-        }
-    }
-
-    /**
-     Saves all data to disk in a safe way.
-     */
-    public func persist(completion: ((error: NSError?) -> Void)?) {
-        var writerContextError: NSError?
-        let writerContextBlock: @convention(block) Void -> Void = {
-            do {
-                try self.writerContext.save()
-                if TestCheck.isTesting {
-                    completion?(error: nil)
-                }
-            } catch let parentError as NSError {
-                writerContextError = parentError
-            }
-        }
-        let writerContextBlockObject : AnyObject = unsafeBitCast(writerContextBlock, AnyObject.self)
-
-        let mainContextBlock: @convention(block) Void -> Void = {
-            do {
-                try self.mainContext.save()
-                self.writerContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: writerContextBlockObject)
-                dispatch_async(dispatch_get_main_queue()) {
-                    completion?(error: writerContextError)
-                }
-            } catch let error as NSError {
-                dispatch_async(dispatch_get_main_queue()) {
-                    completion?(error: error)
-                }
-            }
-        }
-        let mainContextBlockObject : AnyObject = unsafeBitCast(mainContextBlock, AnyObject.self)
-        self.mainContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: mainContextBlockObject)
-    }
-
-    /**
      Drops the database.
      */
     public func drop() throws {
@@ -256,6 +214,12 @@ import CoreData
                 throw NSError(info: "Could not delete sqlite file", previousError: error)
             }
         }
+    }
+
+    // Can't be private, has to be internal in order to be used as a selector.
+    func mainContextWillSave(notification: NSNotification) {
+        // https://github.com/3lvis/DATAStack#background-thread-nsmanagedobjectcontext
+        fatalError("Do not save things on the main thread. It will block your UI and create unexpected behaviour. Use `performInNewBackgroundContext` instead.")
     }
 
     // Can't be private, has to be internal in order to be used as a selector.

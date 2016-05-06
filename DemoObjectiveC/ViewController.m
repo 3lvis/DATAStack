@@ -77,8 +77,9 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
     NSManagedObject *object = [[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:self.dataStack.mainContext];
     [object setValue:@"Main" forKey:@"name"];
     [object setValue:[NSDate date] forKey:@"createdDate"];
+
+    // This is meant to fail, don't mutate data on the main thread. Use a background thread for this.
     [self.dataStack.mainContext save:nil];
-    [self.dataStack persistWithCompletion:nil];
 }
 
 @end

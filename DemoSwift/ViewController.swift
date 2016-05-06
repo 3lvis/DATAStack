@@ -57,7 +57,8 @@ class ViewController: UITableViewController {
         let object = NSManagedObject(entity: entity, insertIntoManagedObjectContext: self.dataStack.mainContext)
         object.setValue("Main", forKey: "name")
         object.setValue(NSDate(), forKey: "createdDate")
+
+        // This is meant to fail, don't mutate data on the main thread. Use a background thread for this.
         try! self.dataStack.mainContext.save()
-        self.dataStack.persistWithCompletion(nil)
     }
 }
