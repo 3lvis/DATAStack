@@ -200,6 +200,13 @@ import CoreData
     }
 
     /**
+     Drops the database. Useful for ObjC compatibility, since it doesn't allow `throws` Use `drop` in Swift.
+     */
+    public func forceDrop() {
+        try! drop()
+    }
+
+    /**
      Drops the database.
      */
     public func drop() throws {
