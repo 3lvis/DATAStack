@@ -77,8 +77,9 @@ static NSString * const ANDYCellIdentifier = @"ANDYCellIdentifier";
     NSManagedObject *object = [[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:self.dataStack.mainContext];
     [object setValue:@"Main" forKey:@"name"];
     [object setValue:[NSDate date] forKey:@"createdDate"];
+
+    // This is meant to fail, since saving in the main context is awful. Never do it.
     [self.dataStack.mainContext save:nil];
-    [self.dataStack persistWithCompletion:nil];
 }
 
 @end
