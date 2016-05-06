@@ -28,6 +28,8 @@ import CoreData
                 context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
                 context.parentContext = self.writerContext
 
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.mainContextDidSave(_:)), name: NSManagedObjectContextDidSaveNotification, object: context)
+
                 _mainContext = context
             }
 
@@ -177,16 +179,16 @@ import CoreData
      Saves all data to disk in a safe way. Deprecated in 4.3.0, use `persist(completion: ((error: NSError?) -> Void)?)` 
      instead.
      */
-    @available(*, deprecated=4.3.0, message="Use `persist(completion: ((error: NSError?) -> Void)?)` instead") public func persistWithCompletion(completion: (() -> Void)?) {
-        self.persist { _ in
-            completion?()
-        }
+    @available(*, deprecated=4.3.0, message="Calling this method is no longer needed. Data will get persisted after calling `try mainContext.save()`") public func persistWithCompletion(completion: (() -> Void)?) {
     }
 
     /**
      Saves all data to disk in a safe way.
      */
-    public func persist(completion: ((error: NSError?) -> Void)?) {
+    @available(*, deprecated=4.4.0, message="Calling this method is no longer needed. Data will get persisted after calling `try mainContext.save()`") public func persist(completion: ((error: NSError?) -> Void)?) {
+    }
+
+    func saveMainThread(completion: ((error: NSError?) -> Void)?) {
         var writerContextError: NSError?
         let writerContextBlock: @convention(block) Void -> Void = {
             do {
@@ -202,7 +204,6 @@ import CoreData
 
         let mainContextBlock: @convention(block) Void -> Void = {
             do {
-                try self.mainContext.save()
                 self.writerContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: writerContextBlockObject)
                 dispatch_async(dispatch_get_main_queue()) {
                     completion?(error: writerContextError)
@@ -254,6 +255,15 @@ import CoreData
                 try fileManager.removeItemAtURL(storeURL)
             } catch let error as NSError {
                 throw NSError(info: "Could not delete sqlite file", previousError: error)
+            }
+        }
+    }
+
+    // Can't be private, has to be internal in order to be used as a selector.
+    func mainContextDidSave(notification: NSNotification) {
+        self.saveMainThread { error in
+            if let error = error {
+                fatalError("Failed to save objects in main thread: \(error)")
             }
         }
     }
