@@ -6,6 +6,8 @@ struct TestCheck {
      - returns: A Bool, `true` if you're on testing mode, `false` if you're not.
      */
     static let isTesting: Bool = {
+        return false
+        /*
         let enviroment = NSProcessInfo.processInfo().environment
         let serviceName = enviroment["XPC_SERVICE_NAME"]
         let injectBundle = enviroment["XCInjectBundle"]
@@ -23,6 +25,6 @@ struct TestCheck {
             }
         }
 
-        return isRunning
+        return isRunning*/
     }()
 }
