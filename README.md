@@ -133,6 +133,13 @@ use_frameworks!
 pod 'DATAStack'
 ```
 
+**DATAStack** is also available through [Carthage](https://github.com/Carthage/Carthage). To install
+it, simply add the following line to your Cartfile:
+
+```ruby
+github '3lvis/DATAStack'
+```
+
 ## Be Awesome
 
 If something looks stupid, please create a friendly and constructive issue, getting your feedback would be awesome.
