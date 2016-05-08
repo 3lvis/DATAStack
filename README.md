@@ -82,7 +82,7 @@ try self.dataStack.drop()
 
 **Objective-C**
 ```objc
-[self.dataStack drop];
+[self.dataStack forceDrop];
 ```
 
 ## Testing
