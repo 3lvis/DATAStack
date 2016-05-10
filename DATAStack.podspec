@@ -1,10 +1,16 @@
 Pod::Spec.new do |s|
   s.name = "DATAStack"
   s.version = "5.0.0"
-  s.summary = "Core Data stack boilerplate"
+  s.summary = "100% Swift Simple Boilerplate Free Core Data Stack"
   s.description = <<-DESC
-                   * Feeling tired of having Core Data boilerplate in your AppDelegate?
-                   * No more.
+                   * Easier thread safety
+                   * Runs synchronously in testing enviroments
+                   * No singletons
+                   * SQLite and InMemory support out of the box
+                   * Easy database drop method
+                   * Swift
+                   * Objective-C support
+                   * Free
                    DESC
   s.homepage = "https://github.com/3lvis/DATAStack"
   s.license = {
