@@ -34,12 +34,4 @@
     return YES;
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    [self.dataStack persistWithCompletion:nil];
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    [self.dataStack persistWithCompletion:nil];
-}
-
 @end
