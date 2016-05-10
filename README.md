@@ -8,14 +8,14 @@
 
 **DATAStack** helps you to alleviate the Core Data boilerplate. Now you can go to your AppDelegate remove all the Core Data related code and replace it with an instance of DATAStack ([ObjC](DemoObjectiveC/AppDelegate.m), [Swift](DemoSwift/AppDelegate.swift)).
 
-- [x] Easier thread safety
-- [x] Runs synchronously in testing enviroments
-- [x] No singletons
-- [x] SQLite and InMemory support out of the box
-- [x] Easy database drop method
-- [x] Swift
-- [x] Objective-C support
-- [x] Free
+- Easier thread safety
+- Runs synchronously in testing enviroments
+- No singletons
+- SQLite and InMemory support out of the box
+- Easy database drop method
+- Swift
+- Objective-C support
+- Free
 
 ## Initialization
 
