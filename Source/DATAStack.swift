@@ -26,7 +26,7 @@ import CoreData
                 let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
                 context.undoManager = nil
                 context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-                context.parentContext = self.writerContext
+                context.persistentStoreCoordinator = self.persistentStoreCoordinator
 
                 NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.mainContextDidSave(_:)), name: NSManagedObjectContextDidSaveNotification, object: context)
 
