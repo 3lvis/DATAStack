@@ -188,10 +188,8 @@ import CoreData
 
     /**
      Most of the time when saving a background context you want that it merges the saved changes with the main 
-     context, but when you're performing partial savings, such as batch saves you don't want this to be the case,
-     this method disables merges with the main context, saves your background context and right after, it enables
-     merges again.
-     - parameter context: The background context where `save` will be performed.
+     context, but when you're performing partial savings, such as batch saves you don't want this to be the case.
+     - parameter context: The block that contains the created background context.
      */
     public func saveBackgroundContextWithoutMergingWithMainContext(context: NSManagedObjectContext) throws {
         assert(context.concurrencyType == DATAStack.backgroundConcurrencyType())
