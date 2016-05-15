@@ -40,7 +40,6 @@
 		14EEAC3C1CBFADA1002E495A /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
 		14EEAC3D1CBFADD6002E495A /* DATAStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B3898D1CBF8166001123DC /* DATAStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9D8B2A9BEA8134EADD5A035E /* Pods_CocoaPods_DemoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456313516DE511EF34E737F8 /* Pods_CocoaPods_DemoSwift.framework */; };
-		AAD5F3FB4EF0132D1EA823A4 /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 361F47EB6A4E097F4F9ECCD0 /* Pods_Tests.framework */; };
 		DFED6C60B0F6959CB9404D01 /* Pods_CocoaPods_DemoObjectiveC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CD307C7D7A36353574E32B /* Pods_CocoaPods_DemoObjectiveC.framework */; };
 /* End PBXBuildFile section */
 
@@ -110,7 +109,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAD5F3FB4EF0132D1EA823A4 /* Pods_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,12 +334,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 146D72B91AB782920058798C /* Build configuration list for PBXNativeTarget "Tests" */;
 			buildPhases = (
-				702054E931FBBEE2FF37C842 /* 📦 Check Pods Manifest.lock */,
 				146D72A81AB782920058798C /* Sources */,
 				146D72A91AB782920058798C /* Frameworks */,
 				146D72AA1AB782920058798C /* Resources */,
-				2F59D22415DB122C07AEBD58 /* 📦 Embed Pods Frameworks */,
-				2804D6AD685E22B0B39CD3EC /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -595,21 +590,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-DemoObjectiveC/Pods-CocoaPods-DemoObjectiveC-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2804D6AD685E22B0B39CD3EC /* 📦 Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tests/Pods-Tests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2C333B6809CE68E39177C127 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -623,21 +603,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-DemoObjectiveC/Pods-CocoaPods-DemoObjectiveC-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2F59D22415DB122C07AEBD58 /* 📦 Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tests/Pods-Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		310090EE9964B419CFB4A8ED /* 📦 Check Pods Manifest.lock */ = {
@@ -668,21 +633,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-DemoSwift/Pods-CocoaPods-DemoSwift-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		702054E931FBBEE2FF37C842 /* 📦 Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		C476F78B7F2169F358088B7F /* 📦 Embed Pods Frameworks */ = {

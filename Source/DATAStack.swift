@@ -186,6 +186,18 @@ import CoreData
         context.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
     }
 
+    /**
+     Most of the time when saving a background context you want that it merges the saved changes with the main 
+     context, but when you're performing partial savings, such as batch saves you don't want this to be the case.
+     - parameter context: The block that contains the created background context.
+     */
+    public func saveBackgroundContextWithoutMergingWithMainContext(context: NSManagedObjectContext) throws {
+        assert(context.concurrencyType == DATAStack.backgroundConcurrencyType())
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: NSManagedObjectContextDidSaveNotification, object: context)
+        try context.save()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.backgroundContextDidSave(_:)), name: NSManagedObjectContextDidSaveNotification, object: context)
+    }
+
     func saveMainThread(completion: ((error: NSError?) -> Void)?) {
         var writerContextError: NSError?
         let writerContextBlock: @convention(block) Void -> Void = {
