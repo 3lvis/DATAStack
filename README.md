@@ -13,8 +13,8 @@
 - No singletons
 - SQLite and InMemory support out of the box
 - Easy database drop method
-- Swift
-- Objective-C support
+- Shines with Swift
+- Compatible with Objective-C
 - Free
 
 ## Initialization
