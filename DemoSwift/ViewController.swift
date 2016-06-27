@@ -22,7 +22,7 @@ class ViewController: UITableViewController {
     init(dataStack: DATAStack) {
         self.dataStack = dataStack
 
-        super.init(style: .Plain)
+        super.init(style: .plain)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -32,19 +32,19 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         self.tableView.dataSource = self.dataSource
 
-        let backgroundButton = UIBarButtonItem(title: "Background", style: .Done, target: self, action: #selector(ViewController.createBackground))
+        let backgroundButton = UIBarButtonItem(title: "Background", style: .done, target: self, action: #selector(ViewController.createBackground))
         self.navigationItem.rightBarButtonItem = backgroundButton
 
-        let mainButton = UIBarButtonItem(title: "Main", style: .Done, target: self, action: #selector(ViewController.createMain))
+        let mainButton = UIBarButtonItem(title: "Main", style: .done, target: self, action: #selector(ViewController.createMain))
         self.navigationItem.leftBarButtonItem = mainButton
     }
 
     func createBackground() {
         self.dataStack.performInNewBackgroundContext { backgroundContext in
-            let entity = NSEntityDescription.entityForName("User", inManagedObjectContext: backgroundContext)!
+            let entity = NSEntityDescription.entity(forEntityName: "User", in: backgroundContext)!
             let object = NSManagedObject(entity: entity, insertIntoManagedObjectContext: backgroundContext)
             object.setValue("Background", forKey: "name")
             object.setValue(NSDate(), forKey: "createdDate")
@@ -53,10 +53,10 @@ class ViewController: UITableViewController {
     }
 
     func createMain() {
-        let entity = NSEntityDescription.entityForName("User", inManagedObjectContext: self.dataStack.mainContext)!
-        let object = NSManagedObject(entity: entity, insertIntoManagedObjectContext: self.dataStack.mainContext)
+        let entity = NSEntityDescription.entity(forEntityName: "User", in: self.dataStack.mainContext)!
+        let object = NSManagedObject(entity: entity, insertInto: self.dataStack.mainContext)
         object.setValue("Main", forKey: "name")
-        object.setValue(NSDate(), forKey: "createdDate")
+        object.setValue(Date(), forKey: "createdDate")
         try! self.dataStack.mainContext.save()
     }
 }
