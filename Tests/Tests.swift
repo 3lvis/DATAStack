@@ -2,22 +2,22 @@ import XCTest
 import CoreData
 
 class Tests: XCTestCase {
-    func createDataStack(storeType: DATAStackStoreType = .InMemory) -> DATAStack {
-        let dataStack = DATAStack(modelName: "Model", bundle: NSBundle(forClass: Tests.self), storeType: storeType)
+    func createDataStack(_ storeType: DATAStackStoreType = .inMemory) -> DATAStack {
+        let dataStack = DATAStack(modelName: "Model", bundle: Bundle(for: Tests.self), storeType: storeType)
 
         return dataStack
     }
 
-    func insertUserInContext(context: NSManagedObjectContext) {
-        let user = NSEntityDescription.insertNewObjectForEntityForName("User", inManagedObjectContext: context)
-        user.setValue(NSNumber(integer: 1), forKey: "remoteID")
+    func insertUserInContext(_ context: NSManagedObjectContext) {
+        let user = NSEntityDescription.insertNewObject(forEntityName: "User", into: context)
+        user.setValue(NSNumber(value: 1), forKey: "remoteID")
         user.setValue("Joshua Ivanof", forKey: "name")
         try! context.save()
     }
 
-    func fetchObjectsInContext(context: NSManagedObjectContext) -> [NSManagedObject] {
-        let request = NSFetchRequest(entityName: "User")
-        let objects = try! context.executeFetchRequest(request) as! [NSManagedObject]
+    func fetchObjectsInContext(_ context: NSManagedObjectContext) -> [NSManagedObject] {
+        let request = NSFetchRequest<NSManagedObject>(entityName: "User")
+        let objects = try! context.fetch(request)
 
         return objects
     }
@@ -51,7 +51,7 @@ class Tests: XCTestCase {
         var synchronous = false
         let dataStack = self.createDataStack()
         let backgroundContext = dataStack.newBackgroundContext()
-        backgroundContext.performBlockAndWait {
+        backgroundContext.performAndWait {
             synchronous = true
             self.insertUserInContext(backgroundContext)
             let objects = self.fetchObjectsInContext(backgroundContext)
@@ -68,20 +68,20 @@ class Tests: XCTestCase {
         let dataStack = self.createDataStack()
         self.insertUserInContext(dataStack.mainContext)
 
-        let request = NSFetchRequest(entityName: "User")
-        let objects = try! dataStack.mainContext.executeFetchRequest(request)
+        let request = NSFetchRequest<NSManagedObject>(entityName: "User")
+        let objects = try! dataStack.mainContext.fetch(request)
         XCTAssertEqual(objects.count, 1)
 
         let expression = NSExpressionDescription()
         expression.name = "objectID"
         expression.expression = NSExpression.expressionForEvaluatedObject()
-        expression.expressionResultType = .ObjectIDAttributeType
+        expression.expressionResultType = .objectIDAttributeType
 
-        let dictionaryRequest = NSFetchRequest(entityName: "User")
-        dictionaryRequest.resultType = .DictionaryResultType
+        let dictionaryRequest = NSFetchRequest<NSManagedObject>(entityName: "User")
+        dictionaryRequest.resultType = .dictionaryResultType
         dictionaryRequest.propertiesToFetch = [expression, "remoteID"]
 
-        let dictionaryObjects = try! dataStack.mainContext.executeFetchRequest(dictionaryRequest)
+        let dictionaryObjects = try! dataStack.mainContext.fetch(dictionaryRequest)
         XCTAssertEqual(dictionaryObjects.count, 1)
     }
 
@@ -111,7 +111,7 @@ class Tests: XCTestCase {
     }
 
     func testAlternativeModel() {
-        let dataStack = DATAStack(modelName: "DataModelTest", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
+        let dataStack = DATAStack(modelName: "DataModelTest", bundle: Bundle(for: Tests.self), storeType: .inMemory)
         self.insertUserInContext(dataStack.mainContext)
 
         let objects = self.fetchObjectsInContext(dataStack.mainContext)
