@@ -9,12 +9,16 @@ import CoreData
     private var storeType: DATAStackStoreType = .SQLite
 
     private var storeName: String?
-
+    
     private var modelName: String = ""
 
     private var modelBundle: NSBundle = NSBundle.mainBundle()
 
     private var _mainContext: NSManagedObjectContext?
+    
+    private lazy var containerURL: NSURL = {
+        return NSURL.directoryURL()
+    }()
 
     /**
      The context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext`
@@ -61,7 +65,7 @@ import CoreData
             if _persistentStoreCoordinator == nil {
                 let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
                 let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-                try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName)
+                try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
                 _persistentStoreCoordinator = persistentStoreCoordinator
             }
 
@@ -72,7 +76,7 @@ import CoreData
     private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-        try! persistentStoreCoordinator.addPersistentStore(storeType: .InMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName)
+        try! persistentStoreCoordinator.addPersistentStore(storeType: .InMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
 
         return persistentStoreCoordinator
     }()
@@ -86,6 +90,8 @@ import CoreData
         if let bundleName = bundle.infoDictionary?["CFBundleName"] as? String {
             self.modelName = bundleName
         }
+        
+        super.init()
     }
 
     /**
@@ -94,6 +100,7 @@ import CoreData
      */
     public init(modelName: String) {
         self.modelName = modelName
+        super.init()
     }
 
     /**
@@ -105,6 +112,8 @@ import CoreData
     public init(modelName: String, storeType: DATAStackStoreType) {
         self.modelName = modelName
         self.storeType = storeType
+        
+        super.init()
     }
 
     /**
@@ -120,6 +129,8 @@ import CoreData
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
+        
+        super.init()
     }
 
     /**
@@ -133,12 +144,17 @@ import CoreData
      - parameter storeName: Normally your file would be named as your model name is named, so if your model 
      name is AwesomeApp then the .sqlite file will be named AwesomeApp.sqlite, this attribute allows your to
      change that.
+     - parameter containerURL: The container URL for the sqlite file when a store type of SQLite is used.
      */
-    public init(modelName: String, bundle: NSBundle, storeType: DATAStackStoreType, storeName: String) {
+    public init(modelName: String, bundle: NSBundle, storeType: DATAStackStoreType, storeName: String, containerURL: NSURL) {
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
         self.storeName = storeName
+        
+        super.init()
+        
+        self.containerURL = containerURL
     }
 
     deinit {
@@ -297,7 +313,7 @@ import CoreData
 }
 
 extension NSPersistentStoreCoordinator {
-    func addPersistentStore(storeType storeType: DATAStackStoreType, bundle: NSBundle, modelName: String, storeName: String?) throws {
+    func addPersistentStore(storeType storeType: DATAStackStoreType, bundle: NSBundle, modelName: String, storeName: String?, containerURL: NSURL) throws {
         let filePath = (storeName ?? modelName) + ".sqlite"
         switch storeType {
         case .InMemory:
@@ -309,7 +325,7 @@ extension NSPersistentStoreCoordinator {
 
             break
         case .SQLite:
-            let storeURL = NSURL.directoryURL().URLByAppendingPathComponent(filePath)
+            let storeURL = containerURL.URLByAppendingPathComponent(filePath)
             guard let storePath = storeURL.path else { throw NSError(info: "Store path not found: \(storeURL)", previousError: nil) }
 
             let shouldPreloadDatabase = !NSFileManager.defaultManager().fileExistsAtPath(storePath)
