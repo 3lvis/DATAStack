@@ -336,12 +336,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 146D72B91AB782920058798C /* Build configuration list for PBXNativeTarget "Tests" */;
 			buildPhases = (
-				768470FD7BBE1013907C033C /* 📦 Check Pods Manifest.lock */,
+				768470FD7BBE1013907C033C /* [CP] Check Pods Manifest.lock */,
 				146D72A81AB782920058798C /* Sources */,
 				146D72A91AB782920058798C /* Frameworks */,
 				146D72AA1AB782920058798C /* Resources */,
-				A2A1FC0933B8BC33632905F6 /* 📦 Embed Pods Frameworks */,
-				1911834D12BEDA8279C401BD /* 📦 Copy Pods Resources */,
+				A2A1FC0933B8BC33632905F6 /* [CP] Embed Pods Frameworks */,
+				1911834D12BEDA8279C401BD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -392,12 +392,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 148C335E1BD7CB67009701BF /* Build configuration list for PBXNativeTarget "DemoObjectiveC" */;
 			buildPhases = (
-				310090EE9964B419CFB4A8ED /* 📦 Check Pods Manifest.lock */,
+				310090EE9964B419CFB4A8ED /* [CP] Check Pods Manifest.lock */,
 				148C33491BD7CB67009701BF /* Sources */,
 				148C334A1BD7CB67009701BF /* Frameworks */,
 				148C334B1BD7CB67009701BF /* Resources */,
-				037972A67BA9D0F226552D13 /* 📦 Embed Pods Frameworks */,
-				2C333B6809CE68E39177C127 /* 📦 Copy Pods Resources */,
+				037972A67BA9D0F226552D13 /* [CP] Embed Pods Frameworks */,
+				2C333B6809CE68E39177C127 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -412,13 +412,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 148C33721BD7CB74009701BF /* Build configuration list for PBXNativeTarget "DemoSwift" */;
 			buildPhases = (
-				C6441762D7449E772DCDF62A /* 📦 Check Pods Manifest.lock */,
+				C6441762D7449E772DCDF62A /* [CP] Check Pods Manifest.lock */,
 				148C33611BD7CB74009701BF /* Sources */,
 				148C33621BD7CB74009701BF /* Frameworks */,
 				148C33631BD7CB74009701BF /* Resources */,
 				14E52F031CBEDBB3007F363E /* Embed Frameworks */,
-				C476F78B7F2169F358088B7F /* 📦 Embed Pods Frameworks */,
-				5C0EDA270471C0B9554113AA /* 📦 Copy Pods Resources */,
+				C476F78B7F2169F358088B7F /* [CP] Embed Pods Frameworks */,
+				5C0EDA270471C0B9554113AA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -473,29 +473,45 @@
 			attributes = {
 				CLASSPREFIX = "";
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					146D72AB1AB782920058798C = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 29X3GG489T;
+						DevelopmentTeamName = "Bakken & Bæck AS";
+						LastSwiftMigration = 0800;
 					};
 					147619BF1CBFBB2A004BA70B = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 29X3GG489T;
+						DevelopmentTeamName = "Bakken & Bæck AS";
 					};
 					147619CF1CBFBBA6004BA70B = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0800;
 					};
 					148C334C1BD7CB67009701BF = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = 29X3GG489T;
+						DevelopmentTeamName = "Bakken & Bæck AS";
 					};
 					148C33641BD7CB74009701BF = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = 29X3GG489T;
+						DevelopmentTeamName = "Bakken & Bæck AS";
+						LastSwiftMigration = 0800;
 					};
 					14B389A21CBF830D001123DC = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 29X3GG489T;
+						DevelopmentTeamName = "Bakken & Bæck AS";
+						LastSwiftMigration = 0800;
 					};
 					14EEAC2E1CBFAD61002E495A = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 29X3GG489T;
+						DevelopmentTeamName = "Bakken & Bæck AS";
 					};
 				};
 			};
@@ -580,14 +596,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		037972A67BA9D0F226552D13 /* 📦 Embed Pods Frameworks */ = {
+		037972A67BA9D0F226552D13 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -595,14 +611,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-DemoObjectiveC/Pods-CocoaPods-DemoObjectiveC-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		1911834D12BEDA8279C401BD /* 📦 Copy Pods Resources */ = {
+		1911834D12BEDA8279C401BD /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -610,14 +626,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tests/Pods-Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2C333B6809CE68E39177C127 /* 📦 Copy Pods Resources */ = {
+		2C333B6809CE68E39177C127 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -625,14 +641,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-DemoObjectiveC/Pods-CocoaPods-DemoObjectiveC-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		310090EE9964B419CFB4A8ED /* 📦 Check Pods Manifest.lock */ = {
+		310090EE9964B419CFB4A8ED /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -640,14 +656,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		5C0EDA270471C0B9554113AA /* 📦 Copy Pods Resources */ = {
+		5C0EDA270471C0B9554113AA /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -655,14 +671,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-DemoSwift/Pods-CocoaPods-DemoSwift-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		768470FD7BBE1013907C033C /* 📦 Check Pods Manifest.lock */ = {
+		768470FD7BBE1013907C033C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -670,14 +686,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		A2A1FC0933B8BC33632905F6 /* 📦 Embed Pods Frameworks */ = {
+		A2A1FC0933B8BC33632905F6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -685,14 +701,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tests/Pods-Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C476F78B7F2169F358088B7F /* 📦 Embed Pods Frameworks */ = {
+		C476F78B7F2169F358088B7F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -700,14 +716,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-DemoSwift/Pods-CocoaPods-DemoSwift-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C6441762D7449E772DCDF62A /* 📦 Check Pods Manifest.lock */ = {
+		C6441762D7449E772DCDF62A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -836,6 +852,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -877,6 +894,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -905,6 +923,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sample.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -918,6 +937,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sample.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -965,6 +986,7 @@
 				PRODUCT_NAME = DATAStack;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -995,6 +1017,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1022,6 +1045,8 @@
 				PRODUCT_NAME = DATAStack;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1031,6 +1056,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 42A10FAA0E3352B6E59441ED /* Pods-CocoaPods-DemoObjectiveC.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1046,6 +1072,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 10AE9E5719263C3A2EE994B0 /* Pods-CocoaPods-DemoObjectiveC.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1054,6 +1081,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = x.DemoObjectiveC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -1061,6 +1089,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 85C65A448020280552213235 /* Pods-CocoaPods-DemoSwift.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1070,6 +1099,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = x.DemoSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1077,6 +1107,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C3BE2489CB0219F8DDD4FFD8 /* Pods-CocoaPods-DemoSwift.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1085,6 +1116,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = x.DemoSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1107,6 +1140,7 @@
 				PRODUCT_NAME = DATAStack;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1131,6 +1165,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = net.3lvis.DATAStack;
 				PRODUCT_NAME = DATAStack;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1183,6 +1219,7 @@
 				PRODUCT_NAME = DATAStack;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
