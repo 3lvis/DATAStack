@@ -7,11 +7,11 @@ class ViewController: UITableViewController {
     var dataStack: DATAStack
 
     lazy var dataSource: DATASource = {
-        let request: NSFetchRequest = NSFetchRequest(entityName: "User")
-        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        let request: NSFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+        request.sortDescriptors = [SortDescriptor(key: "name", ascending: true)]
 
         let dataSource = DATASource(tableView: self.tableView, cellIdentifier: "Cell", fetchRequest: request, mainContext: self.dataStack.mainContext, configuration: { cell, item, indexPath in
-            if let name = item.valueForKey("name") as? String, createdDate = item.valueForKey("createdDate") as? NSDate {
+            if let name = item.value(forKey: "name") as? String, createdDate = item.value(forKey: "createdDate") as? NSDate {
                 cell.textLabel?.text =  name + " - " + createdDate.description
             }
         })
@@ -45,7 +45,7 @@ class ViewController: UITableViewController {
     func createBackground() {
         self.dataStack.performInNewBackgroundContext { backgroundContext in
             let entity = NSEntityDescription.entity(forEntityName: "User", in: backgroundContext)!
-            let object = NSManagedObject(entity: entity, insertIntoManagedObjectContext: backgroundContext)
+            let object = NSManagedObject(entity: entity, insertInto: backgroundContext)
             object.setValue("Background", forKey: "name")
             object.setValue(NSDate(), forKey: "createdDate")
             try! backgroundContext.save()

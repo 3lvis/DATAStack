@@ -2,11 +2,11 @@ import Foundation
 import CoreData
 
 @objc public enum DATAStackStoreType: Int {
-    case inMemory, SQLite
+    case inMemory, sqLite
 }
 
 @objc public class DATAStack: NSObject {
-    private var storeType: DATAStackStoreType = .SQLite
+    private var storeType: DATAStackStoreType = .sqLite
 
     private var storeName: String?
 
@@ -308,7 +308,7 @@ extension NSPersistentStoreCoordinator {
             }
 
             break
-        case .SQLite:
+        case .sqLite:
             let storeURL = try! URL.directoryURL().appendingPathComponent(filePath)
             guard let storePath = storeURL.path else { throw NSError(info: "Store path not found: \(storeURL)", previousError: nil) }
 
@@ -340,7 +340,7 @@ extension NSPersistentStoreCoordinator {
                 }
             }
 
-            let shouldExcludeSQLiteFromBackup = storeType == .SQLite && TestCheck.isTesting == false
+            let shouldExcludeSQLiteFromBackup = storeType == .sqLite && TestCheck.isTesting == false
             if shouldExcludeSQLiteFromBackup {
                 do {
                     try (storeURL as NSURL).setResourceValue(true, forKey: URLResourceKey.isExcludedFromBackupKey)
@@ -388,7 +388,7 @@ extension NSError {
 extension URL {
     private static func directoryURL() -> URL {
         #if os(tvOS)
-            return NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask).last!
+            return FileManager.default().urlsForDirectory(.cachesDirectory, inDomains: .userDomainMask).last!
         #else
             return FileManager.default().urlsForDirectory(.documentDirectory, inDomains: .userDomainMask).last!
         #endif
