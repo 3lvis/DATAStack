@@ -12,7 +12,7 @@ import CoreData
 
     private var modelName: String = ""
 
-    private var modelBundle: Bundle = Bundle.main()
+    private var modelBundle: Bundle = Bundle.main
 
     private var _mainContext: NSManagedObjectContext?
 
@@ -28,7 +28,7 @@ import CoreData
                 context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
                 context.persistentStoreCoordinator = self.persistentStoreCoordinator
 
-                NotificationCenter.default().addObserver(self, selector: #selector(DATAStack.mainContextDidSave(_:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: context)
+                NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.mainContextDidSave(_:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: context)
 
                 _mainContext = context
             }
@@ -82,7 +82,7 @@ import CoreData
      it will look for a ModernApp.xcdatamodeld.
      */
     public override init() {
-        let bundle = Bundle.main()
+        let bundle = Bundle.main
         if let bundleName = bundle.infoDictionary?["CFBundleName"] as? String {
             self.modelName = bundleName
         }
@@ -142,8 +142,8 @@ import CoreData
     }
 
     deinit {
-        NotificationCenter.default().removeObserver(self, name: NSNotification.Name.NSManagedObjectContextWillSave, object: nil)
-        NotificationCenter.default().removeObserver(self, name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextWillSave, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
 
     /**
@@ -154,7 +154,7 @@ import CoreData
         context.persistentStoreCoordinator = self.disposablePersistentStoreCoordinator
         context.undoManager = nil
 
-        NotificationCenter.default().addObserver(self, selector: #selector(DATAStack.newDisposableMainContextWillSave(_:)), name: NSNotification.Name.NSManagedObjectContextWillSave, object: context)
+        NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.newDisposableMainContextWillSave(_:)), name: NSNotification.Name.NSManagedObjectContextWillSave, object: context)
 
         return context
     }
@@ -168,7 +168,7 @@ import CoreData
         context.undoManager = nil
         context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
 
-        NotificationCenter.default().addObserver(self, selector: #selector(DATAStack.backgroundContextDidSave(_:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: context)
+        NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.backgroundContextDidSave(_:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: context)
 
         return context
     }
@@ -225,7 +225,7 @@ import CoreData
             else { throw NSError(info: "Persistent store coordinator not found", previousError: nil) }
 
         let sqliteFile = (storePath as NSString).deletingPathExtension
-        let fileManager = FileManager.default()
+        let fileManager = FileManager.default
 
         self._writerContext = nil
         self._mainContext = nil
@@ -276,7 +276,7 @@ import CoreData
 
     // Can't be private, has to be internal in order to be used as a selector.
     func backgroundContextDidSave(_ notification: Notification) throws {
-        if Thread.isMainThread() && TestCheck.isTesting == false {
+        if Thread.isMainThread && TestCheck.isTesting == false {
             throw NSError(info: "Background context saved in the main thread. Use context's `performBlock`", previousError: nil)
         } else {
             let contextBlock: @convention(block) () -> Void = {
@@ -312,13 +312,13 @@ extension NSPersistentStoreCoordinator {
             let storeURL = try! URL.directoryURL().appendingPathComponent(filePath)
             guard let storePath = storeURL.path else { throw NSError(info: "Store path not found: \(storeURL)", previousError: nil) }
 
-            let shouldPreloadDatabase = !FileManager.default().fileExists(atPath: storePath)
+            let shouldPreloadDatabase = !FileManager.default.fileExists(atPath: storePath)
             if shouldPreloadDatabase {
                 if let preloadedPath = bundle.pathForResource(modelName, ofType: "sqlite") {
                     let preloadURL = URL(fileURLWithPath: preloadedPath)
 
                     do {
-                        try FileManager.default().copyItem(at: preloadURL, to: storeURL)
+                        try FileManager.default.copyItem(at: preloadURL, to: storeURL)
                     } catch let error as NSError {
                         throw NSError(info: "Oops, could not copy preloaded data", previousError: error)
                     }
@@ -329,7 +329,7 @@ extension NSPersistentStoreCoordinator {
                 try self.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: [NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true])
             } catch {
                 do {
-                    try FileManager.default().removeItem(atPath: storePath)
+                    try FileManager.default.removeItem(atPath: storePath)
                     do {
                         try self.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: [NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true])
                     } catch let addPersistentError as NSError {
@@ -390,7 +390,7 @@ extension URL {
         #if os(tvOS)
             return FileManager.default().urlsForDirectory(.cachesDirectory, inDomains: .userDomainMask).last!
         #else
-            return FileManager.default().urlsForDirectory(.documentDirectory, inDomains: .userDomainMask).last!
+            return FileManager.default.urlsForDirectory(.documentDirectory, inDomains: .userDomainMask).last!
         #endif
     }
 }
