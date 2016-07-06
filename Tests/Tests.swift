@@ -95,7 +95,7 @@ class Tests: XCTestCase {
     }
 
     func testDrop() {
-        let dataStack = self.createDataStack(.SQLite)
+        let dataStack = self.createDataStack(.sqLite)
 
         dataStack.performInNewBackgroundContext { backgroundContext in
             self.insertUserInContext(backgroundContext)
