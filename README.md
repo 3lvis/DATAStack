@@ -31,6 +31,32 @@ let dataStack = DATAStack(modelName:"MyAppModel")
 DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"];
 ```
 
+There are plenty of other ways to intialize a DATAStack:
+
+- Using a custom store type.
+
+``` swift
+let dataStack = DATAStack(modelName:"MyAppModel", storeType: .InMemory)
+```
+
+- Using another bundle and a store type, let's say your test bundle and .InMemory store type, perfect for running unit tests.
+
+``` swift
+let dataStack = DATAStack(modelName: "Model", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
+```
+
+- Using a different name for your .sqlite file than your model name, like `CustomStoreName.sqlite`.
+
+``` swift
+let dataStack = DATAStack(modelName: "Model", bundle: NSBundle.mainBundle(), storeType: .SQLite, storeName: "CustomStoreName")
+```
+
+- Providing a diferent container url, by default we'll use the documents folder, most apps do this, but if you want to share your sqlite file between your main app and your app extension you'll want this.
+
+``` swift
+let dataStack = DATAStack(modelName: "Model", bundle: NSBundle.mainBundle(), storeType: .SQLite, storeName: "CustomStoreName", containerURL: sharedURL)
+```
+
 ## Main Thread NSManagedObjectContext
 
 Getting access to the NSManagedObjectContext attached to the main thread is as simple as using the `mainContext` property.
