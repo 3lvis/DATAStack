@@ -6,13 +6,15 @@ import CoreData
 }
 
 @objc public class DATAStack: NSObject {
-    private var storeType: DATAStackStoreType = .SQLite
+    private var storeType = DATAStackStoreType.SQLite
 
     private var storeName: String?
 
-    private var modelName: String = ""
+    private var modelName = ""
 
-    private var modelBundle: NSBundle = NSBundle.mainBundle()
+    private var modelBundle = NSBundle.mainBundle()
+
+    private var containerURL = NSURL.directoryURL()
 
     private var _mainContext: NSManagedObjectContext?
 
@@ -61,7 +63,7 @@ import CoreData
             if _persistentStoreCoordinator == nil {
                 let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
                 let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-                try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName)
+                try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
                 _persistentStoreCoordinator = persistentStoreCoordinator
             }
 
@@ -72,7 +74,7 @@ import CoreData
     private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-        try! persistentStoreCoordinator.addPersistentStore(storeType: .InMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName)
+        try! persistentStoreCoordinator.addPersistentStore(storeType: .InMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
 
         return persistentStoreCoordinator
     }()
@@ -86,6 +88,8 @@ import CoreData
         if let bundleName = bundle.infoDictionary?["CFBundleName"] as? String {
             self.modelName = bundleName
         }
+
+        super.init()
     }
 
     /**
@@ -94,6 +98,7 @@ import CoreData
      */
     public init(modelName: String) {
         self.modelName = modelName
+        super.init()
     }
 
     /**
@@ -105,6 +110,8 @@ import CoreData
     public init(modelName: String, storeType: DATAStackStoreType) {
         self.modelName = modelName
         self.storeType = storeType
+
+        super.init()
     }
 
     /**
@@ -120,6 +127,8 @@ import CoreData
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
+
+        super.init()
     }
 
     /**
@@ -130,7 +139,7 @@ import CoreData
      are located.
      - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
      based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
-     - parameter storeName: Normally your file would be named as your model name is named, so if your model 
+     - parameter storeName: Normally your file would be named as your model name is named, so if your model
      name is AwesomeApp then the .sqlite file will be named AwesomeApp.sqlite, this attribute allows your to
      change that.
      */
@@ -139,6 +148,31 @@ import CoreData
         self.modelBundle = bundle
         self.storeType = storeType
         self.storeName = storeName
+
+        super.init()
+    }
+
+    /**
+     Initializes a DATAStack using the provided model name, bundle, storeType and store name.
+     - parameter modelName: The name of your Core Data model (xcdatamodeld).
+     - parameter bundle: The bundle where your Core Data model is located, normally your Core Data model is in
+     the main bundle but when using unit tests sometimes your Core Data model could be located where your tests
+     are located.
+     - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
+     based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
+     - parameter storeName: Normally your file would be named as your model name is named, so if your model
+     name is AwesomeApp then the .sqlite file will be named AwesomeApp.sqlite, this attribute allows your to
+     change that.
+     - parameter containerURL: The container URL for the sqlite file when a store type of SQLite is used.
+     */
+    public init(modelName: String, bundle: NSBundle, storeType: DATAStackStoreType, storeName: String, containerURL: NSURL) {
+        self.modelName = modelName
+        self.modelBundle = bundle
+        self.storeType = storeType
+        self.storeName = storeName
+        self.containerURL = containerURL
+
+        super.init()
     }
 
     deinit {
@@ -248,7 +282,7 @@ import CoreData
                 throw NSError(info: "Could not delete persistent store wal", previousError: error)
             }
         }
-        
+
         if fileManager.fileExistsAtPath(storePath) {
             do {
                 try fileManager.removeItemAtURL(storeURL)
@@ -297,7 +331,7 @@ import CoreData
 }
 
 extension NSPersistentStoreCoordinator {
-    func addPersistentStore(storeType storeType: DATAStackStoreType, bundle: NSBundle, modelName: String, storeName: String?) throws {
+    func addPersistentStore(storeType storeType: DATAStackStoreType, bundle: NSBundle, modelName: String, storeName: String?, containerURL: NSURL) throws {
         let filePath = (storeName ?? modelName) + ".sqlite"
         switch storeType {
         case .InMemory:
@@ -309,7 +343,7 @@ extension NSPersistentStoreCoordinator {
 
             break
         case .SQLite:
-            let storeURL = NSURL.directoryURL().URLByAppendingPathComponent(filePath)
+            let storeURL = containerURL.URLByAppendingPathComponent(filePath)
             guard let storePath = storeURL.path else { throw NSError(info: "Store path not found: \(storeURL)", previousError: nil) }
 
             let shouldPreloadDatabase = !NSFileManager.defaultManager().fileExistsAtPath(storePath)
