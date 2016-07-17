@@ -82,8 +82,14 @@ let dataStack = DATAStack(modelName: "Model", bundle: NSBundle.mainBundle(), sto
 
 Getting access to the NSManagedObjectContext attached to the main thread is as simple as using the `mainContext` property.
 
-```objc
+```swift
 self.dataStack.mainContext
+```
+
+or 
+
+```swift
+self.dataStack.viewContext
 ```
 
 ## Background Thread NSManagedObjectContext
@@ -116,7 +122,9 @@ func createUser() {
 }
 ```
 
-When using Xcode's autocompletion the `backgroundContext` parameter name doesn't get included. Make sure to add it.
+To be compatible with NSPersistentContainer you can also use `performBackgroundTask`.
+
+When using Xcode's Objective-C autocompletion the `backgroundContext` parameter name doesn't get included. Make sure to add it.
 
 ## Clean up
 
