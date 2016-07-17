@@ -69,7 +69,8 @@ import CoreData
     private var persistentStoreCoordinator: NSPersistentStoreCoordinator {
         get {
             if _persistentStoreCoordinator == nil {
-                let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
+                let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
+                let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
                 try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
                 _persistentStoreCoordinator = persistentStoreCoordinator
             }
@@ -79,16 +80,11 @@ import CoreData
     }
 
     private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
-        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
+        let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
+        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
         try! persistentStoreCoordinator.addPersistentStore(storeType: .InMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
 
         return persistentStoreCoordinator
-    }()
-
-    private lazy var managedObjectModel: NSManagedObjectModel = {
-        let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
-
-        return model
     }()
 
     /**
@@ -112,19 +108,6 @@ import CoreData
         self.modelName = modelName
 
         super.init()
-    }
-
-    /**
-     Initializes a DATAStack using the provided model name.
-     - parameter name: The name of your Core Data model (xcdatamodeld).
-     - parameter managedObjectModel: The Core Data model (xcdatamodeld).
-     */
-    public init(name: String, managedObjectModel: NSManagedObjectModel) {
-        self.modelName = name
-
-        super.init()
-
-        self.managedObjectModel = managedObjectModel
     }
 
     /**

@@ -119,17 +119,4 @@ class Tests: XCTestCase {
 
         XCTAssertNotNil(dataStack)
     }
-
-    func testInitializationWithModel() {
-        let bundle = NSBundle(forClass: Tests.self)
-        let url = bundle.URLForResource("DataModel", withExtension: "mom")!
-        let model = NSManagedObjectModel(contentsOfURL: url)!
-        let dataStack = DATAStack(name: "DataModel", managedObjectModel: model)
-        self.insertUserInContext(dataStack.mainContext)
-
-        let objects = self.fetchObjectsInContext(dataStack.mainContext)
-        XCTAssertEqual(objects.count, 1)
-
-        XCTAssertNotNil(dataStack)
-    }
 }
