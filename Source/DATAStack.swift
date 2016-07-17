@@ -39,6 +39,14 @@ import CoreData
         }
     }
 
+    /**
+     The context for the main queue. Please do not use this to mutate data, use `performBackgroundTask`
+     instead.
+     */
+    public var viewContext: NSManagedObjectContext {
+        return self.mainContext
+    }
+
     private var _writerContext: NSManagedObjectContext?
 
     private var writerContext: NSManagedObjectContext {
@@ -98,6 +106,7 @@ import CoreData
      */
     public init(modelName: String) {
         self.modelName = modelName
+
         super.init()
     }
 
@@ -218,6 +227,14 @@ import CoreData
         }
         let blockObject : AnyObject = unsafeBitCast(contextBlock, AnyObject.self)
         context.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
+    }
+
+    /**
+     Returns a background context perfect for data mutability operations.
+     - parameter operation: The block that contains the created background context.
+     */
+    public func performBackgroundTask(operation: (backgroundContext: NSManagedObjectContext) -> Void) {
+        self.performInNewBackgroundContext(operation)
     }
 
     func saveMainThread(completion: ((error: NSError?) -> Void)?) {
