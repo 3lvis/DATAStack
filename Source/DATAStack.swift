@@ -39,6 +39,14 @@ import CoreData
         }
     }
 
+    /**
+     The context for the main queue. Please do not use this to mutate data, use `performBackgroundTask`
+     instead.
+     */
+    public var viewContext: NSManagedObjectContext {
+        return self.mainContext
+    }
+
     private var _writerContext: NSManagedObjectContext?
 
     private var writerContext: NSManagedObjectContext {
@@ -61,8 +69,7 @@ import CoreData
     private var persistentStoreCoordinator: NSPersistentStoreCoordinator {
         get {
             if _persistentStoreCoordinator == nil {
-                let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
-                let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
+                let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
                 try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
                 _persistentStoreCoordinator = persistentStoreCoordinator
             }
@@ -72,11 +79,16 @@ import CoreData
     }
 
     private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
-        let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
-        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
+        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         try! persistentStoreCoordinator.addPersistentStore(storeType: .InMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
 
         return persistentStoreCoordinator
+    }()
+
+    private lazy var managedObjectModel: NSManagedObjectModel = {
+        let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
+
+        return model
     }()
 
     /**
@@ -98,7 +110,21 @@ import CoreData
      */
     public init(modelName: String) {
         self.modelName = modelName
+
         super.init()
+    }
+
+    /**
+     Initializes a DATAStack using the provided model name.
+     - parameter name: The name of your Core Data model (xcdatamodeld).
+     - parameter managedObjectModel: The Core Data model (xcdatamodeld).
+     */
+    public init(name: String, managedObjectModel: NSManagedObjectModel) {
+        self.modelName = name
+
+        super.init()
+
+        self.managedObjectModel = managedObjectModel
     }
 
     /**
@@ -218,6 +244,14 @@ import CoreData
         }
         let blockObject : AnyObject = unsafeBitCast(contextBlock, AnyObject.self)
         context.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
+    }
+
+    /**
+     Returns a background context perfect for data mutability operations.
+     - parameter operation: The block that contains the created background context.
+     */
+    public func performBackgroundTask(operation: (backgroundContext: NSManagedObjectContext) -> Void) {
+        self.performInNewBackgroundContext(operation)
     }
 
     func saveMainThread(completion: ((error: NSError?) -> Void)?) {
