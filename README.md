@@ -17,6 +17,27 @@
 - Compatible with Objective-C
 - Free
 
+## Table of Contents
+
+* [Running the demos](#running-the-demos)
+* [Initialization](#initialization)
+* [Main Thread NSManagedObjectContext](#main-thread-nsmanagedobjectcontext)
+* [Background Thread NSManagedObjectContext](#background-thread-nsmanagedobjectcontext)
+* [Clean up](#clean-up)
+* [Testing](#testing)
+* [Migrations](#migrations)
+* [Installation](#installation)
+* [Be Awesome](#be-awesome)
+* [Author](#author)
+* [License](#license)
+
+## Running the demos
+Before being able to run the demos you have to install the demo dependencies using [CocoaPods](https://cocoapods.org/).
+
+- Install CocoaPods
+- Run `pod install`
+- Enjoy!
+
 ## Initialization
 
 You can easily initialize a new instance of **DATAStack** with just your Core Data Model name (xcdatamodel).
