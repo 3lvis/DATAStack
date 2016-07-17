@@ -96,6 +96,8 @@ self.dataStack.viewContext
 
 You can easily create a new background NSManagedObjectContext for data processing. This block is completely asynchronous and will be run on a background thread.
 
+To be compatible with NSPersistentContainer you can also use `performBackgroundTask` instead of `performInNewBackgroundContext`.
+
 **Swift**
 ```swift
 func createUser() {
@@ -121,8 +123,6 @@ func createUser() {
     }];
 }
 ```
-
-To be compatible with NSPersistentContainer you can also use `performBackgroundTask`.
 
 When using Xcode's Objective-C autocompletion the `backgroundContext` parameter name doesn't get included. Make sure to add it.
 
