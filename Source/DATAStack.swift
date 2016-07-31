@@ -207,6 +207,18 @@ import CoreData
      Saving to this context doesn't merge with the main thread. This context is specially useful to run operations that don't block the main thread. To refresh your main thread objects for
      example when using a NSFetchedResultsController use `try self.fetchedResultsController.performFetch()`.
      */
+    public func newNonMergingBackgroundContext() -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
+        context.persistentStoreCoordinator = self.persistentStoreCoordinator
+        context.undoManager = nil
+        context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+
+        return context
+    }
+
+    /**
+     Returns a background context perfect for data mutability operations. Make sure to never use it on the main thread. Use `performBlock` or `performBlockAndWait` to use it.
+     */
     public func newBackgroundContext() -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
         context.persistentStoreCoordinator = self.persistentStoreCoordinator
