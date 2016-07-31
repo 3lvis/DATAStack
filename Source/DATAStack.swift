@@ -204,14 +204,14 @@ import CoreData
 
     /**
      Returns a background context perfect for data mutability operations. Make sure to never use it on the main thread. Use `performBlock` or `performBlockAndWait` to use it.
+     Saving to this context doesn't merge with the main thread. This context is specially useful to run operations that don't block the main thread. To refresh your main thread objects for
+     example when using a NSFetchedResultsController use `try self.fetchedResultsController.performFetch()`.
      */
     public func newBackgroundContext() -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
         context.persistentStoreCoordinator = self.persistentStoreCoordinator
         context.undoManager = nil
         context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.backgroundContextDidSave(_:)), name: NSManagedObjectContextDidSaveNotification, object: context)
 
         return context
     }
