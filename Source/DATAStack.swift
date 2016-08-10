@@ -221,8 +221,9 @@ import CoreData
      Drops the database.
      */
     public func drop() throws {
-        guard let store = self.persistentStoreCoordinator.persistentStores.last, storeURL = store.url, storePath = storeURL.path
-            else { throw NSError(info: "Persistent store coordinator not found", previousError: nil) }
+        guard let store = self.persistentStoreCoordinator.persistentStores.last, let storeURL = store.url else { throw NSError(info: "Persistent store coordinator not found", previousError: nil) }
+
+        let storePath = storeURL.path
 
         let sqliteFile = (storePath as NSString).deletingPathExtension
         let fileManager = FileManager.default
@@ -309,12 +310,12 @@ extension NSPersistentStoreCoordinator {
 
             break
         case .sqLite:
-            let storeURL = try! URL.directoryURL().appendingPathComponent(filePath)
-            guard let storePath = storeURL.path else { throw NSError(info: "Store path not found: \(storeURL)", previousError: nil) }
+            let storeURL = URL.directoryURL().appendingPathComponent(filePath)
+            let storePath = storeURL.path
 
             let shouldPreloadDatabase = !FileManager.default.fileExists(atPath: storePath)
             if shouldPreloadDatabase {
-                if let preloadedPath = bundle.pathForResource(modelName, ofType: "sqlite") {
+                if let preloadedPath = bundle.path(forResource: modelName, ofType: "sqlite") {
                     let preloadURL = URL(fileURLWithPath: preloadedPath)
 
                     do {
@@ -356,9 +357,9 @@ extension NSPersistentStoreCoordinator {
 
 extension NSManagedObjectModel {
     convenience init(bundle: Bundle, name: String) {
-        if let momdModelURL = bundle.urlForResource(name, withExtension: "momd") {
+        if let momdModelURL = bundle.url(forResource: name, withExtension: "momd") {
             self.init(contentsOf: momdModelURL)!
-        } else if let momModelURL = bundle.urlForResource(name, withExtension: "mom") {
+        } else if let momModelURL = bundle.url(forResource:name, withExtension: "mom") {
             self.init(contentsOf: momModelURL)!
         } else {
             self.init()
@@ -390,7 +391,7 @@ extension URL {
         #if os(tvOS)
             return NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask).last!
         #else
-            return FileManager.default.urlsForDirectory(.documentDirectory, inDomains: .userDomainMask).last!
+            return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
         #endif
     }
 }
