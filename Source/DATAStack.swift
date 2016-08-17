@@ -6,13 +6,15 @@ import CoreData
 }
 
 @objc public class DATAStack: NSObject {
-    private var storeType: DATAStackStoreType = .sqLite
+    private var storeType = DATAStackStoreType.sqLite
 
     private var storeName: String?
 
-    private var modelName: String = ""
+    private var modelName = ""
 
-    private var modelBundle: Bundle = Bundle.main
+    private var modelBundle = Bundle.main
+
+    private var containerURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
 
     private var _mainContext: NSManagedObjectContext?
 
@@ -35,6 +37,14 @@ import CoreData
 
             return _mainContext!
         }
+    }
+
+    /**
+     The context for the main queue. Please do not use this to mutate data, use `performBackgroundTask`
+     instead.
+     */
+    public var viewContext: NSManagedObjectContext {
+        return self.mainContext
     }
 
     private var _writerContext: NSManagedObjectContext?
@@ -61,7 +71,7 @@ import CoreData
             if _persistentStoreCoordinator == nil {
                 let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
                 let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-                try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName)
+                try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
                 _persistentStoreCoordinator = persistentStoreCoordinator
             }
 
@@ -72,7 +82,7 @@ import CoreData
     private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-        try! persistentStoreCoordinator.addPersistentStore(storeType: .inMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName)
+        try! persistentStoreCoordinator.addPersistentStore(storeType: .InMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
 
         return persistentStoreCoordinator
     }()
@@ -86,6 +96,8 @@ import CoreData
         if let bundleName = bundle.infoDictionary?["CFBundleName"] as? String {
             self.modelName = bundleName
         }
+
+        super.init()
     }
 
     /**
@@ -94,6 +106,8 @@ import CoreData
      */
     public init(modelName: String) {
         self.modelName = modelName
+
+        super.init()
     }
 
     /**
@@ -105,6 +119,8 @@ import CoreData
     public init(modelName: String, storeType: DATAStackStoreType) {
         self.modelName = modelName
         self.storeType = storeType
+
+        super.init()
     }
 
     /**
@@ -120,6 +136,8 @@ import CoreData
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
+
+        super.init()
     }
 
     /**
@@ -130,7 +148,7 @@ import CoreData
      are located.
      - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
      based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
-     - parameter storeName: Normally your file would be named as your model name is named, so if your model 
+     - parameter storeName: Normally your file would be named as your model name is named, so if your model
      name is AwesomeApp then the .sqlite file will be named AwesomeApp.sqlite, this attribute allows your to
      change that.
      */
@@ -139,6 +157,31 @@ import CoreData
         self.modelBundle = bundle
         self.storeType = storeType
         self.storeName = storeName
+
+        super.init()
+    }
+
+    /**
+     Initializes a DATAStack using the provided model name, bundle, storeType and store name.
+     - parameter modelName: The name of your Core Data model (xcdatamodeld).
+     - parameter bundle: The bundle where your Core Data model is located, normally your Core Data model is in
+     the main bundle but when using unit tests sometimes your Core Data model could be located where your tests
+     are located.
+     - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
+     based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
+     - parameter storeName: Normally your file would be named as your model name is named, so if your model
+     name is AwesomeApp then the .sqlite file will be named AwesomeApp.sqlite, this attribute allows your to
+     change that.
+     - parameter containerURL: The container URL for the sqlite file when a store type of SQLite is used.
+     */
+    public init(modelName: String, bundle: NSBundle, storeType: DATAStackStoreType, storeName: String, containerURL: NSURL) {
+        self.modelName = modelName
+        self.modelBundle = bundle
+        self.storeType = storeType
+        self.storeName = storeName
+        self.containerURL = containerURL
+
+        super.init()
     }
 
     deinit {
@@ -155,6 +198,20 @@ import CoreData
         context.undoManager = nil
 
         NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.newDisposableMainContextWillSave(_:)), name: NSNotification.Name.NSManagedObjectContextWillSave, object: context)
+
+        return context
+    }
+
+    /**
+     Returns a background context perfect for data mutability operations. Make sure to never use it on the main thread. Use `performBlock` or `performBlockAndWait` to use it.
+     Saving to this context doesn't merge with the main thread. This context is specially useful to run operations that don't block the main thread. To refresh your main thread objects for
+     example when using a NSFetchedResultsController use `try self.fetchedResultsController.performFetch()`.
+     */
+    public func newNonMergingBackgroundContext() -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
+        context.persistentStoreCoordinator = self.persistentStoreCoordinator
+        context.undoManager = nil
+        context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
 
         return context
     }
@@ -186,7 +243,15 @@ import CoreData
         context.perform(DATAStack.performSelectorForBackgroundContext(), with: blockObject)
     }
 
-    func saveMainThread(_ completion: ((_ error: NSError?) -> Void)?) {
+    /**
+     Returns a background context perfect for data mutability operations.
+     - parameter operation: The block that contains the created background context.
+     */
+    public func performBackgroundTask(operation: (_ backgroundContext: NSManagedObjectContext) -> Void) {
+        self.performInNewBackgroundContext(operation)
+    }
+
+    func saveMainThread(completion: ((_ error: NSError?) -> Void)?) {
         var writerContextError: NSError?
         let writerContextBlock: @convention(block) (Void) -> Void = {
             do {
@@ -249,7 +314,7 @@ import CoreData
                 throw NSError(info: "Could not delete persistent store wal", previousError: error)
             }
         }
-        
+
         if fileManager.fileExists(atPath: storePath) {
             do {
                 try fileManager.removeItem(at: storeURL)
@@ -298,7 +363,7 @@ import CoreData
 }
 
 extension NSPersistentStoreCoordinator {
-    func addPersistentStore(storeType: DATAStackStoreType, bundle: Bundle, modelName: String, storeName: String?) throws {
+    func addPersistentStore(storeType: DATAStackStoreType, bundle: Bundle, modelName: String, storeName: String?, containerURL: NSURL) throws {
         let filePath = (storeName ?? modelName) + ".sqlite"
         switch storeType {
         case .inMemory:
@@ -309,11 +374,9 @@ extension NSPersistentStoreCoordinator {
             }
 
             break
-        case .sqLite:
-            let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-            let documentsURL = urls[0]
-            let storeURL = documentsURL.appendingPathComponent(filePath)
-            let storePath = storeURL.path
+        case .SQLite:
+            let storeURL = containerURL.URLByAppendingPathComponent(filePath)
+            guard let storePath = storeURL.path else { throw NSError(info: "Store path not found: \(storeURL)", previousError: nil) }
 
             let shouldPreloadDatabase = !FileManager.default.fileExists(atPath: storePath)
             if shouldPreloadDatabase {
