@@ -81,6 +81,8 @@ class Tests: XCTestCase {
         dictionaryRequest.resultType = .dictionaryResultType
         dictionaryRequest.propertiesToFetch = [expression, "remoteID"]
 
+        // WARNING: This is crashing. Sadly :( Haven't got a clue of why it's not working.
+        // Silly Core Data.
         let dictionaryObjects = try! dataStack.mainContext.fetch(dictionaryRequest)
         XCTAssertEqual(dictionaryObjects.count, 1)
     }
