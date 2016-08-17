@@ -20,7 +20,7 @@ import CoreData
      The context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext`
      instead.
      */
-    public var mainContext: NSManagedObjectContext {
+    open var mainContext: NSManagedObjectContext {
         get {
             if _mainContext == nil {
                 let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
@@ -177,22 +177,22 @@ import CoreData
      Returns a background context perfect for data mutability operations.
      - parameter operation: The block that contains the created background context.
      */
-    public func performInNewBackgroundContext(_ operation: (backgroundContext: NSManagedObjectContext) -> Void) {
+    public func performInNewBackgroundContext(_ operation: @escaping (_ backgroundContext: NSManagedObjectContext) -> Void) {
         let context = self.newBackgroundContext()
         let contextBlock: @convention(block) () -> Void = {
-            operation(backgroundContext: context)
+            operation(context)
         }
         let blockObject : AnyObject = unsafeBitCast(contextBlock, to: AnyObject.self)
         context.perform(DATAStack.performSelectorForBackgroundContext(), with: blockObject)
     }
 
-    func saveMainThread(_ completion: ((error: NSError?) -> Void)?) {
+    func saveMainThread(_ completion: ((_ error: NSError?) -> Void)?) {
         var writerContextError: NSError?
         let writerContextBlock: @convention(block) (Void) -> Void = {
             do {
                 try self.writerContext.save()
                 if TestCheck.isTesting {
-                    completion?(error: nil)
+                    completion?(nil)
                 }
             } catch let parentError as NSError {
                 writerContextError = parentError
@@ -203,7 +203,7 @@ import CoreData
         let mainContextBlock: @convention(block) (Void) -> Void = {
             self.writerContext.perform(DATAStack.performSelectorForBackgroundContext(), with: writerContextBlockObject)
             DispatchQueue.main.async {
-                completion?(error: writerContextError)
+                completion?(writerContextError)
             }
         }
         let mainContextBlockObject : AnyObject = unsafeBitCast(mainContextBlock, to: AnyObject.self)
@@ -310,7 +310,9 @@ extension NSPersistentStoreCoordinator {
 
             break
         case .sqLite:
-            let storeURL = URL.directoryURL().appendingPathComponent(filePath)
+            let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            let documentsURL = urls[0]
+            let storeURL = documentsURL.appendingPathComponent(filePath)
             let storePath = storeURL.path
 
             let shouldPreloadDatabase = !FileManager.default.fileExists(atPath: storePath)
@@ -379,7 +381,7 @@ extension NSError {
 
             self.init(domain: previousError.domain, code: previousError.code, userInfo: userInfo)
         } else {
-            var userInfo = [String : AnyObject]()
+            var userInfo = [String : String]()
             userInfo[NSLocalizedDescriptionKey] = info
             self.init(domain: "com.3lvis.DATAStack", code: 9999, userInfo: userInfo)
         }
