@@ -82,7 +82,7 @@ import CoreData
     private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-        try! persistentStoreCoordinator.addPersistentStore(storeType: .InMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
+        try! persistentStoreCoordinator.addPersistentStore(storeType: .inMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
 
         return persistentStoreCoordinator
     }()
@@ -174,7 +174,7 @@ import CoreData
      change that.
      - parameter containerURL: The container URL for the sqlite file when a store type of SQLite is used.
      */
-    public init(modelName: String, bundle: NSBundle, storeType: DATAStackStoreType, storeName: String, containerURL: NSURL) {
+    public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType, storeName: String, containerURL: URL) {
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
@@ -247,7 +247,7 @@ import CoreData
      Returns a background context perfect for data mutability operations.
      - parameter operation: The block that contains the created background context.
      */
-    public func performBackgroundTask(operation: (_ backgroundContext: NSManagedObjectContext) -> Void) {
+    public func performBackgroundTask(operation: @escaping (_ backgroundContext: NSManagedObjectContext) -> Void) {
         self.performInNewBackgroundContext(operation)
     }
 
@@ -363,7 +363,7 @@ import CoreData
 }
 
 extension NSPersistentStoreCoordinator {
-    func addPersistentStore(storeType: DATAStackStoreType, bundle: Bundle, modelName: String, storeName: String?, containerURL: NSURL) throws {
+    func addPersistentStore(storeType: DATAStackStoreType, bundle: Bundle, modelName: String, storeName: String?, containerURL: URL) throws {
         let filePath = (storeName ?? modelName) + ".sqlite"
         switch storeType {
         case .inMemory:
@@ -374,9 +374,9 @@ extension NSPersistentStoreCoordinator {
             }
 
             break
-        case .SQLite:
-            let storeURL = containerURL.URLByAppendingPathComponent(filePath)
-            guard let storePath = storeURL.path else { throw NSError(info: "Store path not found: \(storeURL)", previousError: nil) }
+        case .sqLite:
+            let storeURL = containerURL.appendingPathComponent(filePath)
+            let storePath = storeURL.path
 
             let shouldPreloadDatabase = !FileManager.default.fileExists(atPath: storePath)
             if shouldPreloadDatabase {

@@ -11,11 +11,11 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   DATASource:
-    :commit: 7328e3442795793ca15529532d3a065d2c3a7b68
+    :commit: e4571d4d5c6607dc151ba5b73327fbe67f76edf8
     :git: git@github.com:3lvis/DATASource.git
 
 SPEC CHECKSUMS:
-  DATASource: cc307d584cd470cea92d316d55bb2a0df4d85dc6
+  DATASource: 49dd4063eeb81657572362eea7e3aa9b3d921c68
 
 PODFILE CHECKSUM: 7d2705294ed1eeb9f4aa86e74dd3aa885ccc81c3
 
