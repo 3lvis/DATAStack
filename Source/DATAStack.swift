@@ -127,7 +127,7 @@ import CoreData
      Initializes a DATAStack using the provided model name, bundle and storeType.
      - parameter modelName: The name of your Core Data model (xcdatamodeld).
      - parameter bundle: The bundle where your Core Data model is located, normally your Core Data model is in
-     the main bundle but when using unit tests sometimes your Core Data model could be located where your tests
+     the main bundle but saveMainThreadwhen using unit tests sometimes your Core Data model could be located where your tests
      are located.
      - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
      based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
@@ -189,6 +189,20 @@ import CoreData
         NSNotificationCenter.defaultCenter().removeObserver(self, name: NSManagedObjectContextDidSaveNotification, object: nil)
     }
 
+	/**
+	 Return new context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext` instead.
+	 */
+	public func newMainContext() -> NSManagedObjectContext {
+		let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+		context.persistentStoreCoordinator = self.persistentStoreCoordinator
+		context.undoManager = nil
+		context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+		
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.newMainContextDidSave(_:)), name: NSManagedObjectContextDidSaveNotification, object: context)
+		
+		return context
+	}
+	
     /**
      Returns a new main context that is detached from saving to disk.
      */
@@ -331,6 +345,19 @@ import CoreData
             }
         }
     }
+	
+	// Can't be private, has to be internal in order to be used as a selector.
+	func newMainContextDidSave(notification: NSNotification) throws {
+		if !NSThread.isMainThread() && TestCheck.isTesting == false {
+			throw NSError(info: "Main context saved in the background thread. Use context's `performBlock`", previousError: nil)
+		} else {
+			let contextBlock: @convention(block) () -> Void = {
+				self.mainContext.mergeChangesFromContextDidSaveNotification(notification)
+			}
+			let blockObject : AnyObject = unsafeBitCast(contextBlock, AnyObject.self)
+			self.mainContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
+		}
+	}
 
     // Can't be private, has to be internal in order to be used as a selector.
     func newDisposableMainContextWillSave(notification: NSNotification) {
