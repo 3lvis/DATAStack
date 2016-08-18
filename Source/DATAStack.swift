@@ -127,7 +127,7 @@ import CoreData
      Initializes a DATAStack using the provided model name, bundle and storeType.
      - parameter modelName: The name of your Core Data model (xcdatamodeld).
      - parameter bundle: The bundle where your Core Data model is located, normally your Core Data model is in
-     the main bundle but saveMainThreadwhen using unit tests sometimes your Core Data model could be located where your tests
+     the main bundle but when using unit tests sometimes your Core Data model could be located where your tests
      are located.
      - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
      based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
