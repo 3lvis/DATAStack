@@ -286,39 +286,41 @@ import CoreData
      Drops the database.
      */
     public func drop() throws {
-        guard let store = self.persistentStoreCoordinator.persistentStores.last, storeURL = store.URL, storePath = storeURL.path
-            else { throw NSError(info: "Persistent store coordinator not found", previousError: nil) }
+        for store in self.persistentStoreCoordinator.persistentStores {
+            guard let storeURL = store.URL else { throw NSError(info: "Persistent store url not found", previousError: nil) }
+            guard let storePath = storeURL.path else { throw NSError(info: "Persistent store url path not found", previousError: nil) }
 
-        let sqliteFile = (storePath as NSString).stringByDeletingPathExtension
-        let fileManager = NSFileManager.defaultManager()
+            let sqliteFile = (storePath as NSString).stringByDeletingPathExtension
+            let fileManager = NSFileManager.defaultManager()
 
-        self._writerContext = nil
-        self._mainContext = nil
-        self._persistentStoreCoordinator = nil
+            self._writerContext = nil
+            self._mainContext = nil
+            self._persistentStoreCoordinator = nil
 
-        let shm = sqliteFile + ".sqlite-shm"
-        if fileManager.fileExistsAtPath(shm) {
-            do {
-                try fileManager.removeItemAtURL(NSURL.fileURLWithPath(shm))
-            } catch let error as NSError {
-                throw NSError(info: "Could not delete persistent store shm", previousError: error)
+            let shm = sqliteFile + ".sqlite-shm"
+            if fileManager.fileExistsAtPath(shm) {
+                do {
+                    try fileManager.removeItemAtURL(NSURL.fileURLWithPath(shm))
+                } catch let error as NSError {
+                    throw NSError(info: "Could not delete persistent store shm", previousError: error)
+                }
             }
-        }
 
-        let wal = sqliteFile + ".sqlite-wal"
-        if fileManager.fileExistsAtPath(wal) {
-            do {
-                try fileManager.removeItemAtURL(NSURL.fileURLWithPath(wal))
-            } catch let error as NSError {
-                throw NSError(info: "Could not delete persistent store wal", previousError: error)
+            let wal = sqliteFile + ".sqlite-wal"
+            if fileManager.fileExistsAtPath(wal) {
+                do {
+                    try fileManager.removeItemAtURL(NSURL.fileURLWithPath(wal))
+                } catch let error as NSError {
+                    throw NSError(info: "Could not delete persistent store wal", previousError: error)
+                }
             }
-        }
 
-        if fileManager.fileExistsAtPath(storePath) {
-            do {
-                try fileManager.removeItemAtURL(storeURL)
-            } catch let error as NSError {
-                throw NSError(info: "Could not delete sqlite file", previousError: error)
+            if fileManager.fileExistsAtPath(storePath) {
+                do {
+                    try fileManager.removeItemAtURL(storeURL)
+                } catch let error as NSError {
+                    throw NSError(info: "Could not delete sqlite file", previousError: error)
+                }
             }
         }
     }
