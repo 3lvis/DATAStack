@@ -1,7 +1,7 @@
 osx_image: xcode7.3
 language: objective-c
 podfile: Travis/Podfile
-workspace 'Demo.xcworkspace'
+xcode_workspace: 'Demo.xcworkspace'
 before_install: gem install xcpretty
 script: xcodebuild -workspace Demo.xcworkspace -scheme Tests -sdk iphonesimulator build test -destination 'platform=iOS Simulator,name=iPhone 6' GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES clean test | xcpretty -c
 notifications:
