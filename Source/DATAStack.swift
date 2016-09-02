@@ -377,7 +377,11 @@ extension NSPersistentStoreCoordinator {
             break
         case .SQLite:
             let storeURL = containerURL.URLByAppendingPathComponent(filePath)
-            guard let storePath = storeURL.path else { throw NSError(info: "Store path not found: \(storeURL)", previousError: nil) }
+            #if swift(>=2.3)
+                guard let storePath = storeURL?.path else { throw NSError(info: "Store path not found: \(storeURL)", previousError: nil) }
+            #else
+                guard let storePath = storeURL.path else { throw NSError(info: "Store path not found: \(storeURL)", previousError: nil) }
+            #endif
 
             let shouldPreloadDatabase = !NSFileManager.defaultManager().fileExistsAtPath(storePath)
             if shouldPreloadDatabase {
@@ -385,7 +389,11 @@ extension NSPersistentStoreCoordinator {
                     let preloadURL = NSURL.fileURLWithPath(preloadedPath)
 
                     do {
-                        try NSFileManager.defaultManager().copyItemAtURL(preloadURL, toURL: storeURL)
+                        #if swift(>=2.3)
+                            try NSFileManager.defaultManager().copyItemAtURL(preloadURL, toURL: storeURL!)
+                        #else
+                            try NSFileManager.defaultManager().copyItemAtURL(preloadURL, toURL: storeURL)
+                        #endif
                     } catch let error as NSError {
                         throw NSError(info: "Oops, could not copy preloaded data", previousError: error)
                     }
@@ -410,7 +418,11 @@ extension NSPersistentStoreCoordinator {
             let shouldExcludeSQLiteFromBackup = storeType == .SQLite && TestCheck.isTesting == false
             if shouldExcludeSQLiteFromBackup {
                 do {
-                    try storeURL.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+                    #if swift(>=2.3)
+                        try storeURL!.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+                    #else
+                        try storeURL.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+                    #endif
                 } catch let excludingError as NSError {
                     throw NSError(info: "Excluding SQLite file from backup caused an error", previousError: excludingError)
                 }
