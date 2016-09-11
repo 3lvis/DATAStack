@@ -116,7 +116,7 @@ class Tests: XCTestCase {
     }
 
     func testAlternativeModel() {
-        let dataStack = DATAStack(modelName: "DataModelTest", bundle: Bundle(for: Tests.self), storeType: .inMemory)
+        let dataStack = DATAStack(modelName: "DataModel", bundle: Bundle(for: Tests.self), storeType: .inMemory)
         self.insertUserInContext(dataStack.mainContext)
 
         let objects = self.fetchObjectsInContext(dataStack.mainContext)
