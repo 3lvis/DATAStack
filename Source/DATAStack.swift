@@ -5,18 +5,18 @@ import CoreData
     case inMemory, sqLite
 }
 
-@objc public class DATAStack: NSObject {
-    private var storeType = DATAStackStoreType.sqLite
+@objc open class DATAStack: NSObject {
+    fileprivate var storeType = DATAStackStoreType.sqLite
 
-    private var storeName: String?
+    fileprivate var storeName: String?
 
-    private var modelName = ""
+    fileprivate var modelName = ""
 
-    private var modelBundle = Bundle.main
+    fileprivate var modelBundle = Bundle.main
 
-    private var containerURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
+    fileprivate var containerURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
 
-    private var _mainContext: NSManagedObjectContext?
+    fileprivate var _mainContext: NSManagedObjectContext?
 
     /**
      The context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext`
@@ -47,9 +47,9 @@ import CoreData
         return self.mainContext
     }
 
-    private var _writerContext: NSManagedObjectContext?
+    fileprivate var _writerContext: NSManagedObjectContext?
 
-    private var writerContext: NSManagedObjectContext {
+    fileprivate var writerContext: NSManagedObjectContext {
         get {
             if _writerContext == nil {
                 let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
@@ -64,9 +64,9 @@ import CoreData
         }
     }
 
-    private var _persistentStoreCoordinator: NSPersistentStoreCoordinator?
+    fileprivate var _persistentStoreCoordinator: NSPersistentStoreCoordinator?
 
-    private var persistentStoreCoordinator: NSPersistentStoreCoordinator {
+    fileprivate var persistentStoreCoordinator: NSPersistentStoreCoordinator {
         get {
             if _persistentStoreCoordinator == nil {
                 let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
@@ -79,7 +79,7 @@ import CoreData
         }
     }
 
-    private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
+    fileprivate lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
         try! persistentStoreCoordinator.addPersistentStore(storeType: .inMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
@@ -287,9 +287,9 @@ import CoreData
      */
     public func drop() throws {
         for store in self.persistentStoreCoordinator.persistentStores {
-            guard let storeURL = store.URL else { throw NSError(info: "Persistent store url not found", previousError: nil) }
-            guard let storePath = storeURL.path else { throw NSError(info: "Persistent store url path not found", previousError: nil) }
+            guard let storeURL = store.url else { throw NSError(info: "Persistent store url not found", previousError: nil) }
 
+            let storePath = storeURL.path
             let sqliteFile = (storePath as NSString).deletingPathExtension
             let fileManager = FileManager.default
 
@@ -298,26 +298,26 @@ import CoreData
             self._persistentStoreCoordinator = nil
 
             let shm = sqliteFile + ".sqlite-shm"
-            if fileManager.fileExistsAtPath(shm) {
+            if fileManager.fileExists(atPath: shm) {
                 do {
-                    try fileManager.removeItemAtURL(NSURL.fileURLWithPath(shm))
+                    try fileManager.removeItem(at: NSURL.fileURL(withPath: shm))
                 } catch let error as NSError {
                     throw NSError(info: "Could not delete persistent store shm", previousError: error)
                 }
             }
 
             let wal = sqliteFile + ".sqlite-wal"
-            if fileManager.fileExistsAtPath(wal) {
+            if fileManager.fileExists(atPath: wal) {
                 do {
-                    try fileManager.removeItemAtURL(NSURL.fileURLWithPath(wal))
+                    try fileManager.removeItem(at: NSURL.fileURL(withPath: wal))
                 } catch let error as NSError {
                     throw NSError(info: "Could not delete persistent store wal", previousError: error)
                 }
             }
 
-            if fileManager.fileExistsAtPath(storePath) {
+            if fileManager.fileExists(atPath: storePath) {
                 do {
-                    try fileManager.removeItemAtURL(storeURL)
+                    try fileManager.removeItem(at: storeURL)
                 } catch let error as NSError {
                     throw NSError(info: "Could not delete sqlite file", previousError: error)
                 }
