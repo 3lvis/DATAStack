@@ -455,7 +455,7 @@ extension NSError {
 extension URL {
     private static func directoryURL() -> URL {
         #if os(tvOS)
-            return FileManager.default.urlsForDirectory(.cachesDirectory, inDomains: .userDomainMask).last!
+            return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
         #else
             return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
         #endif
