@@ -64,8 +64,6 @@ class Tests: XCTestCase {
         XCTAssertTrue(synchronous)
     }
 
-    /*
-    // WARNING: This is not working on Swift 3 Beta 6
     func testRequestWithDictionaryResultType() {
         let dataStack = self.createDataStack()
         self.insertUserInContext(dataStack.mainContext)
@@ -79,16 +77,13 @@ class Tests: XCTestCase {
         expression.expression = NSExpression.expressionForEvaluatedObject()
         expression.expressionResultType = .objectIDAttributeType
 
-        let dictionaryRequest = NSFetchRequest<NSManagedObject>(entityName: "User")
+        let dictionaryRequest = NSFetchRequest<NSDictionary>(entityName: "User")
         dictionaryRequest.resultType = .dictionaryResultType
         dictionaryRequest.propertiesToFetch = [expression, "remoteID"]
 
-        // WARNING: This is crashing. Sadly :( Haven't got a clue of why it's not working.
-        // Silly Core Data.
         let dictionaryObjects = try! dataStack.mainContext.fetch(dictionaryRequest)
         XCTAssertEqual(dictionaryObjects.count, 1)
     }
-    */
 
     func testDisposableContextSave() {
         let dataStack = self.createDataStack()
