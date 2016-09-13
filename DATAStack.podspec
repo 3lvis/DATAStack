@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "DATAStack"
-  s.version = "6.0.0-beta3"
+  s.version = "6.0.0"
   s.summary = "100% Swift Simple Boilerplate Free Core Data Stack"
   s.description = <<-DESC
                    * Easier thread safety
@@ -30,5 +30,4 @@ Pod::Spec.new do |s|
   s.source_files = 'Source/'
   s.frameworks = 'Foundation', 'CoreData'
   s.requires_arc = true
-  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '3.0' }
 end

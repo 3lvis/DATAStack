@@ -11,7 +11,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   DATASource:
-    :commit: 423a69c75f96d38301cec8655f1c1cc9eec7a3c4
+    :commit: db7ee8b241cc596930c44a0bc8a41b9d582a4fb5
     :git: git@github.com:3lvis/DATASource.git
 
 SPEC CHECKSUMS:
@@ -19,4 +19,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 7d2705294ed1eeb9f4aa86e74dd3aa885ccc81c3
 
-COCOAPODS: 1.1.0.rc.1
+COCOAPODS: 1.1.0.rc.2
