@@ -5,7 +5,7 @@ import CoreData
     case inMemory, sqLite
 }
 
-@objc open class DATAStack: NSObject {
+@objc public class DATAStack: NSObject {
     fileprivate var storeType = DATAStackStoreType.sqLite
 
     fileprivate var storeName: String?
@@ -22,7 +22,7 @@ import CoreData
      The context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext`
      instead.
      */
-    open var mainContext: NSManagedObjectContext {
+    public var mainContext: NSManagedObjectContext {
         get {
             if _mainContext == nil {
                 let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
