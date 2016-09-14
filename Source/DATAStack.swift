@@ -6,17 +6,17 @@ import CoreData
 }
 
 @objc public class DATAStack: NSObject {
-    fileprivate var storeType = DATAStackStoreType.sqLite
+    private var storeType = DATAStackStoreType.sqLite
 
-    fileprivate var storeName: String?
+    private var storeName: String?
 
-    fileprivate var modelName = ""
+    private var modelName = ""
 
-    fileprivate var modelBundle = Bundle.main
+    private var modelBundle = Bundle.main
 
-    fileprivate var containerURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
+    private var containerURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
 
-    fileprivate var _mainContext: NSManagedObjectContext?
+    private var _mainContext: NSManagedObjectContext?
 
     /**
      The context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext`
@@ -47,9 +47,9 @@ import CoreData
         return self.mainContext
     }
 
-    fileprivate var _writerContext: NSManagedObjectContext?
+    private var _writerContext: NSManagedObjectContext?
 
-    fileprivate var writerContext: NSManagedObjectContext {
+    private var writerContext: NSManagedObjectContext {
         get {
             if _writerContext == nil {
                 let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
@@ -64,9 +64,9 @@ import CoreData
         }
     }
 
-    fileprivate var _persistentStoreCoordinator: NSPersistentStoreCoordinator?
+    private var _persistentStoreCoordinator: NSPersistentStoreCoordinator?
 
-    fileprivate var persistentStoreCoordinator: NSPersistentStoreCoordinator {
+    private var persistentStoreCoordinator: NSPersistentStoreCoordinator {
         get {
             if _persistentStoreCoordinator == nil {
                 let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
@@ -79,7 +79,7 @@ import CoreData
         }
     }
 
-    fileprivate lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
+    private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
         try! persistentStoreCoordinator.addPersistentStore(storeType: .inMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)

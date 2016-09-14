@@ -8,7 +8,7 @@ class ViewController: UITableViewController {
 
     lazy var dataSource: DATASource = {
         let request: NSFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
-        request.sortDescriptors = [SortDescriptor(key: "name", ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
 
         let dataSource = DATASource(tableView: self.tableView, cellIdentifier: "Cell", fetchRequest: request, mainContext: self.dataStack.mainContext, configuration: { cell, item, indexPath in
             if let name = item.value(forKey: "name") as? String, let createdDate = item.value(forKey: "createdDate") as? NSDate {
