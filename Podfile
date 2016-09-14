@@ -1,7 +1,7 @@
 use_frameworks!
 
 abstract_target 'CocoaPods' do
-  pod 'DATASource', git: 'git@github.com:3lvis/DATASource.git', branch: 'feature/swift-3'
+  pod 'DATASource'
 
   target 'DemoObjectiveC' do
   end

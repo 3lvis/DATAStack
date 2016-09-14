@@ -1,22 +1,12 @@
 PODS:
-  - DATASource (6.0.0-beta1)
+  - DATASource (6.0.0)
 
 DEPENDENCIES:
-  - DATASource (from `git@github.com:3lvis/DATASource.git`, branch `feature/swift-3`)
-
-EXTERNAL SOURCES:
-  DATASource:
-    :branch: feature/swift-3
-    :git: git@github.com:3lvis/DATASource.git
-
-CHECKOUT OPTIONS:
-  DATASource:
-    :commit: db7ee8b241cc596930c44a0bc8a41b9d582a4fb5
-    :git: git@github.com:3lvis/DATASource.git
+  - DATASource
 
 SPEC CHECKSUMS:
-  DATASource: 49dd4063eeb81657572362eea7e3aa9b3d921c68
+  DATASource: fab70e3d22acf03b8eced9a015bdca38b5b08505
 
-PODFILE CHECKSUM: 7d2705294ed1eeb9f4aa86e74dd3aa885ccc81c3
+PODFILE CHECKSUM: eec3b04d52e4f938bd867ed08059dfd5dfca6fbf
 
 COCOAPODS: 1.1.0.rc.2
