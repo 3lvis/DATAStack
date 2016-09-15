@@ -188,10 +188,10 @@ import CoreData
         NSNotificationCenter.defaultCenter().removeObserver(self, name: NSManagedObjectContextWillSaveNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: NSManagedObjectContextDidSaveNotification, object: nil)
     }
-
+	
 	/**
-	 Return new context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext` instead.
-	 */
+	Return new context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext` instead.
+	*/
 	public func newMainContext() -> NSManagedObjectContext {
 		let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
 		context.persistentStoreCoordinator = self.persistentStoreCoordinator
@@ -202,7 +202,7 @@ import CoreData
 		
 		return context
 	}
-	
+
     /**
      Returns a new main context that is detached from saving to disk.
      */
@@ -300,39 +300,41 @@ import CoreData
      Drops the database.
      */
     public func drop() throws {
-        guard let store = self.persistentStoreCoordinator.persistentStores.last, storeURL = store.URL, storePath = storeURL.path
-            else { throw NSError(info: "Persistent store coordinator not found", previousError: nil) }
+        for store in self.persistentStoreCoordinator.persistentStores {
+            guard let storeURL = store.URL else { throw NSError(info: "Persistent store url not found", previousError: nil) }
+            guard let storePath = storeURL.path else { throw NSError(info: "Persistent store url path not found", previousError: nil) }
 
-        let sqliteFile = (storePath as NSString).stringByDeletingPathExtension
-        let fileManager = NSFileManager.defaultManager()
+            let sqliteFile = (storePath as NSString).stringByDeletingPathExtension
+            let fileManager = NSFileManager.defaultManager()
 
-        self._writerContext = nil
-        self._mainContext = nil
-        self._persistentStoreCoordinator = nil
+            self._writerContext = nil
+            self._mainContext = nil
+            self._persistentStoreCoordinator = nil
 
-        let shm = sqliteFile + ".sqlite-shm"
-        if fileManager.fileExistsAtPath(shm) {
-            do {
-                try fileManager.removeItemAtURL(NSURL.fileURLWithPath(shm))
-            } catch let error as NSError {
-                throw NSError(info: "Could not delete persistent store shm", previousError: error)
+            let shm = sqliteFile + ".sqlite-shm"
+            if fileManager.fileExistsAtPath(shm) {
+                do {
+                    try fileManager.removeItemAtURL(NSURL.fileURLWithPath(shm))
+                } catch let error as NSError {
+                    throw NSError(info: "Could not delete persistent store shm", previousError: error)
+                }
             }
-        }
 
-        let wal = sqliteFile + ".sqlite-wal"
-        if fileManager.fileExistsAtPath(wal) {
-            do {
-                try fileManager.removeItemAtURL(NSURL.fileURLWithPath(wal))
-            } catch let error as NSError {
-                throw NSError(info: "Could not delete persistent store wal", previousError: error)
+            let wal = sqliteFile + ".sqlite-wal"
+            if fileManager.fileExistsAtPath(wal) {
+                do {
+                    try fileManager.removeItemAtURL(NSURL.fileURLWithPath(wal))
+                } catch let error as NSError {
+                    throw NSError(info: "Could not delete persistent store wal", previousError: error)
+                }
             }
-        }
 
-        if fileManager.fileExistsAtPath(storePath) {
-            do {
-                try fileManager.removeItemAtURL(storeURL)
-            } catch let error as NSError {
-                throw NSError(info: "Could not delete sqlite file", previousError: error)
+            if fileManager.fileExistsAtPath(storePath) {
+                do {
+                    try fileManager.removeItemAtURL(storeURL)
+                } catch let error as NSError {
+                    throw NSError(info: "Could not delete sqlite file", previousError: error)
+                }
             }
         }
     }
@@ -402,7 +404,11 @@ extension NSPersistentStoreCoordinator {
             break
         case .SQLite:
             let storeURL = containerURL.URLByAppendingPathComponent(filePath)
-            guard let storePath = storeURL.path else { throw NSError(info: "Store path not found: \(storeURL)", previousError: nil) }
+            #if swift(>=2.3)
+                guard let storePath = storeURL?.path else { throw NSError(info: "Store path not found: \(storeURL)", previousError: nil) }
+            #else
+                guard let storePath = storeURL.path else { throw NSError(info: "Store path not found: \(storeURL)", previousError: nil) }
+            #endif
 
             let shouldPreloadDatabase = !NSFileManager.defaultManager().fileExistsAtPath(storePath)
             if shouldPreloadDatabase {
@@ -410,7 +416,11 @@ extension NSPersistentStoreCoordinator {
                     let preloadURL = NSURL.fileURLWithPath(preloadedPath)
 
                     do {
-                        try NSFileManager.defaultManager().copyItemAtURL(preloadURL, toURL: storeURL)
+                        #if swift(>=2.3)
+                            try NSFileManager.defaultManager().copyItemAtURL(preloadURL, toURL: storeURL!)
+                        #else
+                            try NSFileManager.defaultManager().copyItemAtURL(preloadURL, toURL: storeURL)
+                        #endif
                     } catch let error as NSError {
                         throw NSError(info: "Oops, could not copy preloaded data", previousError: error)
                     }
@@ -435,7 +445,11 @@ extension NSPersistentStoreCoordinator {
             let shouldExcludeSQLiteFromBackup = storeType == .SQLite && TestCheck.isTesting == false
             if shouldExcludeSQLiteFromBackup {
                 do {
-                    try storeURL.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+                    #if swift(>=2.3)
+                        try storeURL!.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+                    #else
+                        try storeURL.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+                    #endif
                 } catch let excludingError as NSError {
                     throw NSError(info: "Excluding SQLite file from backup caused an error", previousError: excludingError)
                 }
