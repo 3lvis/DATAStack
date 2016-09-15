@@ -2,19 +2,19 @@ import Foundation
 import CoreData
 
 @objc public enum DATAStackStoreType: Int {
-    case InMemory, SQLite
+    case inMemory, sqLite
 }
 
 @objc public class DATAStack: NSObject {
-    private var storeType = DATAStackStoreType.SQLite
+    private var storeType = DATAStackStoreType.sqLite
 
     private var storeName: String?
 
     private var modelName = ""
 
-    private var modelBundle = NSBundle.mainBundle()
+    private var modelBundle = Bundle.main
 
-    private var containerURL = NSURL.directoryURL()
+    private var containerURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
 
     private var _mainContext: NSManagedObjectContext?
 
@@ -25,12 +25,12 @@ import CoreData
     public var mainContext: NSManagedObjectContext {
         get {
             if _mainContext == nil {
-                let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+                let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
                 context.undoManager = nil
                 context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
                 context.persistentStoreCoordinator = self.persistentStoreCoordinator
 
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.mainContextDidSave(_:)), name: NSManagedObjectContextDidSaveNotification, object: context)
+                NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.mainContextDidSave(_:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: context)
 
                 _mainContext = context
             }
@@ -82,7 +82,7 @@ import CoreData
     private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-        try! persistentStoreCoordinator.addPersistentStore(storeType: .InMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
+        try! persistentStoreCoordinator.addPersistentStore(storeType: .inMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
 
         return persistentStoreCoordinator
     }()
@@ -92,7 +92,7 @@ import CoreData
      it will look for a ModernApp.xcdatamodeld.
      */
     public override init() {
-        let bundle = NSBundle.mainBundle()
+        let bundle = Bundle.main
         if let bundleName = bundle.infoDictionary?["CFBundleName"] as? String {
             self.modelName = bundleName
         }
@@ -132,7 +132,7 @@ import CoreData
      - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
      based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
      */
-    public init(modelName: String, bundle: NSBundle, storeType: DATAStackStoreType) {
+    public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType) {
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
@@ -152,7 +152,7 @@ import CoreData
      name is AwesomeApp then the .sqlite file will be named AwesomeApp.sqlite, this attribute allows your to
      change that.
      */
-    public init(modelName: String, bundle: NSBundle, storeType: DATAStackStoreType, storeName: String) {
+    public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType, storeName: String) {
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
@@ -174,7 +174,7 @@ import CoreData
      change that.
      - parameter containerURL: The container URL for the sqlite file when a store type of SQLite is used.
      */
-    public init(modelName: String, bundle: NSBundle, storeType: DATAStackStoreType, storeName: String, containerURL: NSURL) {
+    public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType, storeName: String, containerURL: URL) {
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
@@ -185,19 +185,19 @@ import CoreData
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: NSManagedObjectContextWillSaveNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: NSManagedObjectContextDidSaveNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextWillSave, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
 
     /**
      Returns a new main context that is detached from saving to disk.
      */
     public func newDisposableMainContext() -> NSManagedObjectContext {
-        let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         context.persistentStoreCoordinator = self.disposablePersistentStoreCoordinator
         context.undoManager = nil
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.newDisposableMainContextWillSave(_:)), name: NSManagedObjectContextWillSaveNotification, object: context)
+        NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.newDisposableMainContextWillSave(_:)), name: NSNotification.Name.NSManagedObjectContextWillSave, object: context)
 
         return context
     }
@@ -225,7 +225,7 @@ import CoreData
         context.undoManager = nil
         context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.backgroundContextDidSave(_:)), name: NSManagedObjectContextDidSaveNotification, object: context)
+        NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.backgroundContextDidSave(_:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: context)
 
         return context
     }
@@ -234,45 +234,45 @@ import CoreData
      Returns a background context perfect for data mutability operations.
      - parameter operation: The block that contains the created background context.
      */
-    public func performInNewBackgroundContext(operation: (backgroundContext: NSManagedObjectContext) -> Void) {
+    public func performInNewBackgroundContext(_ operation: @escaping (_ backgroundContext: NSManagedObjectContext) -> Void) {
         let context = self.newBackgroundContext()
         let contextBlock: @convention(block) () -> Void = {
-            operation(backgroundContext: context)
+            operation(context)
         }
-        let blockObject : AnyObject = unsafeBitCast(contextBlock, AnyObject.self)
-        context.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
+        let blockObject : AnyObject = unsafeBitCast(contextBlock, to: AnyObject.self)
+        context.perform(DATAStack.performSelectorForBackgroundContext(), with: blockObject)
     }
 
     /**
      Returns a background context perfect for data mutability operations.
      - parameter operation: The block that contains the created background context.
      */
-    public func performBackgroundTask(operation: (backgroundContext: NSManagedObjectContext) -> Void) {
+    public func performBackgroundTask(operation: @escaping (_ backgroundContext: NSManagedObjectContext) -> Void) {
         self.performInNewBackgroundContext(operation)
     }
 
-    func saveMainThread(completion: ((error: NSError?) -> Void)?) {
+    func saveMainThread(completion: ((_ error: NSError?) -> Void)?) {
         var writerContextError: NSError?
-        let writerContextBlock: @convention(block) Void -> Void = {
+        let writerContextBlock: @convention(block) (Void) -> Void = {
             do {
                 try self.writerContext.save()
                 if TestCheck.isTesting {
-                    completion?(error: nil)
+                    completion?(nil)
                 }
             } catch let parentError as NSError {
                 writerContextError = parentError
             }
         }
-        let writerContextBlockObject : AnyObject = unsafeBitCast(writerContextBlock, AnyObject.self)
+        let writerContextBlockObject : AnyObject = unsafeBitCast(writerContextBlock, to: AnyObject.self)
 
-        let mainContextBlock: @convention(block) Void -> Void = {
-            self.writerContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: writerContextBlockObject)
-            dispatch_async(dispatch_get_main_queue()) {
-                completion?(error: writerContextError)
+        let mainContextBlock: @convention(block) (Void) -> Void = {
+            self.writerContext.perform(DATAStack.performSelectorForBackgroundContext(), with: writerContextBlockObject)
+            DispatchQueue.main.async {
+                completion?(writerContextError)
             }
         }
-        let mainContextBlockObject : AnyObject = unsafeBitCast(mainContextBlock, AnyObject.self)
-        self.mainContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: mainContextBlockObject)
+        let mainContextBlockObject : AnyObject = unsafeBitCast(mainContextBlock, to: AnyObject.self)
+        self.mainContext.perform(DATAStack.performSelectorForBackgroundContext(), with: mainContextBlockObject)
     }
 
     /**
@@ -286,45 +286,47 @@ import CoreData
      Drops the database.
      */
     public func drop() throws {
-        guard let store = self.persistentStoreCoordinator.persistentStores.last, storeURL = store.URL, storePath = storeURL.path
-            else { throw NSError(info: "Persistent store coordinator not found", previousError: nil) }
+        for store in self.persistentStoreCoordinator.persistentStores {
+            guard let storeURL = store.url else { throw NSError(info: "Persistent store url not found", previousError: nil) }
 
-        let sqliteFile = (storePath as NSString).stringByDeletingPathExtension
-        let fileManager = NSFileManager.defaultManager()
+            let storePath = storeURL.path
+            let sqliteFile = (storePath as NSString).deletingPathExtension
+            let fileManager = FileManager.default
 
-        self._writerContext = nil
-        self._mainContext = nil
-        self._persistentStoreCoordinator = nil
+            self._writerContext = nil
+            self._mainContext = nil
+            self._persistentStoreCoordinator = nil
 
-        let shm = sqliteFile + ".sqlite-shm"
-        if fileManager.fileExistsAtPath(shm) {
-            do {
-                try fileManager.removeItemAtURL(NSURL.fileURLWithPath(shm))
-            } catch let error as NSError {
-                throw NSError(info: "Could not delete persistent store shm", previousError: error)
+            let shm = sqliteFile + ".sqlite-shm"
+            if fileManager.fileExists(atPath: shm) {
+                do {
+                    try fileManager.removeItem(at: NSURL.fileURL(withPath: shm))
+                } catch let error as NSError {
+                    throw NSError(info: "Could not delete persistent store shm", previousError: error)
+                }
             }
-        }
 
-        let wal = sqliteFile + ".sqlite-wal"
-        if fileManager.fileExistsAtPath(wal) {
-            do {
-                try fileManager.removeItemAtURL(NSURL.fileURLWithPath(wal))
-            } catch let error as NSError {
-                throw NSError(info: "Could not delete persistent store wal", previousError: error)
+            let wal = sqliteFile + ".sqlite-wal"
+            if fileManager.fileExists(atPath: wal) {
+                do {
+                    try fileManager.removeItem(at: NSURL.fileURL(withPath: wal))
+                } catch let error as NSError {
+                    throw NSError(info: "Could not delete persistent store wal", previousError: error)
+                }
             }
-        }
 
-        if fileManager.fileExistsAtPath(storePath) {
-            do {
-                try fileManager.removeItemAtURL(storeURL)
-            } catch let error as NSError {
-                throw NSError(info: "Could not delete sqlite file", previousError: error)
+            if fileManager.fileExists(atPath: storePath) {
+                do {
+                    try fileManager.removeItem(at: storeURL)
+                } catch let error as NSError {
+                    throw NSError(info: "Could not delete sqlite file", previousError: error)
+                }
             }
         }
     }
 
     // Can't be private, has to be internal in order to be used as a selector.
-    func mainContextDidSave(notification: NSNotification) {
+    func mainContextDidSave(_ notification: Notification) {
         self.saveMainThread { error in
             if let error = error {
                 fatalError("Failed to save objects in main thread: \(error)")
@@ -333,27 +335,27 @@ import CoreData
     }
 
     // Can't be private, has to be internal in order to be used as a selector.
-    func newDisposableMainContextWillSave(notification: NSNotification) {
+    func newDisposableMainContextWillSave(_ notification: Notification) {
         if let context = notification.object as? NSManagedObjectContext {
             context.reset()
         }
     }
 
     // Can't be private, has to be internal in order to be used as a selector.
-    func backgroundContextDidSave(notification: NSNotification) throws {
-        if NSThread.isMainThread() && TestCheck.isTesting == false {
+    func backgroundContextDidSave(_ notification: Notification) throws {
+        if Thread.isMainThread && TestCheck.isTesting == false {
             throw NSError(info: "Background context saved in the main thread. Use context's `performBlock`", previousError: nil)
         } else {
             let contextBlock: @convention(block) () -> Void = {
-                self.mainContext.mergeChangesFromContextDidSaveNotification(notification)
+                self.mainContext.mergeChanges(fromContextDidSave: notification)
             }
-            let blockObject : AnyObject = unsafeBitCast(contextBlock, AnyObject.self)
-            self.mainContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
+            let blockObject : AnyObject = unsafeBitCast(contextBlock, to: AnyObject.self)
+            self.mainContext.perform(DATAStack.performSelectorForBackgroundContext(), with: blockObject)
         }
     }
 
     private static func backgroundConcurrencyType() -> NSManagedObjectContextConcurrencyType {
-        return TestCheck.isTesting ? .MainQueueConcurrencyType : .PrivateQueueConcurrencyType
+        return TestCheck.isTesting ? .mainQueueConcurrencyType : .privateQueueConcurrencyType
     }
 
     private static func performSelectorForBackgroundContext() -> Selector {
@@ -362,28 +364,28 @@ import CoreData
 }
 
 extension NSPersistentStoreCoordinator {
-    func addPersistentStore(storeType storeType: DATAStackStoreType, bundle: NSBundle, modelName: String, storeName: String?, containerURL: NSURL) throws {
+    func addPersistentStore(storeType: DATAStackStoreType, bundle: Bundle, modelName: String, storeName: String?, containerURL: URL) throws {
         let filePath = (storeName ?? modelName) + ".sqlite"
         switch storeType {
-        case .InMemory:
+        case .inMemory:
             do {
-                try self.addPersistentStoreWithType(NSInMemoryStoreType, configuration: nil, URL: nil, options: nil)
+                try self.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil, options: nil)
             } catch let error as NSError {
                 throw NSError(info: "There was an error creating the persistentStoreCoordinator for in memory store", previousError: error)
             }
 
             break
-        case .SQLite:
-            let storeURL = containerURL.URLByAppendingPathComponent(filePath)
-            guard let storePath = storeURL.path else { throw NSError(info: "Store path not found: \(storeURL)", previousError: nil) }
+        case .sqLite:
+            let storeURL = containerURL.appendingPathComponent(filePath)
+            let storePath = storeURL.path
 
-            let shouldPreloadDatabase = !NSFileManager.defaultManager().fileExistsAtPath(storePath)
+            let shouldPreloadDatabase = !FileManager.default.fileExists(atPath: storePath)
             if shouldPreloadDatabase {
-                if let preloadedPath = bundle.pathForResource(modelName, ofType: "sqlite") {
-                    let preloadURL = NSURL.fileURLWithPath(preloadedPath)
+                if let preloadedPath = bundle.path(forResource: modelName, ofType: "sqlite") {
+                    let preloadURL = URL(fileURLWithPath: preloadedPath)
 
                     do {
-                        try NSFileManager.defaultManager().copyItemAtURL(preloadURL, toURL: storeURL)
+                        try FileManager.default.copyItem(at: preloadURL, to: storeURL)
                     } catch let error as NSError {
                         throw NSError(info: "Oops, could not copy preloaded data", previousError: error)
                     }
@@ -391,12 +393,12 @@ extension NSPersistentStoreCoordinator {
             }
 
             do {
-                try self.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: [NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true])
+                try self.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: [NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true])
             } catch {
                 do {
-                    try NSFileManager.defaultManager().removeItemAtPath(storePath)
+                    try FileManager.default.removeItem(atPath: storePath)
                     do {
-                        try self.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: [NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true])
+                        try self.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: [NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true])
                     } catch let addPersistentError as NSError {
                         throw NSError(info: "There was an error creating the persistentStoreCoordinator", previousError: addPersistentError)
                     }
@@ -405,10 +407,10 @@ extension NSPersistentStoreCoordinator {
                 }
             }
 
-            let shouldExcludeSQLiteFromBackup = storeType == .SQLite && TestCheck.isTesting == false
+            let shouldExcludeSQLiteFromBackup = storeType == .sqLite && TestCheck.isTesting == false
             if shouldExcludeSQLiteFromBackup {
                 do {
-                    try storeURL.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+                    try (storeURL as NSURL).setResourceValue(true, forKey: URLResourceKey.isExcludedFromBackupKey)
                 } catch let excludingError as NSError {
                     throw NSError(info: "Excluding SQLite file from backup caused an error", previousError: excludingError)
                 }
@@ -420,11 +422,11 @@ extension NSPersistentStoreCoordinator {
 }
 
 extension NSManagedObjectModel {
-    convenience init(bundle: NSBundle, name: String) {
-        if let momdModelURL = bundle.URLForResource(name, withExtension: "momd") {
-            self.init(contentsOfURL: momdModelURL)!
-        } else if let momModelURL = bundle.URLForResource(name, withExtension: "mom") {
-            self.init(contentsOfURL: momModelURL)!
+    convenience init(bundle: Bundle, name: String) {
+        if let momdModelURL = bundle.url(forResource: name, withExtension: "momd") {
+            self.init(contentsOf: momdModelURL)!
+        } else if let momModelURL = bundle.url(forResource:name, withExtension: "mom") {
+            self.init(contentsOf: momModelURL)!
         } else {
             self.init()
         }
@@ -443,19 +445,19 @@ extension NSError {
 
             self.init(domain: previousError.domain, code: previousError.code, userInfo: userInfo)
         } else {
-            var userInfo = [String : AnyObject]()
+            var userInfo = [String : String]()
             userInfo[NSLocalizedDescriptionKey] = info
             self.init(domain: "com.3lvis.DATAStack", code: 9999, userInfo: userInfo)
         }
     }
 }
 
-extension NSURL {
-    private static func directoryURL() -> NSURL {
+extension URL {
+    private static func directoryURL() -> URL {
         #if os(tvOS)
-            return NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask).last!
+            return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last!
         #else
-            return NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).last!
+            return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
         #endif
     }
 }
