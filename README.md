@@ -192,7 +192,7 @@ pod 'DATAStack', '~> 6'
 it, simply add the following line to your Cartfile:
 
 ```ruby
-github "3lvis/DATASource" ~> 6
+github "3lvis/DATAStack" ~> 6
 ```
 
 ## Be Awesome
