@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/cocoapods/v/DATAStack.svg?style=flat)](https://cocoapods.org/pods/DATAStack)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/3lvis/DATAStack)
-![Swift 2.2.x](https://img.shields.io/badge/Swift-2.2.x-orange.svg)
+![Swift 3](https://img.shields.io/badge/Swift-3-orange.svg)
 ![platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20OS%20X%20%7C%20watchOS%20%7C%20tvOS%20-lightgrey.svg)
 [![License](https://img.shields.io/cocoapods/l/DATAStack.svg?style=flat)](https://cocoapods.org/pods/DATAStack)
 
