@@ -185,14 +185,14 @@ If `DATAStack` has troubles creating your persistent coordinator because a migra
 ```ruby
 use_frameworks!
 
-pod 'DATAStack'
+pod 'DATAStack', '~> 6'
 ```
 
 **DATAStack** is also available through [Carthage](https://github.com/Carthage/Carthage). To install
 it, simply add the following line to your Cartfile:
 
 ```ruby
-github '3lvis/DATAStack'
+github '3lvis/DATAStack' ~> 6
 ```
 
 ## Be Awesome
