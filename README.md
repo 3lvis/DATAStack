@@ -1,4 +1,4 @@
-![DATAStack](https://raw.githubusercontent.com/3lvis/DATAStack/master/Images/datastack-logo.png)
+![DATAStack](https://raw.githubusercontent.com/3lvis/DATAStack/master/Images/datastack-logo2.png)
 
 [![Version](https://img.shields.io/cocoapods/v/DATAStack.svg?style=flat)](https://cocoapods.org/pods/DATAStack)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/3lvis/DATAStack)
@@ -86,7 +86,7 @@ Getting access to the NSManagedObjectContext attached to the main thread is as s
 self.dataStack.mainContext
 ```
 
-or 
+or
 
 ```swift
 self.dataStack.viewContext
