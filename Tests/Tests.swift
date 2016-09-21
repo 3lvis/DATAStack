@@ -2,22 +2,22 @@ import XCTest
 import CoreData
 
 class Tests: XCTestCase {
-    func createDataStack(_ storeType: DATAStackStoreType = .inMemory) -> DATAStack {
-        let dataStack = DATAStack(modelName: "Model", bundle: Bundle(for: Tests.self), storeType: storeType)
+    func createDataStack(storeType: DATAStackStoreType = .InMemory) -> DATAStack {
+        let dataStack = DATAStack(modelName: "Model", bundle: NSBundle(forClass: Tests.self), storeType: storeType)
 
         return dataStack
     }
 
-    func insertUserInContext(_ context: NSManagedObjectContext) {
-        let user = NSEntityDescription.insertNewObject(forEntityName: "User", into: context)
-        user.setValue(NSNumber(value: 1), forKey: "remoteID")
+    func insertUserInContext(context: NSManagedObjectContext) {
+        let user = NSEntityDescription.insertNewObjectForEntityForName("User", inManagedObjectContext: context)
+        user.setValue(NSNumber(integer: 1), forKey: "remoteID")
         user.setValue("Joshua Ivanof", forKey: "name")
         try! context.save()
     }
 
-    func fetchObjectsInContext(_ context: NSManagedObjectContext) -> [NSManagedObject] {
-        let request = NSFetchRequest<NSManagedObject>(entityName: "User")
-        let objects = try! context.fetch(request)
+    func fetchObjectsInContext(context: NSManagedObjectContext) -> [NSManagedObject] {
+        let request = NSFetchRequest(entityName: "User")
+        let objects = try! context.executeFetchRequest(request) as! [NSManagedObject]
 
         return objects
     }
@@ -51,7 +51,7 @@ class Tests: XCTestCase {
         var synchronous = false
         let dataStack = self.createDataStack()
         let backgroundContext = dataStack.newBackgroundContext()
-        backgroundContext.performAndWait {
+        backgroundContext.performBlockAndWait {
             synchronous = true
             self.insertUserInContext(backgroundContext)
             let objects = self.fetchObjectsInContext(backgroundContext)
@@ -68,20 +68,20 @@ class Tests: XCTestCase {
         let dataStack = self.createDataStack()
         self.insertUserInContext(dataStack.mainContext)
 
-        let request = NSFetchRequest<NSManagedObject>(entityName: "User")
-        let objects = try! dataStack.mainContext.fetch(request)
+        let request = NSFetchRequest(entityName: "User")
+        let objects = try! dataStack.mainContext.executeFetchRequest(request)
         XCTAssertEqual(objects.count, 1)
 
         let expression = NSExpressionDescription()
         expression.name = "objectID"
         expression.expression = NSExpression.expressionForEvaluatedObject()
-        expression.expressionResultType = .objectIDAttributeType
+        expression.expressionResultType = .ObjectIDAttributeType
 
-        let dictionaryRequest = NSFetchRequest<NSDictionary>(entityName: "User")
-        dictionaryRequest.resultType = .dictionaryResultType
+        let dictionaryRequest = NSFetchRequest(entityName: "User")
+        dictionaryRequest.resultType = .DictionaryResultType
         dictionaryRequest.propertiesToFetch = [expression, "remoteID"]
 
-        let dictionaryObjects = try! dataStack.mainContext.fetch(dictionaryRequest)
+        let dictionaryObjects = try! dataStack.mainContext.executeFetchRequest(dictionaryRequest)
         XCTAssertEqual(dictionaryObjects.count, 1)
     }
 
@@ -95,7 +95,7 @@ class Tests: XCTestCase {
     }
 
     func testDrop() {
-        let dataStack = self.createDataStack(.sqLite)
+        let dataStack = self.createDataStack(.SQLite)
 
         dataStack.performInNewBackgroundContext { backgroundContext in
             self.insertUserInContext(backgroundContext)
@@ -111,7 +111,7 @@ class Tests: XCTestCase {
     }
 
     func testAlternativeModel() {
-        let dataStack = DATAStack(modelName: "DataModel", bundle: Bundle(for: Tests.self), storeType: .inMemory)
+        let dataStack = DATAStack(modelName: "DataModel", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
         self.insertUserInContext(dataStack.mainContext)
 
         let objects = self.fetchObjectsInContext(dataStack.mainContext)
