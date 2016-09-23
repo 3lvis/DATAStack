@@ -1,1 +1,1 @@
-xcodeproj '../Demo.xcodeproj'
+workspace '../Demo.xcworkspace'
