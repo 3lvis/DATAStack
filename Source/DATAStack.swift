@@ -188,6 +188,20 @@ import CoreData
         NSNotificationCenter.defaultCenter().removeObserver(self, name: NSManagedObjectContextWillSaveNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: NSManagedObjectContextDidSaveNotification, object: nil)
     }
+	
+	/**
+     Return new context for the main queue. Please try not use this to mutate data, use `performInNewBackgroundContext` instead.
+     */
+	public func newMainContext() -> NSManagedObjectContext {
+		let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+		context.persistentStoreCoordinator = self.persistentStoreCoordinator
+		context.undoManager = nil
+		context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+		
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DATAStack.newMainContextDidSave(_:)), name: NSManagedObjectContextDidSaveNotification, object: context)
+		
+		return context
+	}
 
     /**
      Returns a new main context that is detached from saving to disk.
@@ -333,6 +347,21 @@ import CoreData
             }
         }
     }
+	
+	// Can't be private, has to be internal in order to be used as a selector.
+	func newMainContextDidSave(notification: NSNotification) throws {
+		if !NSThread.isMainThread() && TestCheck.isTesting == false {
+			throw NSError(info: "New Main context saved in the background thread. Use context's `performBlock`", previousError: nil)
+		} else {
+			let contextBlock: @convention(block) () -> Void = {
+				self.mainContext.mergeChangesFromContextDidSaveNotification(notification)
+			}
+			
+			let blockObject : AnyObject = unsafeBitCast(contextBlock, AnyObject.self)
+			self.mainContext.performSelector(DATAStack.performSelectorForBackgroundContext(), withObject: blockObject)
+		}
+	}
+
 
     // Can't be private, has to be internal in order to be used as a selector.
     func newDisposableMainContextWillSave(notification: NSNotification) {
