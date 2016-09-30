@@ -1,11 +1,3 @@
-//
-//  main.m
-//  DemoObjectiveC
-//
-//  Created by Elvis Nuñez on 21/10/15.
-//
-//
-
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 

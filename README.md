@@ -1,7 +1,7 @@
-![DATAStack](https://raw.githubusercontent.com/3lvis/DATAStack/master/Images/datastack-logo2.png)
+![DATAStack](https://raw.githubusercontent.com/SyncDB/DATAStack/master/Images/datastack-logo2.png)
 
 [![Version](https://img.shields.io/cocoapods/v/DATAStack.svg?style=flat)](https://cocoapods.org/pods/DATAStack)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/3lvis/DATAStack)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/SyncDB/DATAStack)
 ![Swift 3](https://img.shields.io/badge/Swift-3-orange.svg)
 ![platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20OS%20X%20%7C%20watchOS%20%7C%20tvOS%20-lightgrey.svg)
 [![License](https://img.shields.io/cocoapods/l/DATAStack.svg?style=flat)](https://cocoapods.org/pods/DATAStack)
@@ -172,7 +172,7 @@ DATAStack *dataStack = [[DATAStack alloc] initWithModelName:@"MyAppModel"
                                                   storeType:DATAStackStoreTypeInMemory];
 ```
 
-_(Hint: Maybe you haven't found the best way to use NSFetchedResultsController, well [here it is](https://github.com/3lvis/DATASource).)_
+_(Hint: Maybe you haven't found the best way to use NSFetchedResultsController, well [here it is](https://github.com/SyncDB/DATASource).)_
 
 ## Migrations
 
@@ -192,7 +192,7 @@ pod 'DATAStack', '~> 6'
 it, simply add the following line to your Cartfile:
 
 ```ruby
-github "3lvis/DATAStack" ~> 6
+github "SyncDB/DATAStack" ~> 6
 ```
 
 ## Be Awesome
@@ -203,7 +203,7 @@ Have a great day.
 
 ## Author
 
-Elvis Nuñez, [@3lvis](https://twitter.com/3lvis)
+SyncDB, [@Sync_DB](https://twitter.com/Sync_DB)
 
 ## License
 

@@ -447,7 +447,7 @@ extension NSError {
         } else {
             var userInfo = [String : String]()
             userInfo[NSLocalizedDescriptionKey] = info
-            self.init(domain: "com.3lvis.DATAStack", code: 9999, userInfo: userInfo)
+            self.init(domain: "com.SyncDB.DATAStack", code: 9999, userInfo: userInfo)
         }
     }
 }
