@@ -192,7 +192,7 @@ pod 'DATAStack', '~> 6'
 it, simply add the following line to your Cartfile:
 
 ```ruby
-github "SyncDB/DATAStack" ~> 6
+github "SyncDB/DATAStack" ~> 6.0
 ```
 
 ## Be Awesome
