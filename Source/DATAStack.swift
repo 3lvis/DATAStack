@@ -197,7 +197,20 @@ import CoreData
         context.persistentStoreCoordinator = self.disposablePersistentStoreCoordinator
         context.undoManager = nil
 
-        NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.newDisposableMainContextWillSave(_:)), name: NSNotification.Name.NSManagedObjectContextWillSave, object: context)
+        NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.newDisposableContextWillSave(_:)), name: NSNotification.Name.NSManagedObjectContextWillSave, object: context)
+
+        return context
+    }
+
+    /**
+     Returns a new background disposable context that is detached from saving to disk.
+     */
+    private func newDisposableBackgroundContext() -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
+        context.persistentStoreCoordinator = self.disposablePersistentStoreCoordinator
+        context.undoManager = nil
+
+        NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.newDisposableContextWillSave(_:)), name: NSNotification.Name.NSManagedObjectContextWillSave, object: context)
 
         return context
     }
@@ -236,6 +249,19 @@ import CoreData
      */
     public func performInNewBackgroundContext(_ operation: @escaping (_ backgroundContext: NSManagedObjectContext) -> Void) {
         let context = self.newBackgroundContext()
+        let contextBlock: @convention(block) () -> Void = {
+            operation(context)
+        }
+        let blockObject : AnyObject = unsafeBitCast(contextBlock, to: AnyObject.self)
+        context.perform(DATAStack.performSelectorForBackgroundContext(), with: blockObject)
+    }
+
+    /**
+     Returns a background context perfect for data mutability operations.
+     - parameter operation: The block that contains the created background context.
+     */
+    public func performInNewDisposableBackgroundContext(_ operation: @escaping (_ disposableBackgroundContext: NSManagedObjectContext) -> Void) {
+        let context = self.newDisposableBackgroundContext()
         let contextBlock: @convention(block) () -> Void = {
             operation(context)
         }
@@ -335,7 +361,7 @@ import CoreData
     }
 
     // Can't be private, has to be internal in order to be used as a selector.
-    func newDisposableMainContextWillSave(_ notification: Notification) {
+    func newDisposableContextWillSave(_ notification: Notification) {
         if let context = notification.object as? NSManagedObjectContext {
             context.reset()
         }

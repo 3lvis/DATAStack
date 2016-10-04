@@ -85,13 +85,27 @@ class Tests: XCTestCase {
         XCTAssertEqual(dictionaryObjects.count, 1)
     }
 
-    func testDisposableContextSave() {
+    func testMainDisposableContextSave() {
         let dataStack = self.createDataStack()
 
         let disposableContext = dataStack.newDisposableMainContext()
         self.insertUserInContext(disposableContext)
         let objects = self.fetchObjectsInContext(disposableContext)
         XCTAssertEqual(objects.count, 0)
+    }
+
+    func testBackgroundDisposableContextSave() {
+        let dataStack = self.createDataStack()
+
+        var synchronous = false
+        dataStack.performInNewDisposableBackgroundContext { disposableBackgroundContext in
+            synchronous = true
+            self.insertUserInContext(disposableBackgroundContext)
+            let objects = self.fetchObjectsInContext(disposableBackgroundContext)
+            XCTAssertEqual(objects.count, 0)
+        }
+
+        XCTAssertTrue(synchronous)
     }
 
     func testDrop() {
