@@ -123,11 +123,28 @@ class Tests: XCTestCase {
     func testInitializingUsingModel() {
         let model = NSManagedObjectModel(bundle: Bundle(for: Tests.self), name: "Model")
         let dataStack = DATAStack(model: model, storeType: .inMemory)
-        XCTAssertNotNil(model)
+        XCTAssertNotNil(dataStack)
 
         self.insertUserInContext(dataStack.mainContext)
 
         let objects = self.fetchObjectsInContext(dataStack.mainContext)
         XCTAssertEqual(objects.count, 1)
+    }
+
+    func testInitializerWithStoreName() {
+        let dataStack = DATAStack(modelName: "Model", bundle: Bundle(for: Tests.self), storeType: .sqLite, storeName: "Database")
+        XCTAssertNotNil(dataStack)
+
+        self.insertUserInContext(dataStack.mainContext)
+
+        let objects = self.fetchObjectsInContext(dataStack.mainContext)
+        XCTAssertEqual(objects.count, 1)
+
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let url = documentsURL.appendingPathComponent("Database.sqlite")
+        print(url)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: url.path))
+
+        try! dataStack.drop()
     }
 }
