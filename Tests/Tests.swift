@@ -150,8 +150,8 @@ class Tests: XCTestCase {
         let objects = self.fetch(in: firstDataStack.mainContext)
         XCTAssertEqual(objects.count, 1)
 
-        // ChangedDataModel is a copy of DataModel with the main difference that adds the updatedDate attribute.
-        let secondDataStack = DATAStack(modelName: "ChangedDataModel", bundle: Bundle(for: Tests.self), storeType: .sqLite, storeName: "Shared")
+        // LightweightMigrationModel is a copy of DataModel with the main difference that adds the updatedDate attribute.
+        let secondDataStack = DATAStack(modelName: "LightweightMigrationModel", bundle: Bundle(for: Tests.self), storeType: .sqLite, storeName: "Shared")
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "User")
         fetchRequest.predicate = NSPredicate(format: "remoteID = %@", NSNumber(value: 1))
         let user = try! secondDataStack.mainContext.fetch(fetchRequest).first
