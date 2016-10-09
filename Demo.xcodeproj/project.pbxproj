@@ -26,7 +26,6 @@
 		148C33701BD7CB74009701BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 148C336E1BD7CB74009701BF /* LaunchScreen.storyboard */; };
 		148C33771BD7CB98009701BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 148C33761BD7CB98009701BF /* ViewController.m */; };
 		148C33791BD7CBAC009701BF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148C33781BD7CBAC009701BF /* ViewController.swift */; };
-		14936EB31DAA570500B87188 /* DATASource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14936EB21DAA570500B87188 /* DATASource.framework */; };
 		14A139B41AEFC72B00AD732F /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A139B31AEFC72B00AD732F /* Tests.swift */; };
 		14B46FA31CBF90D2004779E2 /* DATAStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B3898D1CBF8166001123DC /* DATAStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14BC053A1CBEF21C006278EA /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
@@ -35,6 +34,10 @@
 		14BC053D1CBEF21C006278EA /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
 		14BC053E1CBEF21C006278EA /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
 		14BC053F1CBEF21C006278EA /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
+		14E6D4811DAA57ED006E9F3C /* DATASource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14936EB21DAA570500B87188 /* DATASource.framework */; };
+		14E6D4821DAA57ED006E9F3C /* DATASource.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 14936EB21DAA570500B87188 /* DATASource.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		14E6D4851DAA5825006E9F3C /* DATASource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14E6D4841DAA5825006E9F3C /* DATASource.framework */; };
+		14E6D4861DAA5825006E9F3C /* DATASource.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 14E6D4841DAA5825006E9F3C /* DATASource.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		14EEAC381CBFAD96002E495A /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
 		14EEAC391CBFAD96002E495A /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
 		14EEAC3B1CBFADA1002E495A /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
@@ -49,6 +52,18 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				14E6D4861DAA5825006E9F3C /* DATASource.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14E6D4831DAA57ED006E9F3C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				14E6D4821DAA57ED006E9F3C /* DATASource.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -90,6 +105,7 @@
 		14C0AF811BD6D4230009ECBE /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		14C0AF821BD6D4230009ECBE /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		14C0AF831BD6D4230009ECBE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		14E6D4841DAA5825006E9F3C /* DATASource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DATASource.framework; path = Carthage/Build/iOS/DATASource.framework; sourceTree = "<group>"; };
 		14EEAC2F1CBFAD61002E495A /* DATAStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DATAStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -119,7 +135,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14936EB31DAA570500B87188 /* DATASource.framework in Frameworks */,
+				14E6D4811DAA57ED006E9F3C /* DATASource.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,6 +143,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14E6D4851DAA5825006E9F3C /* DATASource.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +274,7 @@
 		77DF77972F8FD3F72BF7C81E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				14E6D4841DAA5825006E9F3C /* DATASource.framework */,
 				14936EB21DAA570500B87188 /* DATASource.framework */,
 			);
 			name = Frameworks;
@@ -360,6 +378,7 @@
 				148C33491BD7CB67009701BF /* Sources */,
 				148C334A1BD7CB67009701BF /* Frameworks */,
 				148C334B1BD7CB67009701BF /* Resources */,
+				14E6D4831DAA57ED006E9F3C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -939,6 +958,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = DemoSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -956,6 +979,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = DemoSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
