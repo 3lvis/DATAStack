@@ -1,0 +1,10 @@
+framework module DATASource {
+  umbrella header "DATASource.h"
+
+  export *
+  module * { export * }
+}
+
+module DATASource.Swift {
+    header "DATASource-Swift.h"
+}
