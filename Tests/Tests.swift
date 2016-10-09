@@ -112,11 +112,22 @@ class Tests: XCTestCase {
 
     func testAlternativeModel() {
         let dataStack = DATAStack(modelName: "DataModel", bundle: Bundle(for: Tests.self), storeType: .inMemory)
+        XCTAssertNotNil(dataStack)
+
         self.insertUserInContext(dataStack.mainContext)
 
         let objects = self.fetchObjectsInContext(dataStack.mainContext)
         XCTAssertEqual(objects.count, 1)
+    }
 
-        XCTAssertNotNil(dataStack)
+    func testInitializingUsingModel() {
+        let model = NSManagedObjectModel(bundle: Bundle(for: Tests.self), name: "Model")
+        let dataStack = DATAStack(model: model, storeType: .inMemory)
+        XCTAssertNotNil(model)
+
+        self.insertUserInContext(dataStack.mainContext)
+
+        let objects = self.fetchObjectsInContext(dataStack.mainContext)
+        XCTAssertEqual(objects.count, 1)
     }
 }
