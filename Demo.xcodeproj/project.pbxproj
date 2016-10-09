@@ -26,6 +26,7 @@
 		148C33701BD7CB74009701BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 148C336E1BD7CB74009701BF /* LaunchScreen.storyboard */; };
 		148C33771BD7CB98009701BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 148C33761BD7CB98009701BF /* ViewController.m */; };
 		148C33791BD7CBAC009701BF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148C33781BD7CBAC009701BF /* ViewController.swift */; };
+		148DF0DB1DAA782000638F9F /* ChangedDataModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 148DF0DA1DAA782000638F9F /* ChangedDataModel.xcdatamodel */; };
 		14A139B41AEFC72B00AD732F /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A139B31AEFC72B00AD732F /* Tests.swift */; };
 		14B46FA31CBF90D2004779E2 /* DATAStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B3898D1CBF8166001123DC /* DATAStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14BC053A1CBEF21C006278EA /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
@@ -94,6 +95,7 @@
 		148C33751BD7CB98009701BF /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		148C33761BD7CB98009701BF /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		148C33781BD7CBAC009701BF /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		148DF0DA1DAA782000638F9F /* ChangedDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ChangedDataModel.xcdatamodel; sourceTree = "<group>"; };
 		14936EB21DAA570500B87188 /* DATASource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DATASource.framework; path = Carthage/Build/iOS/DATASource.framework; sourceTree = "<group>"; };
 		14A139B31AEFC72B00AD732F /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		14B3898D1CBF8166001123DC /* DATAStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATAStack.h; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				146E61931C89903200BDAC73 /* DataModel.xcdatamodel */,
+				148DF0DA1DAA782000638F9F /* ChangedDataModel.xcdatamodel */,
 				148C33461BD7CB18009701BF /* Model.xcdatamodeld */,
 				14A139B31AEFC72B00AD732F /* Tests.swift */,
 				146D72B01AB782920058798C /* Supporting Files */,
@@ -585,6 +588,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				14BC053D1CBEF21C006278EA /* TestCheck.swift in Sources */,
+				148DF0DB1DAA782000638F9F /* ChangedDataModel.xcdatamodel in Sources */,
 				14A139B41AEFC72B00AD732F /* Tests.swift in Sources */,
 				14BC053A1CBEF21C006278EA /* DATAStack.swift in Sources */,
 				148C33481BD7CB18009701BF /* Model.xcdatamodeld in Sources */,

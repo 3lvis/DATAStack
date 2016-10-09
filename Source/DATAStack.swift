@@ -146,27 +146,6 @@ import CoreData
     }
 
     /**
-     Initializes a DATAStack using the provided model name, bundle and storeType.
-     - parameter storeName: Normally your file would be named as your model name is named, so if your model
-     name is AwesomeApp then the .sqlite file will be named AwesomeApp.sqlite, this attribute allows your to
-     change that.
-     - parameter model: The model that we'll use to set up your DATAStack.
-     - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
-     based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
-     */
-    public init(model: NSManagedObjectModel, storeType: DATAStackStoreType) {
-        self.model = model
-        self.storeType = storeType
-
-        let bundle = Bundle.main
-        if let bundleName = bundle.infoDictionary?["CFBundleName"] as? String {
-            self.storeName = bundleName
-        }
-
-        super.init()
-    }
-
-    /**
      Initializes a DATAStack using the provided model name, bundle, storeType and store name.
      - parameter modelName: The name of your Core Data model (xcdatamodeld).
      - parameter bundle: The bundle where your Core Data model is located, normally your Core Data model is in
@@ -208,6 +187,27 @@ import CoreData
         self.storeName = storeName
         self.containerURL = containerURL
         self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
+
+        super.init()
+    }
+
+    /**
+     Initializes a DATAStack using the provided model name, bundle and storeType.
+     - parameter storeName: Normally your file would be named as your model name is named, so if your model
+     name is AwesomeApp then the .sqlite file will be named AwesomeApp.sqlite, this attribute allows your to
+     change that.
+     - parameter model: The model that we'll use to set up your DATAStack.
+     - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
+     based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
+     */
+    public init(model: NSManagedObjectModel, storeType: DATAStackStoreType) {
+        self.model = model
+        self.storeType = storeType
+
+        let bundle = Bundle.main
+        if let bundleName = bundle.infoDictionary?["CFBundleName"] as? String {
+            self.storeName = bundleName
+        }
 
         super.init()
     }

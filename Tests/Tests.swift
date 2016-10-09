@@ -8,11 +8,14 @@ extension XCTestCase {
         return dataStack
     }
 
-    func insertUser(in context: NSManagedObjectContext) {
+    @discardableResult
+    func insertUser(in context: NSManagedObjectContext) -> NSManagedObject {
         let user = NSEntityDescription.insertNewObject(forEntityName: "User", into: context)
         user.setValue(NSNumber(value: 1), forKey: "remoteID")
         user.setValue("Joshua Ivanof", forKey: "name")
         try! context.save()
+
+        return user
     }
 
     func fetch(in context: NSManagedObjectContext) -> [NSManagedObject] {
@@ -35,7 +38,7 @@ class InitializerTests: XCTestCase {
     // xcdatamodeld is a container for .xcdatamodel files. It's used for versioning and migration. 
     // When moving from v1 of the model to v2, you add a new xcdatamodel to it that has v2 along with the mapping model.
     func testInitializeUsingXCDataModeld() {
-        let dataStack = DATAStack(modelName: "Model", bundle: Bundle(for: Tests.self), storeType: .inMemory)
+        let dataStack = self.createDataStack()
 
         self.insertUser(in: dataStack.mainContext)
         let objects = self.fetch(in: dataStack.mainContext)
@@ -139,5 +142,25 @@ class Tests: XCTestCase {
 
         let objects = self.fetch(in: dataStack.mainContext)
         XCTAssertEqual(objects.count, 0)
+    }
+
+    func testAutomaticMigration() {
+        let firstDataStack = DATAStack(modelName: "DataModel", bundle: Bundle(for: Tests.self), storeType: .sqLite, storeName: "Shared")
+        self.insertUser(in: firstDataStack.mainContext)
+        let objects = self.fetch(in: firstDataStack.mainContext)
+        XCTAssertEqual(objects.count, 1)
+
+        // ChangedDataModel adds the updatedDate attribute to the model
+        let secondDataStack = DATAStack(modelName: "ChangedDataModel", bundle: Bundle(for: Tests.self), storeType: .sqLite, storeName: "Shared")
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "User")
+        fetchRequest.predicate = NSPredicate(format: "remoteID = %@", NSNumber(value: 1))
+        let user = try! secondDataStack.mainContext.fetch(fetchRequest).first
+        XCTAssertNotNil(user)
+        XCTAssertEqual(user?.value(forKey: "name") as? String, "Joshua Ivanof")
+        user?.setValue(Date().addingTimeInterval(16000), forKey: "updatedDate")
+        try! secondDataStack.mainContext.save()
+
+        try! firstDataStack.drop()
+        try! secondDataStack.drop()
     }
 }
