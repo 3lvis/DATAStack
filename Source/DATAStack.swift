@@ -14,6 +14,8 @@ import CoreData
 
     private var modelBundle = Bundle.main
 
+    private var model: NSManagedObjectModel
+
     private var containerURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
 
     private var _mainContext: NSManagedObjectContext?
@@ -69,8 +71,7 @@ import CoreData
     private var persistentStoreCoordinator: NSPersistentStoreCoordinator {
         get {
             if _persistentStoreCoordinator == nil {
-                let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
-                let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
+                let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.model)
                 try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
                 _persistentStoreCoordinator = persistentStoreCoordinator
             }
@@ -96,6 +97,7 @@ import CoreData
         if let bundleName = bundle.infoDictionary?["CFBundleName"] as? String {
             self.modelName = bundleName
         }
+        self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
 
         super.init()
     }
@@ -106,6 +108,7 @@ import CoreData
      */
     public init(modelName: String) {
         self.modelName = modelName
+        self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
 
         super.init()
     }
@@ -119,6 +122,7 @@ import CoreData
     public init(modelName: String, storeType: DATAStackStoreType) {
         self.modelName = modelName
         self.storeType = storeType
+        self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
 
         super.init()
     }
@@ -136,6 +140,28 @@ import CoreData
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
+        self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
+
+        super.init()
+    }
+
+    /**
+     Initializes a DATAStack using the provided model name, bundle and storeType.
+     - parameter storeName: Normally your file would be named as your model name is named, so if your model
+     name is AwesomeApp then the .sqlite file will be named AwesomeApp.sqlite, this attribute allows your to
+     change that.
+     - parameter model: The model that we'll use to set up your DATAStack.
+     - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
+     based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
+     */
+    public init(model: NSManagedObjectModel, storeType: DATAStackStoreType) {
+        self.model = model
+        self.storeType = storeType
+
+        let bundle = Bundle.main
+        if let bundleName = bundle.infoDictionary?["CFBundleName"] as? String {
+            self.storeName = bundleName
+        }
 
         super.init()
     }
@@ -157,6 +183,7 @@ import CoreData
         self.modelBundle = bundle
         self.storeType = storeType
         self.storeName = storeName
+        self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
 
         super.init()
     }
@@ -180,6 +207,7 @@ import CoreData
         self.storeType = storeType
         self.storeName = storeName
         self.containerURL = containerURL
+        self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
 
         super.init()
     }
