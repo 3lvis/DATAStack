@@ -1,27 +1,56 @@
 import XCTest
 import CoreData
 
-class Tests: XCTestCase {
+extension XCTestCase {
     func createDataStack(_ storeType: DATAStackStoreType = .inMemory) -> DATAStack {
         let dataStack = DATAStack(modelName: "Model", bundle: Bundle(for: Tests.self), storeType: storeType)
 
         return dataStack
     }
 
-    func insertUserInContext(_ context: NSManagedObjectContext) {
+    func insertUser(in context: NSManagedObjectContext) {
         let user = NSEntityDescription.insertNewObject(forEntityName: "User", into: context)
         user.setValue(NSNumber(value: 1), forKey: "remoteID")
         user.setValue("Joshua Ivanof", forKey: "name")
         try! context.save()
     }
 
-    func fetchObjectsInContext(_ context: NSManagedObjectContext) -> [NSManagedObject] {
+    func fetch(in context: NSManagedObjectContext) -> [NSManagedObject] {
         let request = NSFetchRequest<NSManagedObject>(entityName: "User")
         let objects = try! context.fetch(request)
 
         return objects
     }
+}
 
+class InitializerTests: XCTestCase {
+    func testInitializeUsingXCDataModeld() {
+        let dataStack = DATAStack(modelName: "DataModel", bundle: Bundle(for: Tests.self), storeType: .inMemory)
+
+        self.insertUser(in: dataStack.mainContext)
+        let objects = self.fetch(in: dataStack.mainContext)
+        XCTAssertEqual(objects.count, 1)
+    }
+
+    func testInitializeUsingXCDataModel() {
+        let dataStack = DATAStack(modelName: "Model", bundle: Bundle(for: Tests.self), storeType: .inMemory)
+
+        self.insertUser(in: dataStack.mainContext)
+        let objects = self.fetch(in: dataStack.mainContext)
+        XCTAssertEqual(objects.count, 1)
+    }
+
+    func testInitializingUsingNSManagedObjectModel() {
+        let model = NSManagedObjectModel(bundle: Bundle(for: Tests.self), name: "Model")
+        let dataStack = DATAStack(model: model, storeType: .inMemory)
+
+        self.insertUser(in: dataStack.mainContext)
+        let objects = self.fetch(in: dataStack.mainContext)
+        XCTAssertEqual(objects.count, 1)
+    }
+}
+
+class Tests: XCTestCase {
     func testSynchronousBackgroundContext() {
         let dataStack = self.createDataStack()
 
@@ -37,13 +66,13 @@ class Tests: XCTestCase {
         let dataStack = self.createDataStack()
 
         dataStack.performInNewBackgroundContext { backgroundContext in
-            self.insertUserInContext(backgroundContext)
+            self.insertUser(in: backgroundContext)
 
-            let objects = self.fetchObjectsInContext(backgroundContext)
+            let objects = self.fetch(in: backgroundContext)
             XCTAssertEqual(objects.count, 1)
         }
 
-        let objects = self.fetchObjectsInContext(dataStack.mainContext)
+        let objects = self.fetch(in: dataStack.mainContext)
         XCTAssertEqual(objects.count, 1)
     }
 
@@ -53,12 +82,12 @@ class Tests: XCTestCase {
         let backgroundContext = dataStack.newBackgroundContext()
         backgroundContext.performAndWait {
             synchronous = true
-            self.insertUserInContext(backgroundContext)
-            let objects = self.fetchObjectsInContext(backgroundContext)
+            self.insertUser(in: backgroundContext)
+            let objects = self.fetch(in: backgroundContext)
             XCTAssertEqual(objects.count, 1)
         }
 
-        let objects = self.fetchObjectsInContext(dataStack.mainContext)
+        let objects = self.fetch(in: dataStack.mainContext)
         XCTAssertEqual(objects.count, 1)
 
         XCTAssertTrue(synchronous)
@@ -66,7 +95,7 @@ class Tests: XCTestCase {
 
     func testRequestWithDictionaryResultType() {
         let dataStack = self.createDataStack()
-        self.insertUserInContext(dataStack.mainContext)
+        self.insertUser(in: dataStack.mainContext)
 
         let request = NSFetchRequest<NSManagedObject>(entityName: "User")
         let objects = try! dataStack.mainContext.fetch(request)
@@ -89,8 +118,8 @@ class Tests: XCTestCase {
         let dataStack = self.createDataStack()
 
         let disposableContext = dataStack.newDisposableMainContext()
-        self.insertUserInContext(disposableContext)
-        let objects = self.fetchObjectsInContext(disposableContext)
+        self.insertUser(in: disposableContext)
+        let objects = self.fetch(in: disposableContext)
         XCTAssertEqual(objects.count, 0)
     }
 
@@ -98,36 +127,15 @@ class Tests: XCTestCase {
         let dataStack = self.createDataStack(.sqLite)
 
         dataStack.performInNewBackgroundContext { backgroundContext in
-            self.insertUserInContext(backgroundContext)
+            self.insertUser(in: backgroundContext)
         }
 
-        let objectsA = self.fetchObjectsInContext(dataStack.mainContext)
+        let objectsA = self.fetch(in: dataStack.mainContext)
         XCTAssertEqual(objectsA.count, 1)
 
         let _ = try? dataStack.drop()
 
-        let objects = self.fetchObjectsInContext(dataStack.mainContext)
+        let objects = self.fetch(in: dataStack.mainContext)
         XCTAssertEqual(objects.count, 0)
-    }
-
-    func testAlternativeModel() {
-        let dataStack = DATAStack(modelName: "DataModel", bundle: Bundle(for: Tests.self), storeType: .inMemory)
-        XCTAssertNotNil(dataStack)
-
-        self.insertUserInContext(dataStack.mainContext)
-
-        let objects = self.fetchObjectsInContext(dataStack.mainContext)
-        XCTAssertEqual(objects.count, 1)
-    }
-
-    func testInitializingUsingModel() {
-        let model = NSManagedObjectModel(bundle: Bundle(for: Tests.self), name: "Model")
-        let dataStack = DATAStack(model: model, storeType: .inMemory)
-        XCTAssertNotNil(model)
-
-        self.insertUserInContext(dataStack.mainContext)
-
-        let objects = self.fetchObjectsInContext(dataStack.mainContext)
-        XCTAssertEqual(objects.count, 1)
     }
 }
