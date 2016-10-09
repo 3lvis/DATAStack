@@ -24,7 +24,7 @@ extension XCTestCase {
 }
 
 class InitializerTests: XCTestCase {
-    func testInitializeUsingXCDataModeld() {
+    func testInitializeUsingXCDataModel() {
         let dataStack = DATAStack(modelName: "DataModel", bundle: Bundle(for: Tests.self), storeType: .inMemory)
 
         self.insertUser(in: dataStack.mainContext)
@@ -32,7 +32,9 @@ class InitializerTests: XCTestCase {
         XCTAssertEqual(objects.count, 1)
     }
 
-    func testInitializeUsingXCDataModel() {
+    // xcdatamodeld is a container for .xcdatamodel files. It's used for versioning and migration. 
+    // When moving from v1 of the model to v2, you add a new xcdatamodel to it that has v2 along with the mapping model.
+    func testInitializeUsingXCDataModeld() {
         let dataStack = DATAStack(modelName: "Model", bundle: Bundle(for: Tests.self), storeType: .inMemory)
 
         self.insertUser(in: dataStack.mainContext)
