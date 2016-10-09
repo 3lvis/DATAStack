@@ -38,8 +38,6 @@
 		14E6D4821DAA57ED006E9F3C /* DATASource.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 14936EB21DAA570500B87188 /* DATASource.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		14E6D4851DAA5825006E9F3C /* DATASource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14E6D4841DAA5825006E9F3C /* DATASource.framework */; };
 		14E6D4861DAA5825006E9F3C /* DATASource.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 14E6D4841DAA5825006E9F3C /* DATASource.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		14E6D4C61DAA5C1D006E9F3C /* DATASource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14E6D4841DAA5825006E9F3C /* DATASource.framework */; };
-		14E6D4C81DAA5C21006E9F3C /* DATASource.framework in Resources */ = {isa = PBXBuildFile; fileRef = 14E6D4C71DAA5C21006E9F3C /* DATASource.framework */; };
 		14EEAC381CBFAD96002E495A /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
 		14EEAC391CBFAD96002E495A /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
 		14EEAC3B1CBFADA1002E495A /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
@@ -108,7 +106,6 @@
 		14C0AF821BD6D4230009ECBE /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		14C0AF831BD6D4230009ECBE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		14E6D4841DAA5825006E9F3C /* DATASource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DATASource.framework; path = Carthage/Build/iOS/DATASource.framework; sourceTree = "<group>"; };
-		14E6D4C71DAA5C21006E9F3C /* DATASource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DATASource.framework; path = Carthage/Build/iOS/DATASource.framework; sourceTree = "<group>"; };
 		14EEAC2F1CBFAD61002E495A /* DATAStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DATAStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -117,7 +114,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14E6D4C61DAA5C1D006E9F3C /* DATASource.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,7 +274,6 @@
 		77DF77972F8FD3F72BF7C81E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				14E6D4C71DAA5C21006E9F3C /* DATASource.framework */,
 				14E6D4841DAA5825006E9F3C /* DATASource.framework */,
 				14936EB21DAA570500B87188 /* DATASource.framework */,
 			);
@@ -533,7 +528,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14E6D4C81DAA5C21006E9F3C /* DATASource.framework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -770,7 +764,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = C6K65RDJHL;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -789,7 +783,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = C6K65RDJHL;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sample.$(PRODUCT_NAME:rfc1034identifier)";
