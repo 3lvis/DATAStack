@@ -420,13 +420,14 @@ extension NSPersistentStoreCoordinator {
                 }
             }
 
+            let options = [NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true]
             do {
-                try self.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: [NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true])
+                try self.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
             } catch {
                 do {
                     try FileManager.default.removeItem(atPath: storePath)
                     do {
-                        try self.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: [NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true])
+                        try self.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
                     } catch let addPersistentError as NSError {
                         throw NSError(info: "There was an error creating the persistentStoreCoordinator", previousError: addPersistentError)
                     }
