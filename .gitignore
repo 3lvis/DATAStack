@@ -26,6 +26,11 @@ DerivedData
 *.ipa
 *.xcuserstate
 *.xcscmblueprint
+*.gcno
+*.gcda
 
 # CocoaPods
 Pods
+
+# Carthage
+Carthage/Checkouts
