@@ -5,6 +5,10 @@ import CoreData
     case inMemory, sqLite
 }
 
+public extension Notification.Name {
+    public static let failedLightweightMigration = Notification.Name("DATAStackFailedLightweightMigration")
+}
+
 @objc public class DATAStack: NSObject {
     private var storeType = DATAStackStoreType.sqLite
 
@@ -426,6 +430,7 @@ extension NSPersistentStoreCoordinator {
             } catch {
                 do {
                     try FileManager.default.removeItem(atPath: storePath)
+                    NotificationCenter.default.post(name: .failedLightweightMigration, object: nil)
                     do {
                         try self.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
                     } catch let addPersistentError as NSError {

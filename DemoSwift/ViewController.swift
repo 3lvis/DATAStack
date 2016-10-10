@@ -8,10 +8,10 @@ class ViewController: UITableViewController {
 
     lazy var dataSource: DATASource = {
         let request: NSFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
-        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: "firstName", ascending: true)]
 
         let dataSource = DATASource(tableView: self.tableView, cellIdentifier: "Cell", fetchRequest: request, mainContext: self.dataStack.mainContext, configuration: { cell, item, indexPath in
-            if let name = item.value(forKey: "name") as? String, let createdDate = item.value(forKey: "createdDate") as? NSDate {
+            if let name = item.value(forKey: "firstName") as? String, let createdDate = item.value(forKey: "updatedDate") as? NSDate {
                 cell.textLabel?.text =  name + " - " + createdDate.description
             }
         })
@@ -23,6 +23,12 @@ class ViewController: UITableViewController {
         self.dataStack = dataStack
 
         super.init(style: .plain)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.migrationFailed), name: .failedLightweightMigration, object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .failedLightweightMigration, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -46,8 +52,8 @@ class ViewController: UITableViewController {
         self.dataStack.performInNewBackgroundContext { backgroundContext in
             let entity = NSEntityDescription.entity(forEntityName: "User", in: backgroundContext)!
             let object = NSManagedObject(entity: entity, insertInto: backgroundContext)
-            object.setValue("Background", forKey: "name")
-            object.setValue(NSDate(), forKey: "createdDate")
+            object.setValue("Background", forKey: "firstName")
+            object.setValue(NSDate(), forKey: "updatedDate")
             try! backgroundContext.save()
         }
     }
@@ -55,8 +61,14 @@ class ViewController: UITableViewController {
     func createMain() {
         let entity = NSEntityDescription.entity(forEntityName: "User", in: self.dataStack.mainContext)!
         let object = NSManagedObject(entity: entity, insertInto: self.dataStack.mainContext)
-        object.setValue("Main", forKey: "name")
-        object.setValue(Date(), forKey: "createdDate")
+        object.setValue("Main", forKey: "firstName")
+        object.setValue(Date(), forKey: "updatedDate")
         try! self.dataStack.mainContext.save()
+    }
+
+    func migrationFailed() {
+        let alertController = UIAlertController(title: NSLocalizedString("Migration failed", comment: ""), message: nil, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Dismiss", comment: ""), style: .cancel, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
 }
