@@ -126,6 +126,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @class UICollectionView;
 @class UICollectionViewCell;
 @class NSPredicate;
+@class UIView;
 @protocol DATASourceDelegate;
 
 SWIFT_CLASS("_TtC10DATASource10DATASource")
@@ -247,6 +248,14 @@ SWIFT_CLASS("_TtC10DATASource10DATASource")
   \endcode if the section is not present.
 */
 - (NSString * _Nullable)titleForHeader:(NSInteger)section;
+/**
+  Requests to reload the contents of the cell at a specific indexPath.
+  \param cell The cell to be loaded.
+
+  \param indexPath The indexPath where the cell is located.
+
+*/
+- (void)configure:(UIView * _Nonnull)cell indexPath:(NSIndexPath * _Nonnull)indexPath;
 /**
   Lightweight replacement for \code
   reloadItemsAtIndexPaths
