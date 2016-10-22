@@ -16,7 +16,7 @@ import CoreData
 
     private var model: NSManagedObjectModel
 
-    private var containerURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
+    private var containerURL = URL.directoryURL()
 
     private var _mainContext: NSManagedObjectContext?
 
@@ -482,7 +482,7 @@ extension NSError {
 }
 
 extension URL {
-    private static func directoryURL() -> URL {
+    fileprivate static func directoryURL() -> URL {
         #if os(tvOS)
             return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last!
         #else
