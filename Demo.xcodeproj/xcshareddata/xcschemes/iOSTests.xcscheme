@@ -11,12 +11,12 @@
             buildForRunning = "YES"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "146D72AB1AB782920058798C"
-               BuildableName = "Tests.xctest"
-               BlueprintName = "Tests"
+               BuildableName = "iOSTests.xctest"
+               BlueprintName = "iOSTests"
                ReferencedContainer = "container:Demo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,21 +33,12 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "146D72AB1AB782920058798C"
-               BuildableName = "Tests.xctest"
-               BlueprintName = "Tests"
+               BuildableName = "iOSTests.xctest"
+               BlueprintName = "iOSTests"
                ReferencedContainer = "container:Demo.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "146D72AB1AB782920058798C"
-            BuildableName = "Tests.xctest"
-            BlueprintName = "Tests"
-            ReferencedContainer = "container:Demo.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -65,18 +56,11 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "146D72AB1AB782920058798C"
-            BuildableName = "Tests.xctest"
-            BlueprintName = "Tests"
+            BuildableName = "iOSTests.xctest"
+            BlueprintName = "iOSTests"
             ReferencedContainer = "container:Demo.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "OS_ACTIVITY_MODE"
-            value = "disable"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -90,8 +74,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "146D72AB1AB782920058798C"
-            BuildableName = "Tests.xctest"
-            BlueprintName = "Tests"
+            BuildableName = "iOSTests.xctest"
+            BlueprintName = "iOSTests"
             ReferencedContainer = "container:Demo.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

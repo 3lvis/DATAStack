@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		144137041DBC05C800EC9D44 /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
+		144137051DBC05C800EC9D44 /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
+		144137061DBC05C800EC9D44 /* SimpleModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 146E61931C89903200BDAC73 /* SimpleModel.xcdatamodel */; };
+		144137071DBC05C800EC9D44 /* LightweightMigrationModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 148DF0DA1DAA782000638F9F /* LightweightMigrationModel.xcdatamodel */; };
+		144137081DBC05C800EC9D44 /* ModelGroup.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 148C33461BD7CB18009701BF /* ModelGroup.xcdatamodeld */; };
+		144137091DBC05C800EC9D44 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A139B31AEFC72B00AD732F /* Tests.swift */; };
+		1441370A1DBC05D000EC9D44 /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
+		1441370B1DBC05D000EC9D44 /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
+		1441370C1DBC05D000EC9D44 /* SimpleModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 146E61931C89903200BDAC73 /* SimpleModel.xcdatamodel */; };
+		1441370D1DBC05D000EC9D44 /* LightweightMigrationModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 148DF0DA1DAA782000638F9F /* LightweightMigrationModel.xcdatamodel */; };
+		1441370E1DBC05D000EC9D44 /* ModelGroup.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 148C33461BD7CB18009701BF /* ModelGroup.xcdatamodeld */; };
+		1441370F1DBC05D000EC9D44 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A139B31AEFC72B00AD732F /* Tests.swift */; };
 		144B662F1CBFBF7D009FB7F3 /* DATAStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B3898D1CBF8166001123DC /* DATAStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		144B66301CBFBF86009FB7F3 /* DATAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05381CBEF21C006278EA /* DATAStack.swift */; };
 		144B66311CBFBF86009FB7F3 /* TestCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC05391CBEF21C006278EA /* TestCheck.swift */; };
@@ -72,7 +84,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		146D72AC1AB782920058798C /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		144136F01DBC057400EC9D44 /* tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tvOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		144136FC1DBC057F00EC9D44 /* macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = macOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		146D72AC1AB782920058798C /* iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		146D72B11AB782920058798C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		146E61931C89903200BDAC73 /* SimpleModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SimpleModel.xcdatamodel; sourceTree = "<group>"; };
 		147619C01CBFBB2A004BA70B /* DATAStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DATAStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +126,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		144136ED1DBC057400EC9D44 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		144136F91DBC057F00EC9D44 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		146D72A91AB782920058798C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -184,13 +212,15 @@
 		146D72941AB782920058798C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				146D72AC1AB782920058798C /* Tests.xctest */,
+				146D72AC1AB782920058798C /* iOSTests.xctest */,
 				148C334D1BD7CB67009701BF /* DemoObjectiveC.app */,
 				148C33651BD7CB74009701BF /* DemoSwift.app */,
 				14B389A31CBF830D001123DC /* DATAStack.framework */,
 				14EEAC2F1CBFAD61002E495A /* DATAStack.framework */,
 				147619C01CBFBB2A004BA70B /* DATAStack.framework */,
 				147619D01CBFBBA6004BA70B /* DATAStack.framework */,
+				144136F01DBC057400EC9D44 /* tvOSTests.xctest */,
+				144136FC1DBC057F00EC9D44 /* macOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -321,9 +351,43 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		146D72AB1AB782920058798C /* Tests */ = {
+		144136EF1DBC057400EC9D44 /* tvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 146D72B91AB782920058798C /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildConfigurationList = 144136F51DBC057400EC9D44 /* Build configuration list for PBXNativeTarget "tvOSTests" */;
+			buildPhases = (
+				144136EC1DBC057400EC9D44 /* Sources */,
+				144136ED1DBC057400EC9D44 /* Frameworks */,
+				144136EE1DBC057400EC9D44 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tvOSTests;
+			productName = tvOSTests;
+			productReference = 144136F01DBC057400EC9D44 /* tvOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		144136FB1DBC057F00EC9D44 /* macOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 144137011DBC057F00EC9D44 /* Build configuration list for PBXNativeTarget "macOSTests" */;
+			buildPhases = (
+				144136F81DBC057F00EC9D44 /* Sources */,
+				144136F91DBC057F00EC9D44 /* Frameworks */,
+				144136FA1DBC057F00EC9D44 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = macOSTests;
+			productName = macOSTests;
+			productReference = 144136FC1DBC057F00EC9D44 /* macOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		146D72AB1AB782920058798C /* iOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 146D72B91AB782920058798C /* Build configuration list for PBXNativeTarget "iOSTests" */;
 			buildPhases = (
 				146D72A81AB782920058798C /* Sources */,
 				146D72A91AB782920058798C /* Frameworks */,
@@ -333,9 +397,9 @@
 			);
 			dependencies = (
 			);
-			name = Tests;
+			name = iOSTests;
 			productName = PodTests;
-			productReference = 146D72AC1AB782920058798C /* Tests.xctest */;
+			productReference = 146D72AC1AB782920058798C /* iOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		147619BF1CBFBB2A004BA70B /* DATAStack-tvOS */ = {
@@ -457,6 +521,14 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
+					144136EF1DBC057400EC9D44 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
+					144136FB1DBC057F00EC9D44 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
 					146D72AB1AB782920058798C = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = C6K65RDJHL;
@@ -515,7 +587,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				146D72AB1AB782920058798C /* Tests */,
+				146D72AB1AB782920058798C /* iOSTests */,
+				144136EF1DBC057400EC9D44 /* tvOSTests */,
+				144136FB1DBC057F00EC9D44 /* macOSTests */,
 				148C334C1BD7CB67009701BF /* DemoObjectiveC */,
 				148C33641BD7CB74009701BF /* DemoSwift */,
 				14B389A21CBF830D001123DC /* DATAStack-iOS */,
@@ -527,6 +601,20 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		144136EE1DBC057400EC9D44 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		144136FA1DBC057F00EC9D44 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		146D72AA1AB782920058798C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -583,6 +671,32 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		144136EC1DBC057400EC9D44 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				144137041DBC05C800EC9D44 /* DATAStack.swift in Sources */,
+				144137051DBC05C800EC9D44 /* TestCheck.swift in Sources */,
+				144137061DBC05C800EC9D44 /* SimpleModel.xcdatamodel in Sources */,
+				144137071DBC05C800EC9D44 /* LightweightMigrationModel.xcdatamodel in Sources */,
+				144137081DBC05C800EC9D44 /* ModelGroup.xcdatamodeld in Sources */,
+				144137091DBC05C800EC9D44 /* Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		144136F81DBC057F00EC9D44 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1441370A1DBC05D000EC9D44 /* DATAStack.swift in Sources */,
+				1441370B1DBC05D000EC9D44 /* TestCheck.swift in Sources */,
+				1441370C1DBC05D000EC9D44 /* SimpleModel.xcdatamodel in Sources */,
+				1441370D1DBC05D000EC9D44 /* LightweightMigrationModel.xcdatamodel in Sources */,
+				1441370E1DBC05D000EC9D44 /* ModelGroup.xcdatamodeld in Sources */,
+				1441370F1DBC05D000EC9D44 /* Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		146D72A81AB782920058798C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -679,6 +793,74 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		144136F61DBC057400EC9D44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = tvOSTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = demo.tvOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		144136F71DBC057400EC9D44 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				INFOPLIST_FILE = tvOSTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = demo.tvOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		144137021DBC057F00EC9D44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = macOSTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = demo.macOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		144137031DBC057F00EC9D44 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				INFOPLIST_FILE = macOSTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = demo.macOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		146D72B41AB782920058798C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1115,6 +1297,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		144136F51DBC057400EC9D44 /* Build configuration list for PBXNativeTarget "tvOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				144136F61DBC057400EC9D44 /* Debug */,
+				144136F71DBC057400EC9D44 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		144137011DBC057F00EC9D44 /* Build configuration list for PBXNativeTarget "macOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				144137021DBC057F00EC9D44 /* Debug */,
+				144137031DBC057F00EC9D44 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		146D728E1AB782920058798C /* Build configuration list for PBXProject "Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1124,7 +1322,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		146D72B91AB782920058798C /* Build configuration list for PBXNativeTarget "Tests" */ = {
+		146D72B91AB782920058798C /* Build configuration list for PBXNativeTarget "iOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				146D72BA1AB782920058798C /* Debug */,
