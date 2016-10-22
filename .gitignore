@@ -34,13 +34,8 @@ Pods
 # Carthage
 Carthage/Checkouts
 
-Carthage/Build/watchOS/DATAStack.framework.dSYM
-Carthage/Build/tvOS/DATAStack.framework.dSYM
-Carthage/Build/macOS/DATAStack.framework.dSYM
-Carthage/Build/iOS/DATAStack.framework.dSYM
-
-Carthage/Build/watchOS/DATAStack
-Carthage/Build/tvOS/DATAStack
-Carthage/Build/macOS/DATAStack
-Carthage/Build/iOS/DATAStack
+Carthage/Build/watchOS/DATAStack*
+Carthage/Build/tvOS/DATAStack*
+Carthage/Build/Mac/DATAStack*
+Carthage/Build/iOS/DATAStack*
 DATAStack.framework.zip
