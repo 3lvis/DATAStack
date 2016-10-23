@@ -1,10 +1,32 @@
 ![DATAStack](https://raw.githubusercontent.com/SyncDB/DATAStack/master/Images/datastack-logo2.png)
 
-[![Version](https://img.shields.io/cocoapods/v/DATAStack.svg?style=flat)](https://cocoapods.org/pods/DATAStack)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/SyncDB/DATAStack)
-![Compatibility](https://img.shields.io/badge/compatible-swift%202.3%20and%203.0-orange.svg)
-![platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20OS%20X%20%7C%20watchOS%20%7C%20tvOS%20-lightgrey.svg)
-[![License](https://img.shields.io/cocoapods/l/DATAStack.svg?style=flat)](https://cocoapods.org/pods/DATAStack)
+<div align = "center">
+  <a href="https://cocoapods.org/pods/DATAStack">
+    <img src="https://img.shields.io/cocoapods/v/DATAStack.svg?style=flat" />
+  </a>
+  <a href="https://github.com/SyncDB/DATAStack">
+    <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" />
+  </a>
+  <a href="https://github.com/SyncDB/DATAStack#installation">
+    <img src="https://img.shields.io/badge/compatible-swift%202.3%20and%203.0-orange.svg" />
+  </a>
+</div>
+
+<div align = "center">
+  <a href="https://cocoapods.org/pods/DATAStack" target="blank">
+    <img src="https://img.shields.io/cocoapods/p/DATAStack.svg?style=flat" />
+  </a>
+  <a href="https://cocoapods.org/pods/DATAStack" target="blank">
+    <img src="https://img.shields.io/cocoapods/l/DATAStack.svg?style=flat" />
+  </a>
+  <a href="https://gitter.im/SyncDB/DATAStack?utm_source=share-link&utm_medium=link&utm_campaign=share-link">
+    <img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg" />
+  </a>
+  <br>
+  <br>
+</div>
+
+
 
 **DATAStack** helps you to alleviate the Core Data boilerplate. Now you can go to your AppDelegate remove all the Core Data related code and replace it with an instance of DATAStack ([ObjC](DemoObjectiveC/AppDelegate.m), [Swift](DemoSwift/AppDelegate.swift)).
 
