@@ -26,8 +26,6 @@
   <br>
 </div>
 
-
-
 **DATAStack** helps you to alleviate the Core Data boilerplate. Now you can go to your AppDelegate remove all the Core Data related code and replace it with an instance of DATAStack ([ObjC](DemoObjectiveC/AppDelegate.m), [Swift](DemoSwift/AppDelegate.swift)).
 
 - Easier thread safety
@@ -40,8 +38,6 @@
 - Free
 
 ## Table of Contents
-
-[![Join the chat at https://gitter.im/SyncDB/DATAStack](https://badges.gitter.im/SyncDB/DATAStack.svg)](https://gitter.im/SyncDB/DATAStack?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 * [Running the demos](#running-the-demos)
 * [Initialization](#initialization)
