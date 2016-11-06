@@ -27,15 +27,11 @@ DerivedData
 *.xcscmblueprint
 *.gcno
 *.gcda
+*.bcsymbolmap
 
-# CocoaPods
-Pods
-
-# Carthage
 Carthage/Checkouts
-
-Carthage/Build/watchOS/DATAStack*
-Carthage/Build/tvOS/DATAStack*
-Carthage/Build/Mac/DATAStack*
-Carthage/Build/iOS/DATAStack*
+Carthage/Build/watchOS
+Carthage/Build/tvOS/DATAStack.framework*
+Carthage/Build/Mac/DATAStack.framework*
+Carthage/Build/iOS/DATAStack.framework*
 DATAStack.framework.zip
