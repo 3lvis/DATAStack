@@ -32,7 +32,7 @@ import CoreData
                 context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
                 context.persistentStoreCoordinator = self.persistentStoreCoordinator
 
-                NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.mainContextDidSave(_:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: context)
+                NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.mainContextDidSave(_:)), name: .NSManagedObjectContextDidSave, object: context)
 
                 _mainContext = context
             }
@@ -210,8 +210,8 @@ import CoreData
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextWillSave, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .NSManagedObjectContextWillSave, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .NSManagedObjectContextDidSave, object: nil)
     }
 
     /**
@@ -250,7 +250,7 @@ import CoreData
         context.undoManager = nil
         context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
 
-        NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.backgroundContextDidSave(_:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: context)
+        NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.backgroundContextDidSave(_:)), name: .NSManagedObjectContextDidSave, object: context)
 
         return context
     }
@@ -436,7 +436,7 @@ extension NSPersistentStoreCoordinator {
             let shouldExcludeSQLiteFromBackup = storeType == .sqLite && TestCheck.isTesting == false
             if shouldExcludeSQLiteFromBackup {
                 do {
-                    try (storeURL as NSURL).setResourceValue(true, forKey: URLResourceKey.isExcludedFromBackupKey)
+                    try (storeURL as NSURL).setResourceValue(true, forKey: .isExcludedFromBackupKey)
                 } catch let excludingError as NSError {
                     throw NSError(info: "Excluding SQLite file from backup caused an error", previousError: excludingError)
                 }
