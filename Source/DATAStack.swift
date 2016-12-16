@@ -350,6 +350,17 @@ import CoreData
         }
     }
 
+    /// Sends a request to all the persistent stores associated with the receiver.
+    ///
+    /// - Parameters:
+    ///   - request: A fetch, save or delete request.
+    ///   - context: The context against which request should be executed.
+    /// - Returns: An array containing managed objects, managed object IDs, or dictionaries as appropriate for a fetch request; an empty array if request is a save request, or nil if an error occurred.
+    /// - Throws: If an error occurs, upon return contains an NSError object that describes the problem.
+    public func execute(_ request: NSPersistentStoreRequest, with context: NSManagedObjectContext) throws -> Any {
+        return try self.persistentStoreCoordinator.execute(request, with: context)
+    }
+
     // Can't be private, has to be internal in order to be used as a selector.
     func mainContextDidSave(_ notification: Notification) {
         self.saveMainThread { error in
