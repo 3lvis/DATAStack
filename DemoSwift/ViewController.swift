@@ -12,7 +12,7 @@ class ViewController: UITableViewController {
 
         let dataSource = DATASource(tableView: self.tableView, cellIdentifier: "Cell", fetchRequest: request, mainContext: self.dataStack.mainContext, configuration: { cell, item, indexPath in
             if let name = item.value(forKey: "name") as? String, let createdDate = item.value(forKey: "createdDate") as? NSDate {
-                cell.textLabel?.text =  name + " - " + createdDate.description
+                cell.textLabel?.text = name + " - " + createdDate.description
             }
         })
 

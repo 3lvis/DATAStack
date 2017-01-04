@@ -24,5 +24,5 @@
 import PackageDescription
 
 let package = Package(
-  name: "DATAStack"
+    name: "DATAStack"
 )

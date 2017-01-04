@@ -8,13 +8,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let window = UIWindow(frame: UIScreen.main.bounds)
 
         return window
-        }()
+    }()
 
     var dataStack: DATAStack = {
         let dataStack = DATAStack(modelName: "DemoSwift")
 
         return dataStack
-        }()
+    }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         if let window = self.window {
