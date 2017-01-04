@@ -289,13 +289,6 @@ import CoreData
     }
 
     /**
-     Drops the database. Useful for ObjC compatibility, since it doesn't allow `throws` Use `drop` in Swift.
-     */
-    public func forceDrop() {
-        drop()
-    }
-
-    /**
      Drops the database.
      */
     public func drop(completion: ((_ error: NSError?) -> Void)? = nil) {
@@ -311,6 +304,7 @@ import CoreData
 
                         do {
                             try self.persistentStoreCoordinator.destroyPersistentStore(at: storeURL, ofType: self.storeType.type, options: store.options)
+                            try! self.persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
 
                             DispatchQueue.main.async {
                                 completion?(nil)

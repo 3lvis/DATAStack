@@ -142,6 +142,15 @@ class Tests: XCTestCase {
 
         let objects = self.fetch(in: dataStack.mainContext)
         XCTAssertEqual(objects.count, 0)
+
+        dataStack.performInNewBackgroundContext { backgroundContext in
+            self.insertUser(in: backgroundContext)
+        }
+
+        let objectsB = self.fetch(in: dataStack.mainContext)
+        XCTAssertEqual(objectsB.count, 1)
+
+        dataStack.drop()
     }
 
     func testAutomaticMigration() {
