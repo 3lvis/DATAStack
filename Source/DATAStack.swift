@@ -317,7 +317,7 @@ import CoreData
                             }
                         } catch let error as NSError {
                             DispatchQueue.main.async {
-                                completion?(error)
+                                completion?(NSError(info: "Failed dropping the data stack.", previousError: error))
                             }
                         }
                     }
