@@ -24,7 +24,7 @@ import CoreData
      The context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext`
      instead.
      */
-    public var mainContext: NSManagedObjectContext {
+    lazy var mainContext: NSManagedObjectContext = {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         context.undoManager = nil
         context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
@@ -33,7 +33,7 @@ import CoreData
         NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.mainContextDidSave(_:)), name: .NSManagedObjectContextDidSave, object: context)
 
         return context
-    }
+    }()
 
     /**
      The context for the main queue. Please do not use this to mutate data, use `performBackgroundTask`
@@ -43,21 +43,21 @@ import CoreData
         return self.mainContext
     }
 
-    private var writerContext: NSManagedObjectContext {
+    lazy var writerContext: NSManagedObjectContext = {
         let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
         context.undoManager = nil
         context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
         context.persistentStoreCoordinator = self.persistentStoreCoordinator
 
         return context
-    }
+    }()
 
-    private var persistentStoreCoordinator: NSPersistentStoreCoordinator {
+    private lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.model)
         try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
 
         return persistentStoreCoordinator
-    }
+    }()
 
     private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
