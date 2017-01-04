@@ -3,6 +3,15 @@ import CoreData
 
 @objc public enum DATAStackStoreType: Int {
     case inMemory, sqLite
+
+    var type: String {
+        switch self {
+        case .inMemory:
+            return NSInMemoryStoreType
+        case .sqLite:
+            return NSSQLiteStoreType
+        }
+    }
 }
 
 @objc public class DATAStack: NSObject {
@@ -24,7 +33,7 @@ import CoreData
      The context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext`
      instead.
      */
-    lazy var mainContext: NSManagedObjectContext = {
+    public lazy var mainContext: NSManagedObjectContext = {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         context.undoManager = nil
         context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
@@ -43,7 +52,7 @@ import CoreData
         return self.mainContext
     }
 
-    lazy var writerContext: NSManagedObjectContext = {
+    private lazy var writerContext: NSManagedObjectContext = {
         let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
         context.undoManager = nil
         context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
@@ -243,7 +252,7 @@ import CoreData
         let contextBlock: @convention(block) () -> Void = {
             operation(context)
         }
-        let blockObject : AnyObject = unsafeBitCast(contextBlock, to: AnyObject.self)
+        let blockObject: AnyObject = unsafeBitCast(contextBlock, to: AnyObject.self)
         context.perform(DATAStack.performSelectorForBackgroundContext(), with: blockObject)
     }
 
@@ -257,7 +266,7 @@ import CoreData
 
     func saveMainThread(completion: ((_ error: NSError?) -> Void)?) {
         var writerContextError: NSError?
-        let writerContextBlock: @convention(block) (Void) -> Void = {
+        let writerContextBlock: @convention(block) () -> Void = {
             do {
                 try self.writerContext.save()
                 if TestCheck.isTesting {
@@ -267,15 +276,15 @@ import CoreData
                 writerContextError = parentError
             }
         }
-        let writerContextBlockObject : AnyObject = unsafeBitCast(writerContextBlock, to: AnyObject.self)
+        let writerContextBlockObject: AnyObject = unsafeBitCast(writerContextBlock, to: AnyObject.self)
 
-        let mainContextBlock: @convention(block) (Void) -> Void = {
+        let mainContextBlock: @convention(block) () -> Void = {
             self.writerContext.perform(DATAStack.performSelectorForBackgroundContext(), with: writerContextBlockObject)
             DispatchQueue.main.async {
                 completion?(writerContextError)
             }
         }
-        let mainContextBlockObject : AnyObject = unsafeBitCast(mainContextBlock, to: AnyObject.self)
+        let mainContextBlockObject: AnyObject = unsafeBitCast(mainContextBlock, to: AnyObject.self)
         self.mainContext.perform(DATAStack.performSelectorForBackgroundContext(), with: mainContextBlockObject)
     }
 
@@ -283,46 +292,35 @@ import CoreData
      Drops the database. Useful for ObjC compatibility, since it doesn't allow `throws` Use `drop` in Swift.
      */
     public func forceDrop() {
-        try! drop()
+        drop()
     }
 
     /**
      Drops the database.
      */
-    public func drop() throws {
-        for store in self.persistentStoreCoordinator.persistentStores {
-            guard let storeURL = store.url else { throw NSError(info: "Persistent store url not found", previousError: nil) }
-
-            let storePath = storeURL.path
-            let sqliteFile = (storePath as NSString).deletingPathExtension
-            let fileManager = FileManager.default
-
+    public func drop(completion: ((_ error: NSError?) -> Void)? = nil) {
+        self.writerContext.performAndWait {
             self.writerContext.reset()
-            self.mainContext.reset()
 
-            let shm = sqliteFile + ".sqlite-shm"
-            if fileManager.fileExists(atPath: shm) {
-                do {
-                    try fileManager.removeItem(at: NSURL.fileURL(withPath: shm))
-                } catch let error as NSError {
-                    throw NSError(info: "Could not delete persistent store shm", previousError: error)
-                }
-            }
+            self.mainContext.performAndWait {
+                self.mainContext.reset()
 
-            let wal = sqliteFile + ".sqlite-wal"
-            if fileManager.fileExists(atPath: wal) {
-                do {
-                    try fileManager.removeItem(at: NSURL.fileURL(withPath: wal))
-                } catch let error as NSError {
-                    throw NSError(info: "Could not delete persistent store wal", previousError: error)
-                }
-            }
+                self.persistentStoreCoordinator.performAndWait {
+                    for store in self.persistentStoreCoordinator.persistentStores {
+                        guard let storeURL = store.url else { continue }
 
-            if fileManager.fileExists(atPath: storePath) {
-                do {
-                    try fileManager.removeItem(at: storeURL)
-                } catch let error as NSError {
-                    throw NSError(info: "Could not delete sqlite file", previousError: error)
+                        do {
+                            try self.persistentStoreCoordinator.destroyPersistentStore(at: storeURL, ofType: self.storeType.type, options: store.options)
+
+                            DispatchQueue.main.async {
+                                completion?(nil)
+                            }
+                        } catch let error as NSError {
+                            DispatchQueue.main.async {
+                                completion?(error)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -363,7 +361,7 @@ import CoreData
             let contextBlock: @convention(block) () -> Void = {
                 self.mainContext.mergeChanges(fromContextDidSave: notification)
             }
-            let blockObject : AnyObject = unsafeBitCast(contextBlock, to: AnyObject.self)
+            let blockObject: AnyObject = unsafeBitCast(contextBlock, to: AnyObject.self)
             self.mainContext.perform(DATAStack.performSelectorForBackgroundContext(), with: blockObject)
         }
     }
@@ -406,7 +404,7 @@ extension NSPersistentStoreCoordinator {
                 }
             }
 
-            let options = [NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true]
+            let options = [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true]
             do {
                 try self.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
             } catch {
@@ -440,7 +438,7 @@ extension NSManagedObjectModel {
     convenience init(bundle: Bundle, name: String) {
         if let momdModelURL = bundle.url(forResource: name, withExtension: "momd") {
             self.init(contentsOf: momdModelURL)!
-        } else if let momModelURL = bundle.url(forResource:name, withExtension: "mom") {
+        } else if let momModelURL = bundle.url(forResource: name, withExtension: "mom") {
             self.init(contentsOf: momModelURL)!
         } else {
             self.init()
@@ -460,7 +458,7 @@ extension NSError {
 
             self.init(domain: previousError.domain, code: previousError.code, userInfo: userInfo)
         } else {
-            var userInfo = [String : String]()
+            var userInfo = [String: String]()
             userInfo[NSLocalizedDescriptionKey] = info
             self.init(domain: "com.SyncDB.DATAStack", code: 9999, userInfo: userInfo)
         }
