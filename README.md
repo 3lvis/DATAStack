@@ -152,7 +152,7 @@ Deleting the `.sqlite` file and resetting the state of your **DATAStack** is as 
 
 **Swift**
 ```swift
-try self.dataStack.drop()
+self.dataStack.drop()
 ```
 
 **Objective-C**
