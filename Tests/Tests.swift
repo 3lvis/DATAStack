@@ -35,7 +35,7 @@ class InitializerTests: XCTestCase {
         XCTAssertEqual(objects.count, 1)
     }
 
-    // xcdatamodeld is a container for .xcdatamodel files. It's used for versioning and migration. 
+    // xcdatamodeld is a container for .xcdatamodel files. It's used for versioning and migration.
     // When moving from v1 of the model to v2, you add a new xcdatamodel to it that has v2 along with the mapping model.
     func testInitializeUsingXCDataModeld() {
         let dataStack = self.createDataStack()
@@ -138,7 +138,7 @@ class Tests: XCTestCase {
         let objectsA = self.fetch(in: dataStack.mainContext)
         XCTAssertEqual(objectsA.count, 1)
 
-        let _ = try? dataStack.drop()
+        dataStack.drop()
 
         let objects = self.fetch(in: dataStack.mainContext)
         XCTAssertEqual(objects.count, 0)
@@ -160,7 +160,7 @@ class Tests: XCTestCase {
         user?.setValue(Date().addingTimeInterval(16000), forKey: "updatedDate")
         try! secondDataStack.mainContext.save()
 
-        try! firstDataStack.drop()
-        try! secondDataStack.drop()
+        firstDataStack.drop()
+        secondDataStack.drop()
     }
 }
