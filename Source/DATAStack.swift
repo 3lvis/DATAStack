@@ -24,22 +24,16 @@ import CoreData
      The context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext`
      instead.
      */
-    public var mainContext: NSManagedObjectContext {
-        get {
-            if _mainContext == nil {
-                let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-                context.undoManager = nil
-                context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-                context.persistentStoreCoordinator = self.persistentStoreCoordinator
+    lazy var mainContext: NSManagedObjectContext = {
+        let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        context.undoManager = nil
+        context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        context.persistentStoreCoordinator = self.persistentStoreCoordinator
 
-                NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.mainContextDidSave(_:)), name: .NSManagedObjectContextDidSave, object: context)
+        NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.mainContextDidSave(_:)), name: .NSManagedObjectContextDidSave, object: context)
 
-                _mainContext = context
-            }
-
-            return _mainContext!
-        }
-    }
+        return context
+    }()
 
     /**
      The context for the main queue. Please do not use this to mutate data, use `performBackgroundTask`
@@ -49,36 +43,21 @@ import CoreData
         return self.mainContext
     }
 
-    private var _writerContext: NSManagedObjectContext?
+    lazy var writerContext: NSManagedObjectContext = {
+        let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
+        context.undoManager = nil
+        context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        context.persistentStoreCoordinator = self.persistentStoreCoordinator
 
-    private var writerContext: NSManagedObjectContext {
-        get {
-            if _writerContext == nil {
-                let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
-                context.undoManager = nil
-                context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-                context.persistentStoreCoordinator = self.persistentStoreCoordinator
+        return context
+    }()
 
-                _writerContext = context
-            }
+    private lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
+        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.model)
+        try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
 
-            return _writerContext!
-        }
-    }
-
-    private var _persistentStoreCoordinator: NSPersistentStoreCoordinator?
-
-    private var persistentStoreCoordinator: NSPersistentStoreCoordinator {
-        get {
-            if _persistentStoreCoordinator == nil {
-                let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.model)
-                try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
-                _persistentStoreCoordinator = persistentStoreCoordinator
-            }
-
-            return _persistentStoreCoordinator!
-        }
-    }
+        return persistentStoreCoordinator
+    }()
 
     private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
@@ -318,9 +297,8 @@ import CoreData
             let sqliteFile = (storePath as NSString).deletingPathExtension
             let fileManager = FileManager.default
 
-            self._writerContext = nil
-            self._mainContext = nil
-            self._persistentStoreCoordinator = nil
+            self.writerContext.reset()
+            self.mainContext.reset()
 
             let shm = sqliteFile + ".sqlite-shm"
             if fileManager.fileExists(atPath: shm) {
