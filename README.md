@@ -53,6 +53,7 @@
 
 ## Running the demos
 
+- Clone the repository
 - Open the `Demo.xcodeproj`
 - Enjoy!
 
