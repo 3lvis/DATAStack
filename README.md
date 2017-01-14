@@ -52,10 +52,8 @@
 * [License](#license)
 
 ## Running the demos
-Before being able to run the demos you have to install the demo dependencies using [CocoaPods](https://cocoapods.org/).
 
-- Install CocoaPods
-- Run `pod install`
+- Open the `Demo.xcodeproj`
 - Enjoy!
 
 ## Initialization
