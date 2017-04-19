@@ -221,6 +221,8 @@ import CoreData
      example when using a NSFetchedResultsController use `try self.fetchedResultsController.performFetch()`.
      */
     public func newNonMergingBackgroundContext() -> NSManagedObjectContext {
+		logIfMainThread()
+		
         let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
         context.persistentStoreCoordinator = self.persistentStoreCoordinator
         context.undoManager = nil
@@ -233,6 +235,8 @@ import CoreData
      Returns a background context perfect for data mutability operations. Make sure to never use it on the main thread. Use `performBlock` or `performBlockAndWait` to use it.
      */
     public func newBackgroundContext() -> NSManagedObjectContext {
+		logIfMainThread()
+		
         let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
         context.persistentStoreCoordinator = self.persistentStoreCoordinator
         context.undoManager = nil
@@ -367,6 +371,12 @@ import CoreData
     private static func performSelectorForBackgroundContext() -> Selector {
         return TestCheck.isTesting ? NSSelectorFromString("performBlockAndWait:") : NSSelectorFromString("performBlock:")
     }
+	
+	private func logIfMainThread() {
+		if NSThread.isMainThread() {
+			NSLog("[DATAStack] You've created background context in main thread, that may cause unexpected behaviour and crashes.")
+		}
+	}
 }
 
 extension NSPersistentStoreCoordinator {
