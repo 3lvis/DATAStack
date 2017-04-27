@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "DATAStack"
-  s.version = "7.0.2"
+  s.version = "7.0.3"
   s.summary = "100% Swift Simple Boilerplate Free Core Data Stack"
   s.description = <<-DESC
                    * Easier thread safety
