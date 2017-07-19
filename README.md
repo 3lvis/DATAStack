@@ -222,7 +222,7 @@ Have a great day.
 
 ## Author
 
-SyncDB, [@Sync_DB](https://twitter.com/Sync_DB)
+Elvis Nuñez, [@3lvis](https://twitter.com/3lvis)
 
 ## License
 
