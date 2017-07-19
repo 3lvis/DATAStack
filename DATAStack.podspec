@@ -12,19 +12,19 @@ Pod::Spec.new do |s|
                    * Objective-C support
                    * Free
                    DESC
-  s.homepage = "https://github.com/SyncDB/DATAStack"
+  s.homepage = "https://github.com/3lvis/DATAStack"
   s.license = {
     :type => 'MIT',
     :file => 'LICENSE.md'
   }
-  s.author           = { "SyncDB" => "syncdb.contact@gmail.com" }
-  s.social_media_url = "http://twitter.com/Sync_DB"
+  s.author           = { "Elvis Nuñez" => "elvisnunez@me.com" }
+  s.social_media_url = "http://twitter.com/3lvis"
   s.ios.deployment_target = '9.0'
   s.osx.deployment_target = '10.11'
   s.watchos.deployment_target = '2.0'
   s.tvos.deployment_target = '9.0'
   s.source = {
-    :git => 'https://github.com/SyncDB/DATAStack.git',
+    :git => 'https://github.com/3lvis/DATAStack.git',
     :tag => s.version.to_s
   }
   s.source_files = 'Source/'
