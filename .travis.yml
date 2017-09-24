@@ -1,9 +1,9 @@
-osx_image: xcode8.1
+osx_image: xcode9
 language: objective-c
 script:
-  - xcodebuild -project Demo.xcodeproj -scheme DemoObjectiveC -destination 'platform=iOS Simulator,name=iPhone 6'        build | xcpretty
-  - xcodebuild -project Demo.xcodeproj -scheme DemoSwift      -destination 'platform=iOS Simulator,name=iPhone 6'        build | xcpretty
-  - xcodebuild -project Demo.xcodeproj -scheme iOSTests       -destination 'platform=iOS Simulator,name=iPhone 6'        test  | xcpretty
+  - xcodebuild -project Demo.xcodeproj -scheme DemoObjectiveC -destination 'platform=iOS Simulator,name=iPhone 7'        build | xcpretty
+  - xcodebuild -project Demo.xcodeproj -scheme DemoSwift      -destination 'platform=iOS Simulator,name=iPhone 7'        build | xcpretty
+  - xcodebuild -project Demo.xcodeproj -scheme iOSTests       -destination 'platform=iOS Simulator,name=iPhone 7'        test  | xcpretty
   - xcodebuild -project Demo.xcodeproj -scheme tvOSTests      -destination 'platform=tvOS Simulator,name=Apple TV 1080p' test  | xcpretty
   - xcodebuild -project Demo.xcodeproj -scheme macOSTests     -destination 'platform=OS X'                               test  | xcpretty
 notifications:
