@@ -7,4 +7,5 @@ framework module DATASource {
 
 module DATASource.Swift {
     header "DATASource-Swift.h"
+    requires objc
 }

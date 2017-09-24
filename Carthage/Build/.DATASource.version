@@ -1,0 +1,21 @@
+{
+  "iOS" : [
+    {
+      "hash" : "5d608bab1ed3bc00293cc3187f4511a1e7a7e0af79785bd1a169b0937d514381",
+      "name" : "DATASource"
+    }
+  ],
+  "commitish" : "820f62b4862a3608fbc370596257b7c24b7fcf2a",
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+    {
+      "hash" : "4a645ebb6c49a93632988312c7ae83a150ba29b9514e0a5b3a20a7b6d8b1e2a9",
+      "name" : "DATASource"
+    }
+  ],
+  "Mac" : [
+
+  ]
+}
