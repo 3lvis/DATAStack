@@ -26,7 +26,8 @@ import CoreData
     private var model: NSManagedObjectModel
 
     private var containerURL = URL.directoryURL()
-    private let backgroundContextName = "DATAStack.BackgrounContext"
+
+    private let backgroundContextName = "DATAStack.backgroundContextName"
 
     /**
      The context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext`
@@ -375,11 +376,11 @@ import CoreData
 
     // Can't be private, has to be internal in order to be used as a selector.
     @objc func backgroundContextDidSave(_ notification: Notification) throws {
-        let conetxt = notification.object as? NSManagedObjectContext
-        if conetxt?.name != backgroundContextName {
+        let context = notification.object as? NSManagedObjectContext
+        guard context?.name == backgroundContextName else {
             return
         }
-        
+
         if Thread.isMainThread && TestCheck.isTesting == false {
             throw NSError(info: "Background context saved in the main thread. Use context's `performBlock`", previousError: nil)
         } else {
