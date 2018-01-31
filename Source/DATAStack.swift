@@ -26,6 +26,7 @@ import CoreData
     private var model: NSManagedObjectModel
 
     private var containerURL = URL.directoryURL()
+    private let backgroundContextName = "DATAStack.BackgrounContext"
 
     /**
      The context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext`
@@ -232,6 +233,7 @@ import CoreData
      */
     @objc public func newBackgroundContext() -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
+        context.name = backgroundContextName
         context.persistentStoreCoordinator = self.persistentStoreCoordinator
         context.undoManager = nil
         context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
@@ -373,6 +375,11 @@ import CoreData
 
     // Can't be private, has to be internal in order to be used as a selector.
     @objc func backgroundContextDidSave(_ notification: Notification) throws {
+        let conetxt = notification.object as? NSManagedObjectContext
+        if conetxt?.name != backgroundContextName {
+            return
+        }
+        
         if Thread.isMainThread && TestCheck.isTesting == false {
             throw NSError(info: "Background context saved in the main thread. Use context's `performBlock`", previousError: nil)
         } else {
