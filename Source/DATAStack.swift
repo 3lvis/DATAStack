@@ -28,6 +28,8 @@ import CoreData
     private var containerURL = URL.directoryURL()
 
     private let backgroundContextName = "DATAStack.backgroundContextName"
+    
+    private var isExcludedFromBackup = false
 
     /**
      The context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext`
@@ -63,7 +65,7 @@ import CoreData
 
     @objc public private(set) lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.model)
-        try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
+        try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL, isExcludedFromBackup: isExcludedFromBackup)
 
         return persistentStoreCoordinator
     }()
@@ -71,7 +73,7 @@ import CoreData
     private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-        try! persistentStoreCoordinator.addPersistentStore(storeType: .inMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
+        try! persistentStoreCoordinator.addPersistentStore(storeType: .inMemory, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL, isExcludedFromBackup: isExcludedFromBackup)
 
         return persistentStoreCoordinator
     }()
@@ -93,11 +95,13 @@ import CoreData
     /**
      Initializes a DATAStack using the provided model name.
      - parameter modelName: The name of your Core Data model (xcdatamodeld).
+     - parameter isExcludedFromBackup: Flag to indicate if the data store should be excluded from backup. Default set to false.
      */
-    @objc public init(modelName: String) {
+    @objc public init(modelName: String, isExcludedFromBackup: Bool = false) {
         self.modelName = modelName
+        self.isExcludedFromBackup = isExcludedFromBackup
         self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
-
+        
         super.init()
     }
 
@@ -106,12 +110,14 @@ import CoreData
      - parameter modelName: The name of your Core Data model (xcdatamodeld).
      - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
      based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
+     - parameter isExcludedFromBackup: Flag to indicate if the data store should be excluded from backup. Only applies to sqlite stores. Default set to false.
      */
-    @objc public init(modelName: String, storeType: DATAStackStoreType) {
+    @objc public init(modelName: String, storeType: DATAStackStoreType, isExcludedFromBackup: Bool = false) {
         self.modelName = modelName
         self.storeType = storeType
+        self.isExcludedFromBackup = isExcludedFromBackup
         self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
-
+        
         super.init()
     }
 
@@ -123,13 +129,15 @@ import CoreData
      are located.
      - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
      based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
+     - parameter isExcludedFromBackup: Flag to indicate if the data store should be excluded from backup. Only applies to sqlite stores. Default set to false.
      */
-    @objc public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType) {
+    @objc public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType, isExcludedFromBackup: Bool = false) {
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
+        self.isExcludedFromBackup = isExcludedFromBackup
         self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
-
+        
         super.init()
     }
 
@@ -144,14 +152,16 @@ import CoreData
      - parameter storeName: Normally your file would be named as your model name is named, so if your model
      name is AwesomeApp then the .sqlite file will be named AwesomeApp.sqlite, this attribute allows your to
      change that.
+     - parameter isExcludedFromBackup: Flag to indicate if the data store should be excluded from backup. Only applies to sqlite stores. Default set to false.
      */
-    @objc public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType, storeName: String) {
+    @objc public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType, storeName: String, isExcludedFromBackup: Bool = false) {
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
         self.storeName = storeName
+        self.isExcludedFromBackup = isExcludedFromBackup
         self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
-
+        
         super.init()
     }
 
@@ -167,15 +177,17 @@ import CoreData
      name is AwesomeApp then the .sqlite file will be named AwesomeApp.sqlite, this attribute allows your to
      change that.
      - parameter containerURL: The container URL for the sqlite file when a store type of SQLite is used.
+     - parameter isExcludedFromBackup: Flag to indicate if the data store should be excluded from backup. Only applies to sqlite stores. Default set to false.
      */
-    @objc public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType, storeName: String, containerURL: URL) {
+    @objc public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType, storeName: String, containerURL: URL, isExcludedFromBackup: Bool = false) {
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
         self.storeName = storeName
         self.containerURL = containerURL
+        self.isExcludedFromBackup = isExcludedFromBackup
         self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
-
+        
         super.init()
     }
 
@@ -184,11 +196,13 @@ import CoreData
      - parameter model: The model that we'll use to set up your DATAStack.
      - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
      based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
+     - parameter isExcludedFromBackup: Flag to indicate if the data store should be excluded from backup. Only applies to sqlite stores. Default set to false
      */
-    @objc public init(model: NSManagedObjectModel, storeType: DATAStackStoreType) {
+    @objc public init(model: NSManagedObjectModel, storeType: DATAStackStoreType, isExcludedFromBackup: Bool = false) {
         self.model = model
         self.storeType = storeType
-
+        self.isExcludedFromBackup = isExcludedFromBackup
+        
         let bundle = Bundle.main
         if let bundleName = bundle.infoDictionary?["CFBundleName"] as? String {
             self.storeName = bundleName
@@ -402,7 +416,7 @@ import CoreData
 }
 
 extension NSPersistentStoreCoordinator {
-    func addPersistentStore(storeType: DATAStackStoreType, bundle: Bundle, modelName: String, storeName: String?, containerURL: URL) throws {
+    func addPersistentStore(storeType: DATAStackStoreType, bundle: Bundle, modelName: String, storeName: String?, containerURL: URL, isExcludedFromBackup: Bool) throws {
         let filePath = (storeName ?? modelName) + ".sqlite"
         switch storeType {
         case .inMemory:
@@ -446,7 +460,7 @@ extension NSPersistentStoreCoordinator {
                 }
             }
 
-            let shouldExcludeSQLiteFromBackup = storeType == .sqLite && TestCheck.isTesting == false
+            let shouldExcludeSQLiteFromBackup = isExcludedFromBackup && TestCheck.isTesting == false
             if shouldExcludeSQLiteFromBackup {
                 do {
                     try (storeURL as NSURL).setResourceValue(true, forKey: .isExcludedFromBackupKey)
