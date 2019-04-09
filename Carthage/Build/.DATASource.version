@@ -1,21 +1,21 @@
 {
-  "iOS" : [
-    {
-      "hash" : "ad0a742a15023752df1ac9daffe735b7a7733f00e5a1eb1165481432506cf116",
-      "name" : "DATASource"
-    }
+  "Mac" : [
+
   ],
-  "commitish" : "7.0.0",
   "watchOS" : [
 
   ],
   "tvOS" : [
     {
-      "hash" : "bf2e3f41442f68fa0ac446cc8757a5d3070aa2d1fddf46d4232de32ee3f849ca",
-      "name" : "DATASource"
+      "name" : "DATASource",
+      "hash" : "2ad343d175c66ba35c5d73349f97a87943ae0121d0ed282a57b063656be08c3a"
     }
   ],
-  "Mac" : [
-
+  "commitish" : "7.0.2",
+  "iOS" : [
+    {
+      "name" : "DATASource",
+      "hash" : "fa03ec93e244184449544a7bde546c8db6796ef4fd91ec70f1fd5414f9acb339"
+    }
   ]
 }
