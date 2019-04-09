@@ -560,7 +560,7 @@
 						CreatedOnToolsVersion = 7.0.1;
 						DevelopmentTeam = C6K65RDJHL;
 						DevelopmentTeamName = "Elvis Nunez (Personal Team)";
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 1020;
 					};
 					14B389A21CBF830D001123DC = {
 						CreatedOnToolsVersion = 7.3;
@@ -1191,7 +1191,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = x.DemoSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1212,7 +1212,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = x.DemoSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
