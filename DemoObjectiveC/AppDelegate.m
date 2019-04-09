@@ -15,7 +15,7 @@
 - (DATAStack *)dataStack {
     if (_dataStack) return _dataStack;
 
-    _dataStack = [[DATAStack alloc] initWithModelName:@"DemoObjectiveC"];
+    _dataStack = [[DATAStack alloc] initWithModelName:@"DemoObjectiveC" isExcludedFromBackup:YES];
 
     return _dataStack;
 }
