@@ -8,14 +8,16 @@
   "tvOS" : [
     {
       "name" : "DATASource",
-      "hash" : "2ad343d175c66ba35c5d73349f97a87943ae0121d0ed282a57b063656be08c3a"
+      "hash" : "358cb6878baf6288afc26dd40f8603077a075f9c0cfa59694b97c4e8d2ddd245",
+      "swiftToolchainVersion" : "5.0 (swiftlang-1001.0.69.5 clang-1001.0.46.3)"
     }
   ],
   "commitish" : "7.0.2",
   "iOS" : [
     {
       "name" : "DATASource",
-      "hash" : "fa03ec93e244184449544a7bde546c8db6796ef4fd91ec70f1fd5414f9acb339"
+      "hash" : "8403c87d842d1b1d451802c4866a112e2a729959c3f830240449832ad8520f13",
+      "swiftToolchainVersion" : "5.0 (swiftlang-1001.0.69.5 clang-1001.0.46.3)"
     }
   ]
 }
