@@ -95,20 +95,9 @@ import CoreData
     /**
      Initializes a DATAStack using the provided model name.
      - parameter modelName: The name of your Core Data model (xcdatamodeld).
-     */
-    @objc public init(modelName: String) {
-        self.modelName = modelName
-        self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
-
-        super.init()
-    }
-
-    /**
-     Initializes a DATAStack using the provided model name.
-     - parameter modelName: The name of your Core Data model (xcdatamodeld).
      - parameter isExcludedFromBackup: Flag to indicate if the data store should be excluded from backup. Default set to true.
      */
-    @objc public init(modelName: String, isExcludedFromBackup: Bool) {
+    @objc public init(modelName: String, isExcludedFromBackup: Bool = true) {
         self.modelName = modelName
         self.isExcludedFromBackup = isExcludedFromBackup
         self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
@@ -121,10 +110,12 @@ import CoreData
      - parameter modelName: The name of your Core Data model (xcdatamodeld).
      - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
      based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
+     - parameter isExcludedFromBackup: Flag to indicate if the data store should be excluded from backup. Only applies to sqlite stores. Default set to true.
      */
-    @objc public init(modelName: String, storeType: DATAStackStoreType) {
+    @objc public init(modelName: String, storeType: DATAStackStoreType, isExcludedFromBackup: Bool = true) {
         self.modelName = modelName
         self.storeType = storeType
+        self.isExcludedFromBackup = isExcludedFromBackup
         self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
 
         super.init()
@@ -138,11 +129,13 @@ import CoreData
      are located.
      - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
      based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
+     - parameter isExcludedFromBackup: Flag to indicate if the data store should be excluded from backup. Only applies to sqlite stores. Default set to true.
      */
-    @objc public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType) {
+    @objc public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType, isExcludedFromBackup: Bool = true) {
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
+        self.isExcludedFromBackup = isExcludedFromBackup
         self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
 
         super.init()
@@ -161,11 +154,12 @@ import CoreData
      change that.
      - parameter isExcludedFromBackup: Flag to indicate if the data store should be excluded from backup. Only applies to sqlite stores. Default set to true.
      */
-    @objc public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType, storeName: String) {
+    @objc public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType, storeName: String, isExcludedFromBackup: Bool = true) {
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
         self.storeName = storeName
+        self.isExcludedFromBackup = isExcludedFromBackup
         self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
 
         super.init()
@@ -185,12 +179,13 @@ import CoreData
      - parameter containerURL: The container URL for the sqlite file when a store type of SQLite is used.
      - parameter isExcludedFromBackup: Flag to indicate if the data store should be excluded from backup. Only applies to sqlite stores. Default set to true.
      */
-    @objc public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType, storeName: String, containerURL: URL) {
+    @objc public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType, storeName: String, containerURL: URL, isExcludedFromBackup: Bool = true) {
         self.modelName = modelName
         self.modelBundle = bundle
         self.storeType = storeType
         self.storeName = storeName
         self.containerURL = containerURL
+        self.isExcludedFromBackup = isExcludedFromBackup
         self.model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
 
         super.init()
@@ -203,9 +198,10 @@ import CoreData
      based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
      - parameter isExcludedFromBackup: Flag to indicate if the data store should be excluded from backup. Only applies to sqlite stores. Default set to true
      */
-    @objc public init(model: NSManagedObjectModel, storeType: DATAStackStoreType) {
+    @objc public init(model: NSManagedObjectModel, storeType: DATAStackStoreType, isExcludedFromBackup: Bool = true) {
         self.model = model
         self.storeType = storeType
+        self.isExcludedFromBackup = isExcludedFromBackup
 
         let bundle = Bundle.main
         if let bundleName = bundle.infoDictionary?["CFBundleName"] as? String {
