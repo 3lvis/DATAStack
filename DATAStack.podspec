@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "DATAStack"
-  s.version = "8.0.2"
+  s.version = "8.1.0"
   s.summary = "100% Swift Simple Boilerplate Free Core Data Stack"
   s.description = <<-DESC
                    * Easier thread safety
@@ -19,10 +19,10 @@ Pod::Spec.new do |s|
   }
   s.author           = { "Elvis Nuñez" => "elvisnunez@me.com" }
   s.social_media_url = "http://twitter.com/3lvis"
-  s.ios.deployment_target = '9.0'
-  s.osx.deployment_target = '10.11'
-  s.watchos.deployment_target = '2.0'
-  s.tvos.deployment_target = '9.0'
+  s.ios.deployment_target = '12.0'
+  s.osx.deployment_target = '10.15'
+  s.watchos.deployment_target = '5.0'
+  s.tvos.deployment_target = '12.0'
   s.source = {
     :git => 'https://github.com/3lvis/DATAStack.git',
     :tag => s.version.to_s
