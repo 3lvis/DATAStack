@@ -159,7 +159,6 @@ import CoreData
      - parameter storeName: Normally your file would be named as your model name is named, so if your model
      name is AwesomeApp then the .sqlite file will be named AwesomeApp.sqlite, this attribute allows your to
      change that.
-     - parameter isExcludedFromBackup: Flag to indicate if the data store should be excluded from backup. Only applies to sqlite stores. Default set to true.
      */
     @objc public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType, storeName: String) {
         self.modelName = modelName
@@ -183,7 +182,6 @@ import CoreData
      name is AwesomeApp then the .sqlite file will be named AwesomeApp.sqlite, this attribute allows your to
      change that.
      - parameter containerURL: The container URL for the sqlite file when a store type of SQLite is used.
-     - parameter isExcludedFromBackup: Flag to indicate if the data store should be excluded from backup. Only applies to sqlite stores. Default set to true.
      */
     @objc public init(modelName: String, bundle: Bundle, storeType: DATAStackStoreType, storeName: String, containerURL: URL) {
         self.modelName = modelName
@@ -201,7 +199,6 @@ import CoreData
      - parameter model: The model that we'll use to set up your DATAStack.
      - parameter storeType: The store type to be used, you have .InMemory and .SQLite, the first one is memory
      based and doesn't save to disk, while the second one creates a .sqlite file and stores things there.
-     - parameter isExcludedFromBackup: Flag to indicate if the data store should be excluded from backup. Only applies to sqlite stores. Default set to true
      */
     @objc public init(model: NSManagedObjectModel, storeType: DATAStackStoreType) {
         self.model = model
