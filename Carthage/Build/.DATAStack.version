@@ -1,7 +1,7 @@
 {
   "Mac" : [
     {
-      "hash" : "f50441b7ba941607df8d2bf24ea4d1eaa9cb54068ccbd587c492b04c761f9994",
+      "hash" : "6fb6b4b49e3666c9ce9f92d3fdd0ace844554c96ebf0ea4b0cf06dc17dc62a4d",
       "name" : "DATAStack",
       "linking" : "dynamic",
       "swiftToolchainVersion" : "5.3 (swiftlang-1200.0.29.2 clang-1200.0.30.1)"
@@ -9,7 +9,7 @@
   ],
   "watchOS" : [
     {
-      "hash" : "b403fd7bdc23a9115eb87f4ce9330d0fb717a8d5f2f26f7a54cfea2d548512ea",
+      "hash" : "da75ec3abfe59363e5e320ae33d71dd516019ac02d3cfad10a199e6f66742ea1",
       "name" : "DATAStack",
       "linking" : "dynamic",
       "swiftToolchainVersion" : "5.3 (swiftlang-1200.0.29.2 clang-1200.0.30.1)"
@@ -17,16 +17,16 @@
   ],
   "tvOS" : [
     {
-      "hash" : "7cd710ef74949dc829508bcc5f5dba8f888a6f39205db2072c15fc417a516007",
+      "hash" : "aabad83914ef0b9b15b53bf57a91a0a5baec2b21636eaf7010ac00cb77046c1e",
       "name" : "DATAStack",
       "linking" : "dynamic",
       "swiftToolchainVersion" : "5.3 (swiftlang-1200.0.29.2 clang-1200.0.30.1)"
     }
   ],
-  "commitish" : "8.2.0",
+  "commitish" : "8.2.1",
   "iOS" : [
     {
-      "hash" : "674e047ef65db8d01506fefbb98f59bb918e0a1f9fdbd7f3cad70fbc438eb94e",
+      "hash" : "e52e87fb145290eb2c19a218e91cc627e34c944f0d7723abb86b64f47735cb58",
       "name" : "DATAStack",
       "linking" : "dynamic",
       "swiftToolchainVersion" : "5.3 (swiftlang-1200.0.29.2 clang-1200.0.30.1)"
