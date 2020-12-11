@@ -401,6 +401,7 @@ import CoreData
         } else {
             let contextBlock: @convention(block) () -> Void = {
                 self.mainContext.mergeChanges(fromContextDidSave: notification)
+                NotificationCenter.default.post(name: .NSManagedObjectContextMergedChanges, object: context)
             }
             let blockObject: AnyObject = unsafeBitCast(contextBlock, to: AnyObject.self)
             self.mainContext.perform(DATAStack.performSelectorForBackgroundContext(), with: blockObject)
@@ -413,6 +414,12 @@ import CoreData
 
     private static func performSelectorForBackgroundContext() -> Selector {
         return TestCheck.isTesting ? NSSelectorFromString("performBlockAndWait:") : NSSelectorFromString("performBlock:")
+    }
+}
+
+public extension Notification.Name {
+    static var NSManagedObjectContextMergedChanges: Notification.Name {
+        return .init("NSManagedObjectContextMergedChanges")
     }
 }
 
